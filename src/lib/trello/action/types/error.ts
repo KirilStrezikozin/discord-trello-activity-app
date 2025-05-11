@@ -26,7 +26,7 @@ import { AppSourceUrl } from "@/src/lib/constants";
  * server errors as Discord messages. This technique is applied to inform
  * webhook users of unhandled Trello action types.
  */
-export class ActionError extends Action {
+export default class ActionError extends Action {
   private data?: { name: string, message: string, action: unknown };
 
   static override from(data: { error: Error, action: unknown }): ActionBuildResult {

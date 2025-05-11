@@ -9,7 +9,7 @@
 import { WebhookClient } from "discord.js";
 import { RequestMediaTypeError, verifiedRequestBody } from "@/src/lib/crypto";
 
-import { ActionError } from "@/src/lib/trello/action/types/error";
+import ActionError from "@/src/lib/trello/action/types/error";
 
 import {
   findActionFor,
