@@ -9,7 +9,11 @@
 import { z } from "zod";
 import { MemberSchema } from "../schema";
 
-import { MessagePayload, WebhookMessageCreateOptions } from "discord.js";
+import {
+  ColorResolvable,
+  MessagePayload,
+  WebhookMessageCreateOptions
+} from "discord.js";
 
 /**
  * Message options represent options for Action message builders.
@@ -19,6 +23,13 @@ export type MessageOptions = {
   board?: {
     name?: string | null,
     id?: string | null,
+    prefs?: {
+      background?: ColorResolvable | null,
+      backgroundColor?: ColorResolvable | null,
+      backgroundDarkColor?: ColorResolvable | null,
+      backgroundBottomColor?: ColorResolvable | null,
+      backgroundTopColor?: ColorResolvable | null,
+    } | null,
   } | null,
   thumbnailUrl?: string | null,
 };

@@ -7,6 +7,7 @@
  */
 
 import { z } from "zod";
+import { ColorSchema } from "../../color";
 
 /* Webhook model schema of the webhook response from Trello.
  * Does not describe all possible fields.
@@ -37,10 +38,10 @@ export const BoardModelSchema = z.object({
   shortUrl: z.string().url(),
   prefs: z.object({
     background: z.string().nullable(),
-    backgroundColor: z.string().nullable(),
-    backgroundDarkColor: z.string().nullable(),
-    backgroundBottomColor: z.string().nullable(),
-    backgroundTopColor: z.string().nullable(),
+    backgroundColor: ColorSchema.nullable(),
+    backgroundDarkColor: ColorSchema.nullable(),
+    backgroundBottomColor: ColorSchema.nullable(),
+    backgroundTopColor: ColorSchema.nullable(),
   }).passthrough(),
   labelNames: z.object({}).passthrough(),
 }).passthrough();
