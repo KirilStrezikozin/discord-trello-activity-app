@@ -75,8 +75,9 @@ export async function verifiedRequestBody(request: Request, secret: string) {
   }
 
   /* Parse and validate request body schema. */
+  let obj: unknown;
   try {
-    return WebhookRequestSchema.parse(JSON.parse(body));
+    obj = JSON.parse(body);
   } catch (error) {
     let cause = "unknown";
     if (error instanceof Error) {
@@ -85,4 +86,11 @@ export async function verifiedRequestBody(request: Request, secret: string) {
 
     throw new RequestSchemaError(cause);
   }
+
+  const res = WebhookRequestSchema.safeParse(obj);
+  if (!res.success) {
+    throw new RequestSchemaError(JSON.stringify(res.error.issues, null, 2));
+  }
+
+  return res.data;
 }
