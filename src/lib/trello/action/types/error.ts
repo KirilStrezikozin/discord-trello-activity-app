@@ -54,7 +54,7 @@ export class ActionError extends Action {
       .setTitle("Internal Error")
       .setDescription("Failed to process Trello activity, error occurred.")
       .setFields(
-        { name: "Error", value: `\`\`\`json\n${JSON.stringify(this.data!, null, 2)}\n\`\`\`` },
+        { name: "Error", value: `\`\`\`json\n${JSON.stringify(this.data!, null, 2).substring(0, 1000)}\n\`\`\`` },
         { name: "See source code", value: `[Gitlab ↗](<${AppSourceUrl}>)` },
       )
       .setTimestamp()
