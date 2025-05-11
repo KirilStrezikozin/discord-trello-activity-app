@@ -8,7 +8,7 @@
 
 import * as crypto from "crypto";
 import { getFullRequestUrl } from "./utils";
-import { WebhookRequestSchema } from "./trello/actions/schema";
+import { WebhookRequestSchema } from "./trello/action/schema";
 
 export class RequestSignatureError extends Error {
   constructor() {

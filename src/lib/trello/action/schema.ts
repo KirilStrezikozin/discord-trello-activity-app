@@ -45,6 +45,15 @@ export const BoardModelSchema = z.object({
   labelNames: z.object({}).passthrough(),
 }).passthrough();
 
+/* Schema of the member who triggered an action in Trello. */
+export const MemberSchema = z.object({
+  id: z.string().min(1),
+  avatarUrl: z.string().url(),
+  fullName: z.string(),
+  initials: z.string(),
+  username: z.string().min(1),
+}).passthrough();
+
 /* Schema of the action object which describes what action in
  * Trello triggered the webhook.
  */
@@ -57,13 +66,7 @@ export const ActionSchema = z.object({
   display: z.object({
     translationKey: z.string().nullable().optional(),
   }).passthrough().nullable().optional(),
-  memberCreator: z.object({
-    id: z.string().min(1),
-    avatarUrl: z.string().url(),
-    fullName: z.string(),
-    initials: z.string(),
-    username: z.string().min(1),
-  }).passthrough().nullable().optional(),
+  memberCreator: MemberSchema.nullable().optional(),
 }).passthrough();
 
 export const WebhookRequestSchema = z.object({
