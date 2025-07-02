@@ -6,24 +6,24 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-const IsDevelopment = process.env.NODE_ENV === "development";
+const IsDebug = !Boolean(process.env.NDEBUG);
 
 export function log(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDevelopment) console.log(message, ...optionalParams);
+  if (IsDebug) console.log(message, ...optionalParams);
 }
 
 export function info(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDevelopment) console.info(message, ...optionalParams);
+  if (IsDebug) console.info(message, ...optionalParams);
 }
 
 export function error(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDevelopment) console.error(message, ...optionalParams);
+  if (IsDebug) console.error(message, ...optionalParams);
 }
 
 export function warn(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDevelopment) console.warn(message, ...optionalParams);
+  if (IsDebug) console.warn(message, ...optionalParams);
 }
 
 export function trace(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDevelopment) console.trace(message, ...optionalParams);
+  if (IsDebug) console.trace(message, ...optionalParams);
 }
