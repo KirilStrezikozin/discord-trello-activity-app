@@ -7,7 +7,8 @@
  */
 
 import { WebhookClient } from "discord.js";
-import { RequestMediaTypeError, verifiedRequestBody } from "@/src/lib/crypto";
+import { RequestError } from "@/src/lib/error";
+import { verifiedRequestBody } from "@/src/lib/crypto";
 
 import ActionError from "@/src/lib/trello/action/types/error";
 
@@ -78,9 +79,9 @@ export async function POST(request: Request) {
     let message: string;
     let status: number;
 
-    if (error instanceof RequestMediaTypeError) {
+    if (error instanceof RequestError) {
       message = error.message;
-      status = 415; /* Unsupported content-type. */
+      status = error.statusCode;
     }
 
     else if (error instanceof Error) {

@@ -7,26 +7,27 @@
  */
 
 import * as crypto from "crypto";
+import { RequestError } from "./error";
 import { getFullRequestUrl } from "./utils";
 import { WebhookRequestSchema } from "./trello/action/schema";
 
-export class RequestSignatureError extends Error {
+export class RequestSignatureError extends RequestError {
   constructor() {
-    super("Bad webhook request message signature");
+    super("Bad webhook request message signature", 401 /* Unauthorized. */);
     this.name = "RequestSignatureError";
   }
 }
 
-export class RequestSchemaError extends Error {
+export class RequestSchemaError extends RequestError {
   constructor(public cause: string) {
-    super(`Parsed webhook request body does not satisfy expected schema: ${cause}`);
+    super(`Parsed webhook request body does not satisfy expected schema: ${cause}`, 422 /* Unprocessable content. */);
     this.name = "RequestSchemaError";
   }
 }
 
-export class RequestMediaTypeError extends Error {
+export class RequestMediaTypeError extends RequestError {
   constructor() {
-    super("Unsupported media type. 'application/json' is allowed only");
+    super("Unsupported media type. 'application/json' is allowed only", 415 /* Unsupported media type. */);
     this.name = "RequestMediaTypeError";
   }
 }
