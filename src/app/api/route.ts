@@ -29,6 +29,12 @@ const DiscordWebhookUrl = process.env.DISCORD_WEBHOOK_URL ?? "";
  */
 const ErrorsAsDiscordMessages = Boolean(process.env.ERRORS_AS_DISCORD_MESSAGES);
 
+/**
+ * True when catchable server error codes should be
+ * suppressed to avoid request retries.
+ */
+const SuppressErrors = Boolean(process.env.SUPPRESS_ERRORS);
+
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 export async function HEAD(_request: Request) {
   /* Upon Trello webhook creation, a HEAD HTTP request will be sent to our API server.
@@ -77,21 +83,23 @@ export async function POST(request: Request) {
     log.error(error);
 
     let message: string;
-    let status: number;
+    let status: number; /* Error status code or 200 if `SuppressErrors` is true. */
 
     if (error instanceof RequestError) {
       message = error.message;
+      /* Authentication and request verification errors are not suppressed.
+       * Trello will retry the request with a backoff delay. */
       status = error.statusCode;
     }
 
     else if (error instanceof Error) {
       message = error.message;
-      status = 400;
+      status = SuppressErrors ? 200 : 400;
     }
 
     else {
       message = "unknown error";
-      status = 400;
+      status = SuppressErrors ? 200 : 400;
     }
 
     /* Report and send API server error as a Discord messages.
