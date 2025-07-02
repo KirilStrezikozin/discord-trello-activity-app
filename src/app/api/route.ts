@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 
     /* Use the matched Action to build a Discord message from
      * Trello activity data it holds. Send the message. */
-    discordClient.send(action.buildMessage({
+    await discordClient.send(action.buildMessage({
       member: body.action.memberCreator,
       board: {
         id: board?.id,
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
 
       const action = ActionError.from({ error: error, action: actionData });
       if (action.success) {
-        discordClient.send(action.action.buildMessage({}));
+        await discordClient.send(action.action.buildMessage({}));
       }
     }
 
