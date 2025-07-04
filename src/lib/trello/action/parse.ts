@@ -7,31 +7,7 @@
  */
 
 import { Action } from "./types/base";
-
-import AddCheckListToCard from "./types/AddCheckListToCard";
-import AddMemberToCard from "./types/AddMemberToCard";
-import AddedCardDueDate from "./types/AddedCardDueDate";
-import AddedCardStartDate from "./types/AddedCardStartDate";
-import ChangedCardDueDate from "./types/ChangedCardDueDate";
-import ChangedCardDueDateReminder from "./types/ChangedCardDueDateReminder";
-import ChangedCardStartDate from "./types/ChangedCardStartDate";
-import ChangedDescriptionOfCard from "./types/ChangedDescriptionOfCard";
-import CompletedCheckItem from "./types/CompletedCheckItem";
-import CreateCard from "./types/CreateCard";
-import CreateCheckItem from "./types/CreateCheckItem";
-import DeletedCheckItem from "./types/DeletedCheckItem";
-import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
-import MoveCardFromListToList from "./types/MoveCardFromListToList";
-import MovedCardHigher from "./types/MovedCardHigher";
-import MovedCardLower from "./types/MovedCardLower";
-import MovedCheckItemHigher from "./types/MovedCheckItemHigher";
-import MovedCheckItemLower from "./types/MovedCheckItemLower";
-import RemoveCheckListFromCard from "./types/RemoveCheckListFromCard";
-import RemoveMemberFromCard from "./types/RemoveMemberFromCard";
-import RemovedCardDueDate from "./types/RemovedCardDueDate";
-import RemovedCardStartDate from "./types/RemovedCardStartDate";
-import RenamedCard from "./types/RenamedCard";
-import RenamedCheckItem from "./types/RenamedCheckItem";
+import { ActionTypes } from "./types";
 
 /**
  * Thrown if the webhook request contains Trello activity
@@ -44,36 +20,6 @@ export class UnsupportedActivityError extends Error {
     this.data = data;
   }
 }
-
-/**
- * List of all Action types in the library.
- */
-export const ActionTypes = [
-  AddCheckListToCard,
-  AddMemberToCard,
-  AddedCardDueDate,
-  AddedCardStartDate,
-  ChangedCardDueDate,
-  ChangedCardDueDateReminder,
-  ChangedCardStartDate,
-  ChangedDescriptionOfCard,
-  CompletedCheckItem,
-  CreateCard,
-  CreateCheckItem,
-  DeletedCheckItem,
-  MarkedCheckItemIncomplete,
-  MoveCardFromListToList,
-  MovedCardHigher,
-  MovedCardLower,
-  MovedCheckItemHigher,
-  MovedCheckItemLower,
-  RemoveCheckListFromCard,
-  RemoveMemberFromCard,
-  RemovedCardDueDate,
-  RemovedCardStartDate,
-  RenamedCard,
-  RenamedCheckItem,
-];
 
 /**
  * Find the Action type in the library the schema of which is satisfied by the
