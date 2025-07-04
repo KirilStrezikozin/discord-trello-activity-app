@@ -11,6 +11,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
+import { green, bold } from "console-log-colors";
+
 const actionTypesDirectory = "./src/lib/trello/action/types/";
 const actionLibDirectory = "./src/lib/trello/action/";
 const filePath = actionLibDirectory + "types.ts";
@@ -39,6 +41,6 @@ export const ActionTypes: (typeof Action)[] = [
 
 fs.writeFileSync(filePath, fileData, "utf-8");
 
-console.log(`codegen/actionList.ts wrote to ${filePath}`);
-console.log("The following Trelo action types were collected:");
+console.log(bold(green(`actionList.ts: ${filePath} was written`)));
+console.log("actionList.ts: The following Trelo action types were collected:");
 console.log(actionTypeNames);
