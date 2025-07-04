@@ -3,19 +3,19 @@
 import { expect, describe, test } from "vitest";
 
 import { findActionFor } from "@/src/lib/trello/action/parse";
-import CreateCard from "@/src/lib/trello/action/types/CreateCard";
+import MovedCheckItemHigher from "@/src/lib/trello/action/types/MovedCheckItemHigher";
 
-import payload from "./_payloads/CreateCard.json";
+import payload from "./_payloads/MovedCheckItemHigher.json";
 import { getPayloadsExceptFor } from "./common";
 
-describe("CreateCard", () => {
+describe("MovedCheckItemHigher", () => {
   test("parse empty payload", () => {
-    const res = CreateCard.from({});
+    const res = MovedCheckItemHigher.from({});
     expect(res.success, "Parsing empty payload should fail").toBeFalsy();
   });
 
   test("parse", () => {
-    const res = CreateCard.from(payload);
+    const res = MovedCheckItemHigher.from(payload);
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
   });
 
@@ -24,19 +24,19 @@ describe("CreateCard", () => {
     expect(
       res,
       "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(CreateCard);
+    ).toBeInstanceOf(MovedCheckItemHigher);
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("CreateCard");
+    const payloads = getPayloadsExceptFor("MovedCheckItemHigher");
 
     if (payloads.length === 0) {
-      console.warn(`CreateCard.test.ts: no wrong payloads to test against`);
+      console.warn(`MovedCheckItemHigher.test.ts: no wrong payloads to test against`);
       return;
     }
 
     payloads.forEach(([, payload]) => {
-      const res = CreateCard.from(payload);
+      const res = MovedCheckItemHigher.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
     });
   });

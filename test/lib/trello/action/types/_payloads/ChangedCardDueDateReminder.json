@@ -1,21 +1,25 @@
 {
   "data": {
+    "old": {
+      "dueReminder": -1
+    },
     "card": {
+      "dueReminder": 0,
       "id": "1234567890",
       "name": "test",
       "idShort": 123,
       "shortLink": "abc"
     },
-    "list": {
-      "id": "1234567890",
-      "name": "test"
-    },
     "board": {
       "id": "1234567890",
       "name": "test",
       "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
     }
   },
-  "type": "createCard",
-  "translationKey": "action_create_card"
+  "type": "updateCard",
+  "translationKey": "unknown"
 }

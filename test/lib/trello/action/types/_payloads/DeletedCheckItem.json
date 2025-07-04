@@ -1,0 +1,29 @@
+{
+  "data": {
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "checklist": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "checkItem": {
+      "id": "1234567890",
+      "name": "test",
+      "state": "complete",
+      "textData": {
+        "emoji": {}
+      }
+    }
+  },
+  "type": "deleteCheckItem",
+  "translationKey": "action_deleted_checkitem"
+}

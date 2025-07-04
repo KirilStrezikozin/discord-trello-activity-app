@@ -6,7 +6,7 @@
       "idShort": 123,
       "shortLink": "abc"
     },
-    "list": {
+    "checklist": {
       "id": "1234567890",
       "name": "test"
     },
@@ -16,6 +16,6 @@
       "shortLink": "abc"
     }
   },
-  "type": "createCard",
-  "translationKey": "action_create_card"
+  "type": "addChecklistToCard",
+  "translationKey": "action_add_checklist_to_card"
 }

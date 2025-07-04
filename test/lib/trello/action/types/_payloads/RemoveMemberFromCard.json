@@ -1,21 +1,23 @@
 {
   "data": {
+    "idMember": "1234567890",
+    "deactivated": false,
     "card": {
       "id": "1234567890",
       "name": "test",
       "idShort": 123,
       "shortLink": "abc"
     },
-    "list": {
-      "id": "1234567890",
-      "name": "test"
-    },
     "board": {
       "id": "1234567890",
       "name": "test",
       "shortLink": "abc"
+    },
+    "member": {
+      "id": "1234567890",
+      "name": "test"
     }
   },
-  "type": "createCard",
-  "translationKey": "action_create_card"
+  "type": "removeMemberFromCard",
+  "translationKey": "action_member_left_card"
 }

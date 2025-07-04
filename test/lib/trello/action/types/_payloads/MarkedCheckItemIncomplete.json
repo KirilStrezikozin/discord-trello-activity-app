@@ -1,0 +1,29 @@
+{
+  "data": {
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "checklist": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "checkItem": {
+      "id": "1234567890",
+      "name": "test",
+      "state": "incomplete",
+      "textData": {
+        "emoji": {}
+      }
+    }
+  },
+  "type": "updateCheckItemStateOnCard",
+  "translationKey": "action_marked_checkitem_incomplete"
+}

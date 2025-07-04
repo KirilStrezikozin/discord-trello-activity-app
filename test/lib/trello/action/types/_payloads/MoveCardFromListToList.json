@@ -1,0 +1,29 @@
+{
+  "data": {
+    "old": {
+      "idList": "1234567890"
+    },
+    "card": {
+      "idList": "1234567890",
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "listBefore": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "listAfter": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "action_move_card_from_list_to_list"
+}

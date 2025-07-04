@@ -1,0 +1,29 @@
+{
+  "data": {
+    "checkItem": {
+      "id": "1234567890",
+      "name": "test",
+      "state": "incomplete",
+      "textData": {
+        "emoji": {}
+      }
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "checklist": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "createCheckItem",
+  "translationKey": "unknown"
+}

@@ -1,21 +1,25 @@
 {
   "data": {
+    "old": {
+      "start": null
+    },
     "card": {
+      "start": "2025-07-03T06:00:00.000Z",
       "id": "1234567890",
       "name": "test",
       "idShort": 123,
       "shortLink": "abc"
     },
-    "list": {
-      "id": "1234567890",
-      "name": "test"
-    },
     "board": {
       "id": "1234567890",
       "name": "test",
       "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
     }
   },
-  "type": "createCard",
-  "translationKey": "action_create_card"
+  "type": "updateCard",
+  "translationKey": "action_added_a_start_date"
 }

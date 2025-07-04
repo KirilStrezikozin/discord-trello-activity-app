@@ -1,0 +1,33 @@
+{
+  "data": {
+    "checkItem": {
+      "pos": 140737488355328,
+      "id": "1234567890",
+      "name": "test",
+      "state": "incomplete",
+      "textData": {
+        "emoji": {}
+      }
+    },
+    "old": {
+      "pos": 140737488388096
+    },
+    "checklist": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateCheckItem",
+  "translationKey": "action_moved_checkitem_higher"
+}

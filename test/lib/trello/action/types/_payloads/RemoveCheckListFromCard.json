@@ -6,16 +6,16 @@
       "idShort": 123,
       "shortLink": "abc"
     },
-    "list": {
-      "id": "1234567890",
-      "name": "test"
-    },
     "board": {
       "id": "1234567890",
       "name": "test",
       "shortLink": "abc"
+    },
+    "checklist": {
+      "id": "1234567890",
+      "name": "test"
     }
   },
-  "type": "createCard",
-  "translationKey": "action_create_card"
+  "type": "removeChecklistFromCard",
+  "translationKey": "action_remove_checklist_from_card"
 }
