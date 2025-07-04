@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
 
     return config
   },
+
+  turbopack: {
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.json'],
+  },
 };
 
 export default nextConfig;
