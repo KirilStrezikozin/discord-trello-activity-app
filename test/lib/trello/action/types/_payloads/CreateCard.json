@@ -1,0 +1,21 @@
+{
+  "data": {
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "In Progress"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "createCard",
+  "translationKey": "action_create_card"
+}
