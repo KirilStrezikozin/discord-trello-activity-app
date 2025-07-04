@@ -26,10 +26,6 @@ export default class ActionCompletedCheckItem extends Action {
     translationKey: z.literal("action_completed_checkitem"),
 
     data: z.object({
-      old: z.object({
-        idList: z.string().min(1),
-      }),
-
       checkItem: z.object({
         id: z.string().min(1),
         name: z.string().min(1),

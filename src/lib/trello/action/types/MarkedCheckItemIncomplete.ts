@@ -26,10 +26,6 @@ export default class ActionMarkedCheckItemIncomplete extends Action {
     translationKey: z.literal("action_marked_checkitem_incomplete"),
 
     data: z.object({
-      old: z.object({
-        idList: z.string().min(1),
-      }),
-
       checkItem: z.object({
         id: z.string().min(1),
         name: z.string().min(1),

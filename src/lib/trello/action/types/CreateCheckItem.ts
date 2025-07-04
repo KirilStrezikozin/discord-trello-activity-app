@@ -25,10 +25,6 @@ export default class ActionCreateCheckItem extends Action {
     type: z.literal("createCheckItem"),
 
     data: z.object({
-      old: z.object({
-        idList: z.string().min(1),
-      }),
-
       checkItem: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
