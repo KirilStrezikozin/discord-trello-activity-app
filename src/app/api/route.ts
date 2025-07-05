@@ -92,6 +92,9 @@ export async function POST(request: Request) {
         },
       },
       thumbnailUrl: DiscordMsgThumbUrl
+      /* Our middleware has rewritten a request to /api, let the user know. */
+      errorText: request.headers.get("x-from-middleware")
+        ? "Wrong webhook URL is used, see the guide" : null,
     }));
 
   } catch (error) {
