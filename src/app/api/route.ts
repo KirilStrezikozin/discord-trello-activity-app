@@ -19,24 +19,8 @@ import {
 
 import * as log from "@/src/lib/log";
 import { BoardModelSchema } from "@/src/lib/trello/action/schema";
-
-const TrelloWebhookSecret = process.env.TRELLO_WEBHOOK_SECRET ?? "";
-const DiscordWebhookUrl = process.env.DISCORD_WEBHOOK_URL ?? "";
-
-/* https://discordjs.guide/popular-topics/display-components.html#thumbnail */
-const DiscordMsgThumbUrl = process.env.DISCORD_MESSAGE_THUMBNAIL_URL ?? "";
-
-/**
- * True when catchable server errors should be
- * sent to discord in a special message format.
- */
-const ErrorsAsDiscordMessages = Boolean(process.env.ERRORS_AS_DISCORD_MESSAGES);
-
-/**
- * True when catchable server error codes should be
- * suppressed to avoid request retries.
- */
-const SuppressErrors = Boolean(process.env.SUPPRESS_ERRORS);
+import { WebhookOptions } from "@/src/lib/options";
+import { strToBoolean } from "@/src/lib/utils";
 
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 export async function HEAD(_request: Request) {
@@ -49,21 +33,31 @@ export async function HEAD(_request: Request) {
 export async function POST(request: Request) {
   /* Read the request body and process webhook payload. */
 
+  /* Extract options used by this route. */
+  const sp = new URL(request.url).searchParams;
+  const options = new WebhookOptions({
+    secret: sp.get("secret"),
+    webhookURL: sp.get("webhookURL"),
+    thumbnailURL: sp.get("thumbnailURL"),
+    sendErrors: (v => v ? strToBoolean(v) : null)(sp.get("sendErrors")),
+    suppressErrors: (v => v ? strToBoolean(v) : null)(sp.get("suppressErrors")),
+  });
+
   /* Try instantiating a Discord webhook client. */
   let discordClient: WebhookClient;
   try {
-    discordClient = new WebhookClient({ url: DiscordWebhookUrl });
+    discordClient = new WebhookClient({ url: options.webhookURL });
   } catch (error) {
     log.error(error);
     return new Response(
       "Error: could not instantiate a Discord client to communicate with",
-      { status: SuppressErrors ? 200 : 500 }
+      { status: options.suppressErrors ? 200 : 500 }
     );
   }
 
   try {
     /* Verify and parse the request body. */
-    const body = await verifiedRequestBody(request, TrelloWebhookSecret);
+    const body = await verifiedRequestBody(request, options.secret);
 
     /* Try to find an Action type matching the Trello activity data.
      * `UnsupportedActivityError` will be thrown on failure. */
@@ -91,7 +85,7 @@ export async function POST(request: Request) {
           backgroundTopColor: board?.prefs.backgroundTopColor,
         },
       },
-      thumbnailUrl: DiscordMsgThumbUrl
+      thumbnailUrl: options.thumbnailURL,
       /* Our middleware has rewritten a request to /api, let the user know. */
       errorText: request.headers.get("x-from-middleware")
         ? "Wrong webhook URL is used, see the guide" : null,
@@ -112,18 +106,18 @@ export async function POST(request: Request) {
 
     else if (error instanceof Error) {
       message = error.message;
-      status = SuppressErrors ? 200 : 400;
+      status = options.suppressErrors ? 200 : 400;
     }
 
     else {
       message = "unknown error";
-      status = SuppressErrors ? 200 : 500;
+      status = options.suppressErrors ? 200 : 500;
     }
 
     /* Report and send API server error as a Discord messages.
      * Response status code is not consumed for Trello to sense the
      * error and ultimately retry a request. */
-    if (ErrorsAsDiscordMessages && error instanceof Error) {
+    if (options.sendErrors && error instanceof Error) {
       let actionData = undefined;
       if (error instanceof UnsupportedActivityError) {
         actionData = error.data;

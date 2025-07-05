@@ -27,3 +27,20 @@ export function getFullRequestUrl(request: Request) {
   return `${protocol}://${proxyHost}${url.pathname}`;
 
 }
+
+/**
+ * Returns whether the string value evaluates to true.
+ * Truthy values are: "true", "yes", "on", any number other than zero.
+ */
+export function strToBoolean(s: string): boolean {
+  const normalized = s.trim().toLowerCase();
+
+  const num = Number(normalized);
+  if (!isNaN(num)) {
+    return num !== 0;
+  }
+
+  return normalized === "true" ||
+    normalized === "yes" ||
+    normalized === "on";
+}
