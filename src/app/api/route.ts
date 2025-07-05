@@ -23,6 +23,9 @@ import { BoardModelSchema } from "@/src/lib/trello/action/schema";
 const TrelloWebhookSecret = process.env.TRELLO_WEBHOOK_SECRET ?? "";
 const DiscordWebhookUrl = process.env.DISCORD_WEBHOOK_URL ?? "";
 
+/* https://discordjs.guide/popular-topics/display-components.html#thumbnail */
+const DiscordMsgThumbUrl = process.env.DISCORD_MESSAGE_THUMBNAIL_URL ?? "";
+
 /**
  * True when catchable server errors should be
  * sent to discord in a special message format.
@@ -88,6 +91,7 @@ export async function POST(request: Request) {
           backgroundTopColor: board?.prefs.backgroundTopColor,
         },
       },
+      thumbnailUrl: DiscordMsgThumbUrl
     }));
 
   } catch (error) {
