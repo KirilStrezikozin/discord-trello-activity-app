@@ -6,7 +6,10 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-const IsDebug = !Boolean(process.env.NDEBUG);
+import { strToBoolean } from "./utils";
+
+export const IsDebug = process.env.NDEBUG
+  ? !strToBoolean(process.env.NDEBUG) : true;
 
 export function log(message?: unknown, ...optionalParams: unknown[]) {
   if (IsDebug) console.log(message, ...optionalParams);
