@@ -99,7 +99,7 @@ export async function POST(request: Request) {
 
     else {
       message = "unknown error";
-      status = SuppressErrors ? 200 : 400;
+      status = SuppressErrors ? 200 : 500;
     }
 
     /* Report and send API server error as a Discord messages.
