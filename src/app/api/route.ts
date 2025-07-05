@@ -45,7 +45,18 @@ export async function HEAD(_request: Request) {
 
 export async function POST(request: Request) {
   /* Read the request body and process webhook payload. */
-  const discordClient = new WebhookClient({ url: DiscordWebhookUrl });
+
+  /* Try instantiating a Discord webhook client. */
+  let discordClient: WebhookClient;
+  try {
+    discordClient = new WebhookClient({ url: DiscordWebhookUrl });
+  } catch (error) {
+    log.error(error);
+    return new Response(
+      "Error: could not instantiate a Discord client to communicate with",
+      { status: SuppressErrors ? 200 : 500 }
+    );
+  }
 
   try {
     /* Verify and parse the request body. */
