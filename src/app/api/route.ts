@@ -43,12 +43,16 @@ export async function POST(request: Request) {
     suppressErrors: (v => v ? strToBoolean(v) : null)(sp.get("suppressErrors")),
   });
 
+  if (log.IsDebug) {
+    log.log("LOG: Request payload:", await request.text() || null);
+  }
+
   /* Try instantiating a Discord webhook client. */
   let discordClient: WebhookClient;
   try {
     discordClient = new WebhookClient({ url: options.webhookURL });
   } catch (error) {
-    log.error(error);
+    log.error("ERROR:", error);
     return new Response(
       "Error: could not instantiate a Discord client to communicate with",
       { status: options.suppressErrors ? 200 : 500 }
@@ -92,7 +96,7 @@ export async function POST(request: Request) {
     }));
 
   } catch (error) {
-    log.error(error);
+    log.error("ERROR:", error);
 
     let message: string;
     let status: number; /* Error status code or 200 if `SuppressErrors` is true. */
@@ -128,7 +132,6 @@ export async function POST(request: Request) {
         await discordClient.send(action.action.buildMessage({}));
       }
     }
-
 
     return new Response(`Error: ${message}`, { status: status });
   }
