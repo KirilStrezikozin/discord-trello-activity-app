@@ -17,11 +17,11 @@ export function info(message?: unknown, ...optionalParams: unknown[]) {
 }
 
 export function error(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDebug) console.error(message, ...optionalParams);
+  console.error(message, ...optionalParams);
 }
 
 export function warn(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDebug) console.warn(message, ...optionalParams);
+  console.warn(message, ...optionalParams);
 }
 
 export function trace(message?: unknown, ...optionalParams: unknown[]) {
