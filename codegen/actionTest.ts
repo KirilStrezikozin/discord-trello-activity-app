@@ -35,7 +35,7 @@ let countGenerated: number = 0;
 
 actionTypeNames.forEach((name) => {
   if (actionPayloadNames.find((value) => value === name) === undefined) {
-    console.log(red(`actionTest.ts: ${name}.test.ts skipped`));
+    console.log(red(`actionTest.ts: ${name}.test.ts skipped - no JSON payload`));
     return;
   }
 
@@ -90,9 +90,19 @@ describe("${name}", () => {
   countGenerated++;
 });
 
-console.log(bold(green(`actionTest.ts: [${countGenerated}/${actionTypeNames.length}] test files generated`)));
+actionPayloadNames.forEach((name) => {
+  if (actionTypeNames.find((value) => value === name) === undefined) {
+    console.log(red(`actionTest.ts: ${name}.test.ts skipped - no action type`));
+    return;
+  }
+});
 
-const countSkipped = actionTypeNames.length - countGenerated;
+const wantCount = Math.max(actionTypeNames.length, actionPayloadNames.length);
+const countSkipped = wantCount - countGenerated;
+
 if (countSkipped > 0) {
-  console.log(`actionTest.ts: ${countSkipped} test file were not written, because the corresponding example JSON payloads do not exist`);
+  console.log(bold(red(`actionTest.ts: [${countGenerated}/${wantCount}] test files generated`)));
+  console.log(`actionTest.ts: ${countSkipped} test file(s) were not written`);
+} else {
+  console.log(bold(green(`actionTest.ts: [${countGenerated}/${wantCount}] test files generated`)));
 }
