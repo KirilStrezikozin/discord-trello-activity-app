@@ -86,7 +86,7 @@ export default class ActionRemoveMemberFromCard extends Action {
       )
       .setImage(iconURL ?? null)
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

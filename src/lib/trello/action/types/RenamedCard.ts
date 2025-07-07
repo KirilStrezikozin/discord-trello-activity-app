@@ -87,7 +87,7 @@ export default class ActionRenamedCard extends Action {
         { name: "New Name", value: this.data!.data.card.name, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

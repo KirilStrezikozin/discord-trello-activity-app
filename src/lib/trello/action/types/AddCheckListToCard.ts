@@ -84,7 +84,7 @@ export default class ActionAddCheckListToCard extends Action {
         { name: "Checklist Name", value: this.data!.data.checklist.name, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

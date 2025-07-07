@@ -98,7 +98,7 @@ export default class ActionMovedCheckItemLower extends Action {
         { name: "Checlist", value: this.data!.data.checklist.name, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

@@ -84,7 +84,7 @@ export default class ActionChangedCardDueDateReminder extends Action {
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

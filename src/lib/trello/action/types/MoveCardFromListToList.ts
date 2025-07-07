@@ -93,7 +93,7 @@ export default class ActionMoveCardFromListToList extends Action {
         { name: "New List", value: this.data!.data.listAfter.name, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

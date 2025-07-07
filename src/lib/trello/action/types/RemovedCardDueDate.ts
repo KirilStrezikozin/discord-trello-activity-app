@@ -88,7 +88,7 @@ export default class ActionRemovedCardDueDate extends Action {
         { name: "Was", value: this.data!.data.old.due, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

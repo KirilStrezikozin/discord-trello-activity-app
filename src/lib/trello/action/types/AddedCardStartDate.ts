@@ -88,7 +88,7 @@ export default class ActionAddedCardStartDate extends Action {
         { name: "Start Date", value: this.data!.data.card.start, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

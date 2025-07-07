@@ -88,7 +88,7 @@ export default class ActionMovedCardLower extends Action {
         { name: "In List", value: this.data!.data.list.name, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };

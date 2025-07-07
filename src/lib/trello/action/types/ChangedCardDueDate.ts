@@ -89,7 +89,7 @@ export default class ActionChangedCardDueDate extends Action {
         { name: "New Due Date", value: this.data!.data.card.due, inline: true },
       )
       .setTimestamp()
-      .setFooter({ text: opts.board?.name ?? "" })
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
     return { embeds: [embed] };
