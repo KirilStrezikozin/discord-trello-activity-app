@@ -26,7 +26,7 @@ export default class ActionRemovedCardStartDate extends Action {
 
     data: z.object({
       old: z.object({
-        start: z.string(),
+        start: z.string().datetime({ precision: 3 }),
       }),
 
       card: z.object({

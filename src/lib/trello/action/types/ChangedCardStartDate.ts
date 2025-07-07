@@ -26,11 +26,11 @@ export default class ActionChangedCardStartDate extends Action {
 
     data: z.object({
       old: z.object({
-        start: z.string(),
+        start: z.string().datetime({ precision: 3 }),
       }),
 
       card: z.object({
-        start: z.string(),
+        start: z.string().datetime({ precision: 3 }),
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),

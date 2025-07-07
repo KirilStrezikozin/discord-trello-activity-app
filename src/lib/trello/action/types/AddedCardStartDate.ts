@@ -30,7 +30,7 @@ export default class ActionAddedCardStartDate extends Action {
       }),
 
       card: z.object({
-        start: z.string(),
+        start: z.string().datetime({ precision: 3 }),
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),
