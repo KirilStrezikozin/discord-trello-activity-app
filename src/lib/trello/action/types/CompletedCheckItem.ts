@@ -23,7 +23,6 @@ import {
 export default class ActionCompletedCheckItem extends Action {
   static schema = z.object({
     type: z.literal("updateCheckItemStateOnCard"),
-    translationKey: z.literal("action_completed_checkitem"),
 
     data: z.object({
       checkItem: z.object({

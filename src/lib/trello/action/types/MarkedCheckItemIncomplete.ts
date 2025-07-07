@@ -23,7 +23,6 @@ import {
 export default class ActionMarkedCheckItemIncomplete extends Action {
   static schema = z.object({
     type: z.literal("updateCheckItemStateOnCard"),
-    translationKey: z.literal("action_marked_checkitem_incomplete"),
 
     data: z.object({
       checkItem: z.object({

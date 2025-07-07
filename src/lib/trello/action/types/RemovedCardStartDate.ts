@@ -23,7 +23,6 @@ import {
 export default class ActionRemovedCardStartDate extends Action {
   static schema = z.object({
     type: z.literal("updateCard"),
-    translationKey: z.literal("action_removed_a_start_date"),
 
     data: z.object({
       old: z.object({

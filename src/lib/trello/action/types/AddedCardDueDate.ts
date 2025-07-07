@@ -23,7 +23,6 @@ import {
 export default class ActionAddedCardDueDate extends Action {
   static schema = z.object({
     type: z.literal("updateCard"),
-    translationKey: z.literal("action_added_a_due_date"),
 
     data: z.object({
       old: z.object({
