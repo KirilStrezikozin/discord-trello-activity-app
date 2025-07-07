@@ -17,6 +17,9 @@ describe("ChangedDescriptionOfCard", () => {
   test("parse", () => {
     const res = ChangedDescriptionOfCard.from(payload);
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+
+    const message = res.action?.buildMessage({});
+    expect(message, "Built message should be truthy").toBeTruthy();
   });
 
   test("find and parse", () => {
