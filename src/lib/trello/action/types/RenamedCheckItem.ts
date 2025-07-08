@@ -11,6 +11,7 @@ import { z } from "zod";
 import {
   Action,
   ActionBuildResult,
+  getMemberIcon,
   MessageOptions
 } from "./base";
 
@@ -83,12 +84,10 @@ export default class ActionRenamedCheckItem extends Action {
       ? `${opts.member?.username} has renamed an item in a checklist in a card`
       : "An item has been renamed in a checklist in a card";
 
-    const iconURL = opts.member ? `${opts.member?.avatarUrl}/60.png` : undefined;
-
     const embed = new EmbedBuilder()
       .setColor(opts.board?.prefs?.backgroundColor ?? null)
       .setThumbnail(opts.thumbnailUrl ?? null)
-      .setAuthor({ name: name, iconURL: iconURL })
+      .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       .setFields(

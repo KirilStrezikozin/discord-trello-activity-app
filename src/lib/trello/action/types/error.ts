@@ -9,6 +9,7 @@
 import {
   Action,
   ActionBuildResult,
+  getMemberIcon,
   MessageOptions
 } from "./base";
 
@@ -45,12 +46,11 @@ export default class ActionError extends Action {
 
   buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
     const name = opts.member ? `Activity from ${opts.member?.username} detected` : "Activity author unavailable";
-    const iconURL = opts.member ? `${opts.member?.avatarUrl}/60.png` : undefined;
 
     const embed = new EmbedBuilder()
       .setColor("#DC143C")
       .setThumbnail(opts.thumbnailUrl ?? null)
-      .setAuthor({ name: name, iconURL: iconURL })
+      .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle("Internal Error")
       .setDescription("Failed to process Trello activity, error occurred.")
       .setFields(
