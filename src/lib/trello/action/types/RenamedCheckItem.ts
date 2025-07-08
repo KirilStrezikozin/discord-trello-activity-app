@@ -15,11 +15,7 @@ import {
   MessageOptions
 } from "./base";
 
-import {
-  EmbedBuilder,
-  MessagePayload,
-  WebhookMessageCreateOptions
-} from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 export default class ActionRenamedCheckItem extends Action {
   static schema = z.object({
@@ -79,26 +75,36 @@ export default class ActionRenamedCheckItem extends Action {
     }
   }
 
-  buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
+  protected buildMessageInner(
+    embed: EmbedBuilder, opts: MessageOptions
+  ): EmbedBuilder {
     const name = opts.member
       ? `${opts.member?.username} has renamed an item in a checklist in a card`
       : "An item has been renamed in a checklist in a card";
 
-    const embed = new EmbedBuilder()
-      .setColor(opts.board?.prefs?.backgroundColor ?? null)
-      .setThumbnail(opts.thumbnailUrl ?? null)
+    embed = embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
-      .setFields(
-        { name: "Previous", value: this.data!.data.old.name, inline: true },
-        { name: "New", value: this.data!.data.checkItem.name, inline: true },
-        { name: "Checlist", value: this.data!.data.checklist.name, inline: true },
+      .addFields(
+        {
+          name: "Previous",
+          value: this.data!.data.old.name,
+          inline: true
+        },
+        {
+          name: "New",
+          value: this.data!.data.checkItem.name,
+          inline: true
+        },
+        {
+          name: "Checlist",
+          value: this.data!.data.checklist.name,
+          inline: true
+        },
       )
-      .setTimestamp()
-      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
 
-    return { embeds: [embed] };
+    return embed;
   }
 }

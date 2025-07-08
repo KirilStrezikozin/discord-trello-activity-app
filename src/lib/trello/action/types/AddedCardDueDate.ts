@@ -15,11 +15,7 @@ import {
   MessageOptions
 } from "./base";
 
-import {
-  EmbedBuilder,
-  MessagePayload,
-  WebhookMessageCreateOptions
-} from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 export default class ActionAddedCardDueDate extends Action {
   static schema = z.object({
@@ -71,24 +67,24 @@ export default class ActionAddedCardDueDate extends Action {
     }
   }
 
-  buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
+  protected buildMessageInner(
+    embed: EmbedBuilder, opts: MessageOptions
+  ): EmbedBuilder {
     const name = opts.member
       ? `${opts.member?.username} has added a due date in a card`
       : "A due date has been added in a card";
 
-    const embed = new EmbedBuilder()
-      .setColor(opts.board?.prefs?.backgroundColor ?? null)
-      .setThumbnail(opts.thumbnailUrl ?? null)
+    embed = embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
-      .setFields(
-        { name: "Due Date", value: this.data!.data.card.due, inline: true },
-      )
-      .setTimestamp()
-      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
+      .addFields({
+        name: "Due Date",
+        value: this.data!.data.card.due,
+        inline: true
+      })
       ;
 
-    return { embeds: [embed] };
+    return embed;
   }
 }

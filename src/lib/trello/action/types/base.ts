@@ -12,8 +12,7 @@ import { defaultIconSizePixels } from "@/src/lib/options";
 
 import {
   ColorResolvable,
-  MessagePayload,
-  WebhookMessageCreateOptions
+  EmbedBuilder,
 } from "discord.js";
 
 /**
@@ -102,11 +101,38 @@ export abstract class Action {
   }
 
   /**
+   * Inner Discord message builder. Override and implement on subclasses to
+   * embed parsed Trello activity data. Returns the modified EmbedBuilder.
+   */
+  protected buildMessageInner(
+    embed: EmbedBuilder,
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    _opts: MessageOptions
+  ): EmbedBuilder {
+    return embed;
+  }
+
+  /**
    * Builds a Discord message from Trello activity
    * data assigned to this instance.
    *
    * @param opts Options provide information about the action's context.
    * @returns Message payload ready to be sent to a Discord channel.
    */
-  abstract buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions);
+  buildMessage(opts: MessageOptions) {
+    let embed = new EmbedBuilder()
+      .setColor(opts.board?.prefs?.backgroundColor ?? null)
+      .setThumbnail(opts.thumbnailUrl || null)
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
+      .setTimestamp()
+      ;
+
+    embed = this.buildMessageInner(embed, opts);
+
+    if (opts.warningText) {
+      embed = embed.addFields({ name: "Warning", value: opts.warningText });
+    }
+
+    return { embeds: [embed] };
+  }
 }

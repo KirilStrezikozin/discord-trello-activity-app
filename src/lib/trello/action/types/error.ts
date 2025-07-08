@@ -13,12 +13,7 @@ import {
   MessageOptions
 } from "./base";
 
-import {
-  EmbedBuilder,
-  MessagePayload,
-  WebhookMessageCreateOptions
-} from "discord.js";
-
+import { EmbedBuilder } from "discord.js";
 import { AppSourceUrl } from "@/src/lib/constants";
 
 /**
@@ -44,23 +39,32 @@ export default class ActionError extends Action {
     };
   }
 
-  buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
-    const name = opts.member ? `Activity from ${opts.member?.username} detected` : "Activity author unavailable";
+  protected override buildMessageInner(
+    embed: EmbedBuilder,
+    opts: MessageOptions
+  ): EmbedBuilder {
+    const name = (opts.member)
+      ? `Activity from ${opts.member!.username} detected`
+      : "Activity author unavailable";
 
-    const embed = new EmbedBuilder()
+    embed = embed
       .setColor("#DC143C")
-      .setThumbnail(opts.thumbnailUrl ?? null)
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle("Internal Error")
       .setDescription("Failed to process Trello activity, error occurred.")
-      .setFields(
-        { name: "Error", value: `\`\`\`json\n${JSON.stringify(this.data!, null, 2).substring(0, 1000)}\n\`\`\`` },
-        { name: "See source code", value: `[Gitlab ↗](<${AppSourceUrl}>)` },
+      .addFields(
+        {
+          name: "Error",
+          value: `\`\`\`json\n${JSON.stringify(this.data!, null, 2).substring(0, 1000)}\n\`\`\``
+        },
+        {
+          name: "See source code",
+          value: `[Gitlab ↗](<${AppSourceUrl}>)`
+        },
       )
-      .setTimestamp()
       .setFooter({ text: opts.board?.name ?? "Board information unavailable" })
       ;
 
-    return { embeds: [embed] };
+    return embed;
   }
 }
