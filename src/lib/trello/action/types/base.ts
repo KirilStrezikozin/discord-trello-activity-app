@@ -38,7 +38,7 @@ export type MessageOptions = {
     } | null,
   } | null,
   thumbnailUrl?: string | null,
-  errorText?: string | null,
+  warningText?: string | null,
   iconSizePixels?: number | null,
 };
 

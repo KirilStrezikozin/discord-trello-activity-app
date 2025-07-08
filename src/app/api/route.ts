@@ -95,8 +95,8 @@ export async function POST(request: Request) {
       },
       thumbnailUrl: options.thumbnailURL,
       /* Our middleware has rewritten a request to /api, let the user know. */
-      errorText: request.headers.get("x-from-middleware")
-        ? "Wrong webhook URL is used, see the guide" : null,
+      warningText: request.headers.get("x-from-middleware")
+        ? "Incorrect webhook URL is used, see the guide." : null,
       iconSizePixels: options.iconSizePixels,
     }));
 
