@@ -11,6 +11,7 @@ import { z } from "zod";
 import {
   Action,
   ActionBuildResult,
+  getMemberIcon,
   MessageOptions
 } from "./base";
 
@@ -70,19 +71,44 @@ export default class ActionChangedCardDueDateReminder extends Action {
     }
   }
 
+  private dueReminderToStr(dueReminder: number | null) {
+    if (dueReminder === null) return "Unknown";
+    else if (dueReminder === -1) return "None";
+    else return [
+      "At time of due date",
+      "5 minutes before",
+      "10 minutes before",
+      "15 minutes before",
+      "1 hour before",
+      "2 hours before",
+      "1 day before",
+      "2 days before",
+    ][dueReminder];
+  }
+
   buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
     const name = opts.member
       ? `${opts.member?.username} has changed a due date reminder in a card`
       : "A due date reminder has been changed in a card";
 
-    const iconURL = opts.member ? `${opts.member?.avatarUrl}/60.png` : undefined;
-
     const embed = new EmbedBuilder()
       .setColor(opts.board?.prefs?.backgroundColor ?? null)
       .setThumbnail(opts.thumbnailUrl ?? null)
-      .setAuthor({ name: name, iconURL: iconURL })
+      .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
+      .setFields(
+        {
+          name: "Previous reminder",
+          value: this.dueReminderToStr(this.data!.data.old.dueReminder),
+          inline: true
+        },
+        {
+          name: "New reminder",
+          value: this.dueReminderToStr(this.data!.data.card.dueReminder),
+          inline: true
+        },
+      )
       .setTimestamp()
       .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       ;
