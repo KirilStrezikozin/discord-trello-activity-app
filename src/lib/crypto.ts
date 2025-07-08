@@ -68,7 +68,7 @@ export async function verifiedRequestBody(
   }
 
   /* https://developer.atlassian.com/cloud/trello/guides/rest-api/webhooks/#webhook-signatures */
-  const payload = bodyText + getFullRequestUrl(request);
+  const payload = bodyText + getFullRequestUrl(request).toString();
   const wantHash = base64Digest(payload);
   const gotHash = request.headers.get("x-trello-webhook");
 

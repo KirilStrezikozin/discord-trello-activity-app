@@ -7,25 +7,28 @@
  */
 
 /**
- * Get the full URL of the incoming request. If the request is coming through
- * a proxy, returns the initial URL to the proxy's host. Otherwise, the URL
- * property of the request.
+ * Get the full URL of the incoming request.
+ *
+ * If the request is coming through a proxy, returns the URL to the proxy's
+ * host, with the search and the hash copied from the URL of the incoming
+ * request. Otherwise, the URL property of the request.
  *
  * @param request The request to get the full URL of.
- * @returns The full URL, including protocol, host and path.
+ * @returns The full URL.
  */
-export function getFullRequestUrl(request: Request) {
+export function getFullRequestUrl(request: Request): URL {
+  const url = new URL(request.url);
   const proxyHost = request.headers.get("x-forwarded-host");
 
   if (!proxyHost) {
-    return request.url;
+    return url;
   }
 
-  const url = new URL(request.url);
   const protocol = request.headers.get("x-forwarded-proto") || "https";
+  const proxyURL = new URL(`${protocol}://${proxyHost}`);
 
-  return `${protocol}://${proxyHost}${url.pathname}`;
-
+  const originalURL = new URL(url.pathname + url.search + url.hash, proxyURL);
+  return originalURL;
 }
 
 /**
