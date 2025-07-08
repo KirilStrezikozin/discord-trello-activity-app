@@ -8,6 +8,7 @@
 
 import { z } from "zod";
 import { MemberSchema } from "../schema";
+import { defaultIconSizePixels } from "@/src/lib/options";
 
 import {
   ColorResolvable,
@@ -40,6 +41,16 @@ export type MessageOptions = {
   errorText?: string | null,
   iconSizePixels?: number | null,
 };
+
+/**
+ * Returns an icon URL for a member who triggered the action.
+ */
+export function getMemberIcon(opts: MessageOptions): string | undefined {
+  const iconSizePixels = opts.iconSizePixels ?? defaultIconSizePixels;
+  return (opts.member)
+    ? `${opts.member?.avatarUrl}/${iconSizePixels}.png`
+    : undefined;
+}
 
 /**
  * The return type of functions that construct
