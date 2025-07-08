@@ -31,16 +31,9 @@ describe("RemoveCheckListFromCard", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("RemoveCheckListFromCard");
-
-    if (payloads.length === 0) {
-      console.warn(`RemoveCheckListFromCard.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("RemoveCheckListFromCard")) {
       const res = RemoveCheckListFromCard.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

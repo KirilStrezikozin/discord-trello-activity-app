@@ -31,16 +31,9 @@ describe("MovedCardLower", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("MovedCardLower");
-
-    if (payloads.length === 0) {
-      console.warn(`MovedCardLower.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("MovedCardLower")) {
       const res = MovedCardLower.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

@@ -5,7 +5,7 @@ import { expect, describe, test } from "vitest";
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import ChangedCardDueDateReminder from "@/src/lib/trello/action/types/ChangedCardDueDateReminder";
 
-import payload from "./_payloads/ChangedCardDueDateReminder.json";
+import payload from "./_payloads/ChangedCardDueDateReminder.1.json";
 import { getPayloadsExceptFor } from "./common";
 
 describe("ChangedCardDueDateReminder", () => {
@@ -31,16 +31,9 @@ describe("ChangedCardDueDateReminder", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("ChangedCardDueDateReminder");
-
-    if (payloads.length === 0) {
-      console.warn(`ChangedCardDueDateReminder.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("ChangedCardDueDateReminder")) {
       const res = ChangedCardDueDateReminder.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

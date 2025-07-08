@@ -31,16 +31,9 @@ describe("DeletedCheckItem", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("DeletedCheckItem");
-
-    if (payloads.length === 0) {
-      console.warn(`DeletedCheckItem.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("DeletedCheckItem")) {
       const res = DeletedCheckItem.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

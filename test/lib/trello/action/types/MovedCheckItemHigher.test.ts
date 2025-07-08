@@ -31,16 +31,9 @@ describe("MovedCheckItemHigher", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("MovedCheckItemHigher");
-
-    if (payloads.length === 0) {
-      console.warn(`MovedCheckItemHigher.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("MovedCheckItemHigher")) {
       const res = MovedCheckItemHigher.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

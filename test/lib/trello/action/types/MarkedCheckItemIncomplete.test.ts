@@ -31,16 +31,9 @@ describe("MarkedCheckItemIncomplete", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("MarkedCheckItemIncomplete");
-
-    if (payloads.length === 0) {
-      console.warn(`MarkedCheckItemIncomplete.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("MarkedCheckItemIncomplete")) {
       const res = MarkedCheckItemIncomplete.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

@@ -3,19 +3,19 @@
 import { expect, describe, test } from "vitest";
 
 import { findActionFor } from "@/src/lib/trello/action/parse";
-import MovedCheckItemLower from "@/src/lib/trello/action/types/MovedCheckItemLower";
+import ChangedCardDueDateReminder from "@/src/lib/trello/action/types/ChangedCardDueDateReminder";
 
-import payload from "./_payloads/MovedCheckItemLower.json";
+import payload from "./_payloads/ChangedCardDueDateReminder.0.json";
 import { getPayloadsExceptFor } from "./common";
 
-describe("MovedCheckItemLower", () => {
+describe("ChangedCardDueDateReminder", () => {
   test("parse empty payload", () => {
-    const res = MovedCheckItemLower.from({});
+    const res = ChangedCardDueDateReminder.from({});
     expect(res.success, "Parsing empty payload should fail").toBeFalsy();
   });
 
   test("parse", () => {
-    const res = MovedCheckItemLower.from(payload);
+    const res = ChangedCardDueDateReminder.from(payload);
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
 
     const message = res.action?.buildMessage({});
@@ -27,12 +27,12 @@ describe("MovedCheckItemLower", () => {
     expect(
       res,
       "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(MovedCheckItemLower);
+    ).toBeInstanceOf(ChangedCardDueDateReminder);
   });
 
   test("parse wrong payloads", () => {
-    for (const payload of getPayloadsExceptFor("MovedCheckItemLower")) {
-      const res = MovedCheckItemLower.from(payload);
+    for (const payload of getPayloadsExceptFor("ChangedCardDueDateReminder")) {
+      const res = ChangedCardDueDateReminder.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
     }
   });

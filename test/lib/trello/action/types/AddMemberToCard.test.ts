@@ -31,16 +31,9 @@ describe("AddMemberToCard", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("AddMemberToCard");
-
-    if (payloads.length === 0) {
-      console.warn(`AddMemberToCard.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("AddMemberToCard")) {
       const res = AddMemberToCard.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

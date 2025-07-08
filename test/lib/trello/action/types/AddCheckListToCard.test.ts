@@ -31,16 +31,9 @@ describe("AddCheckListToCard", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("AddCheckListToCard");
-
-    if (payloads.length === 0) {
-      console.warn(`AddCheckListToCard.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("AddCheckListToCard")) {
       const res = AddCheckListToCard.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

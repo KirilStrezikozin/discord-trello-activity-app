@@ -31,16 +31,9 @@ describe("AddedCardStartDate", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("AddedCardStartDate");
-
-    if (payloads.length === 0) {
-      console.warn(`AddedCardStartDate.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("AddedCardStartDate")) {
       const res = AddedCardStartDate.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

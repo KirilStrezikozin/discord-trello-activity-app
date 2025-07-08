@@ -31,16 +31,9 @@ describe("CompletedCheckItem", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("CompletedCheckItem");
-
-    if (payloads.length === 0) {
-      console.warn(`CompletedCheckItem.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("CompletedCheckItem")) {
       const res = CompletedCheckItem.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

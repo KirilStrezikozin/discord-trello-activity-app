@@ -31,16 +31,9 @@ describe("RenamedCheckItem", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("RenamedCheckItem");
-
-    if (payloads.length === 0) {
-      console.warn(`RenamedCheckItem.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("RenamedCheckItem")) {
       const res = RenamedCheckItem.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

@@ -31,16 +31,9 @@ describe("CreateCheckItem", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("CreateCheckItem");
-
-    if (payloads.length === 0) {
-      console.warn(`CreateCheckItem.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("CreateCheckItem")) {
       const res = CreateCheckItem.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

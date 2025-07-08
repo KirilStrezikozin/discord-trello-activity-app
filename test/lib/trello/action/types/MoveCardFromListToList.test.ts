@@ -31,16 +31,9 @@ describe("MoveCardFromListToList", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("MoveCardFromListToList");
-
-    if (payloads.length === 0) {
-      console.warn(`MoveCardFromListToList.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("MoveCardFromListToList")) {
       const res = MoveCardFromListToList.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });

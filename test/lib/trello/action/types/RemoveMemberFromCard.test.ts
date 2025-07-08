@@ -31,16 +31,9 @@ describe("RemoveMemberFromCard", () => {
   });
 
   test("parse wrong payloads", () => {
-    const payloads = getPayloadsExceptFor("RemoveMemberFromCard");
-
-    if (payloads.length === 0) {
-      console.warn(`RemoveMemberFromCard.test.ts: no wrong payloads to test against`);
-      return;
-    }
-
-    payloads.forEach(([, payload]) => {
+    for (const payload of getPayloadsExceptFor("RemoveMemberFromCard")) {
       const res = RemoveMemberFromCard.from(payload);
       expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    });
+    }
   });
 });
