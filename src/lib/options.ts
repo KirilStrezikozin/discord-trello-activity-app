@@ -9,6 +9,11 @@
 import { strToBoolean } from "./utils";
 
 /**
+ * Default size of an icon for a Discord message in pixels.
+ */
+export const defaultIconSizePixels = 60;
+
+/**
  * @class WebhookOptions
  * @description Webhook app options used across the project. Default-constructed
  * values are read from environment variables. One can optionally provide values
@@ -20,7 +25,8 @@ export class WebhookOptions {
     webhookURL?: string | null,
     thumbnailURL?: string | null,
     sendErrors?: boolean | null,
-    suppressErrors?: boolean | null
+    suppressErrors?: boolean | null,
+    iconSizePixels?: number | null
   };
 
   /** Trello webhook secret. */
@@ -57,6 +63,13 @@ export class WebhookOptions {
     return this.options.suppressErrors ?? false;
   }
 
+  /**
+    * Returns the desired icon size for a Discord message in pixels.
+   */
+  public get iconSizePixels(): number {
+    return this.options.iconSizePixels ?? defaultIconSizePixels;
+  }
+
   constructor(values?: typeof this.options) {
     this.options = {
       secret: process.env.TRELLO_WEBHOOK_SECRET
@@ -75,6 +88,12 @@ export class WebhookOptions {
       suppressErrors: process.env.SUPPRESS_ERRORS
         ? strToBoolean(process.env.SUPPRESS_ERRORS)
         : values?.suppressErrors,
+
+      iconSizePixels: ((env) => {
+        const num = Number(env);
+        if (!isNaN(num)) return num;
+        return null;
+      })(process.env.DISCORD_MESSAGE_ICON_SIZE_PIXELS)
     };
   }
 };
