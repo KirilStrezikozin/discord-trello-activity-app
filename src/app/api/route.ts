@@ -48,9 +48,8 @@ export async function POST(request: Request) {
     })(sp.get("iconSizePixels")),
   });
 
-  if (log.IsDebug) {
-    log.log("LOG: Request payload:", await request.text() || null);
-  }
+  const bodyText = await request.text();
+  log.log("LOG: Request payload:", bodyText || null);
 
   /* Try instantiating a Discord webhook client. */
   let discordClient: WebhookClient;
@@ -66,7 +65,7 @@ export async function POST(request: Request) {
 
   try {
     /* Verify and parse the request body. */
-    const body = await verifiedRequestBody(request, options.secret);
+    const body = await verifiedRequestBody(request, bodyText, options.secret);
 
     /* Try to find an Action type matching the Trello activity data.
      * `UnsupportedActivityError` will be thrown on failure. */

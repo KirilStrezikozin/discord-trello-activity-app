@@ -45,6 +45,7 @@ export class RequestMediaTypeError extends RequestError {
  *     satisfies expected response schema.
  *
  * @param request The request to verify.
+ * @param bodyText Request body as string.
  * @param secret Trello webhook secret.
  *
  * @throws {RequestMediaTypeError} When message content type was refused.
@@ -53,7 +54,9 @@ export class RequestMediaTypeError extends RequestError {
  *
  * @returns Verified request data object constructed from request body.
  */
-export async function verifiedRequestBody(request: Request, secret: string) {
+export async function verifiedRequestBody(
+  request: Request, bodyText: string, secret: string
+) {
   /* Check request content type. */
   if (request.headers.get("content-type") !== "application/json") {
     throw new RequestMediaTypeError();
@@ -64,10 +67,8 @@ export async function verifiedRequestBody(request: Request, secret: string) {
     return crypto.createHmac("sha1", secret).update(data).digest("base64");
   }
 
-  const body = await request.text();
-
   /* https://developer.atlassian.com/cloud/trello/guides/rest-api/webhooks/#webhook-signatures */
-  const payload = body + getFullRequestUrl(request);
+  const payload = bodyText + getFullRequestUrl(request);
   const wantHash = base64Digest(payload);
   const gotHash = request.headers.get("x-trello-webhook");
 
@@ -78,7 +79,7 @@ export async function verifiedRequestBody(request: Request, secret: string) {
   /* Parse and validate request body schema. */
   let obj: unknown;
   try {
-    obj = JSON.parse(body);
+    obj = JSON.parse(bodyText);
   } catch (error) {
     let cause = "unknown";
     if (error instanceof Error) {
