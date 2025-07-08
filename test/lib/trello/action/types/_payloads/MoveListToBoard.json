@@ -1,0 +1,22 @@
+{
+  "data": {
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "boardSource": {
+      "id": "1234567890"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "member": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "moveListToBoard",
+  "translationKey": "action_move_list_to_board"
+}

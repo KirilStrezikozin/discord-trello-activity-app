@@ -1,0 +1,24 @@
+{
+  "data": {
+    "value": "purple_light",
+    "text": "test",
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "label": {
+      "id": "1234567890",
+      "name": "test",
+      "color": "purple_light"
+    }
+  },
+  "type": "addLabelToCard",
+  "translationKey": "action_add_label_to_card"
+}

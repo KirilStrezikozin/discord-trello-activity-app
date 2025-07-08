@@ -1,0 +1,27 @@
+{
+  "data": {
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "boardTarget": {
+      "id": "1234567890"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "member": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "moveCardFromBoard",
+  "translationKey": "action_move_card_from_board"
+}

@@ -1,0 +1,18 @@
+{
+  "data": {
+    "list": {
+      "name": "test",
+      "id": "1234567890"
+    },
+    "old": {
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateList",
+  "translationKey": "action_renamed_list"
+}

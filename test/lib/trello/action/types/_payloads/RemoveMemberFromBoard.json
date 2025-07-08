@@ -1,0 +1,25 @@
+{
+  "data": {
+    "idMember": "1234567890",
+    "deactivated": false,
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "removeMemberFromBoard",
+  "translationKey": "action_removed_from_board",
+  "member": {
+    "id": "1234567890",
+    "activityBlocked": false,
+    "avatarHash": "abc1234567890abc",
+    "avatarUrl": "https://example.com",
+    "fullName": "MozesSara",
+    "idMemberReferrer": null,
+    "initials": "MS",
+    "nonPublic": {},
+    "nonPublicAvailable": true,
+    "username": "mozessara"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "data": {
+    "voted": true,
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "voteOnCard",
+  "translationKey": "action_vote_on_card"
+}

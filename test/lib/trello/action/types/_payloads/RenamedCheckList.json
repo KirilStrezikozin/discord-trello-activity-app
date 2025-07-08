@@ -1,0 +1,24 @@
+{
+  "data": {
+    "checklist": {
+      "name": "test",
+      "id": "1234567890"
+    },
+    "old": {
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateChecklist",
+  "translationKey": "action_renamed_checklist"
+}

@@ -1,0 +1,15 @@
+{
+  "data": {
+    "board": {
+      "desc": "test",
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "old": {
+      "desc": "test"
+    }
+  },
+  "type": "updateBoard",
+  "translationKey": "action_update_board_desc"
+}

@@ -1,0 +1,15 @@
+{
+  "data": {
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "createList",
+  "translationKey": "action_added_list_to_board"
+}

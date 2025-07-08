@@ -1,0 +1,19 @@
+{
+  "data": {
+    "list": {
+      "closed": true,
+      "id": "1234567890",
+      "name": "test"
+    },
+    "old": {
+      "closed": false
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateList",
+  "translationKey": "action_archived_list"
+}

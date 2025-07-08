@@ -1,0 +1,16 @@
+{
+  "data": {
+    "creationMethod": null,
+    "label": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "createLabel",
+  "translationKey": "unknown"
+}

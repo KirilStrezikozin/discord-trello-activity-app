@@ -1,0 +1,28 @@
+{
+  "data": {
+    "attachment": {
+      "id": "1234567890",
+      "name": "test",
+      "url": "https://example.com",
+      "previewUrl": "https://example.com",
+      "previewUrl2x": "https://example.com"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "addAttachmentToCard",
+  "translationKey": "action_add_attachment_to_card"
+}

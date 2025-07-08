@@ -1,0 +1,20 @@
+{
+  "data": {
+    "card": {
+      "id": "1234567890",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "deleteCard",
+  "translationKey": "action_delete_card"
+}

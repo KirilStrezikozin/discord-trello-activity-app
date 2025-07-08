@@ -1,0 +1,19 @@
+{
+  "data": {
+    "list": {
+      "pos": 147455,
+      "id": "1234567890",
+      "name": "test"
+    },
+    "old": {
+      "pos": 192511
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateList",
+  "translationKey": "action_moved_list_left"
+}

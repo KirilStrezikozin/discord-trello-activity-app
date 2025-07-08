@@ -1,0 +1,24 @@
+{
+  "data": {
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "card": {
+      "id": "1234567890",
+      "idShort": 123,
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "cardSource": {
+      "id": "1234567890",
+      "idShort": 123,
+      "name": "test"
+    },
+    "idOriginalCommenter": "68078be7fe02ddb2a6aaeb37",
+    "text": "test"
+  },
+  "type": "copyCommentCard",
+  "translationKey": "action_copy_comment_from_card"
+}

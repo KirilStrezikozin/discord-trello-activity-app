@@ -1,0 +1,41 @@
+{
+  "data": {
+    "old": {
+      "cover": {
+        "color": null,
+        "idAttachment": "1234567890",
+        "idUploadedBackground": null,
+        "size": "normal",
+        "brightness": "dark",
+        "manualCoverAttachment": false,
+        "plugin": null
+      }
+    },
+    "card": {
+      "cover": {
+        "color": null,
+        "idAttachment": "1234567890",
+        "idUploadedBackground": null,
+        "size": "full",
+        "brightness": "dark",
+        "manualCoverAttachment": true,
+        "plugin": null
+      },
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "unknown"
+}

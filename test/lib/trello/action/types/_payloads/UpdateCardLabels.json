@@ -1,0 +1,31 @@
+{
+  "data": {
+    "card": {
+      "idLabels": [
+        "1234567890",
+        "1234567890"
+      ],
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "old": {
+      "idLabels": [
+        "1234567890",
+        "1234567890"
+      ]
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "unknown"
+}

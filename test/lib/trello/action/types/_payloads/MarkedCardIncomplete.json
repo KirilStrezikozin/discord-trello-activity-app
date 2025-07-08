@@ -1,0 +1,25 @@
+{
+  "data": {
+    "old": {
+      "dueComplete": true
+    },
+    "card": {
+      "dueComplete": false,
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "action_marked_the_done_state_incomplete"
+}

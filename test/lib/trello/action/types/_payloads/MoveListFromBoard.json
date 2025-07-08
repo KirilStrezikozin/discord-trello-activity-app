@@ -1,0 +1,22 @@
+{
+  "data": {
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "boardTarget": {
+      "id": "1234567890"
+    },
+    "member": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "moveListFromBoard",
+  "translationKey": "action_move_list_from_board"
+}

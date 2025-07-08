@@ -1,0 +1,56 @@
+{
+  "data": {
+    "plugin": {
+      "id": "1234567890",
+      "idOrganizationOwner": "1234567890",
+      "author": "Screenful",
+      "capabilities": [
+        "board-buttons",
+        "callback",
+        "card-badges",
+        "card-buttons",
+        "card-detail-badges",
+        "on-enable",
+        "on-disable",
+        "list-sorters"
+      ],
+      "capabilitiesOptions": [],
+      "categories": [
+        "it-project-management",
+        "developer-tools"
+      ],
+      "iframeConnectorUrl": "https://example.com",
+      "name": "test",
+      "privacyUrl": "https://example.com",
+      "public": true,
+      "moderatedState": null,
+      "supportEmail": "myemail@myemail.com",
+      "tags": [
+        "featured"
+      ],
+      "heroImageUrl": "https://example.com",
+      "claimedDomains": [],
+      "icon": {
+        "url": "https://example.com"
+      },
+      "listing": {
+        "name": "test",
+        "locale": "en-us",
+        "description": "test",
+        "overview": "test",
+        "updates": []
+      },
+      "isCompliantWithPrivacyStandards": null,
+      "usageBrackets": {
+        "boards": 25000
+      }
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "enablePlugin",
+  "translationKey": "action_enabled_plugin"
+}

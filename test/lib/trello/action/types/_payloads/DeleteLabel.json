@@ -1,0 +1,14 @@
+{
+  "data": {
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "label": {
+      "id": "1234567890"
+    }
+  },
+  "type": "deleteLabel",
+  "translationKey": "unknown"
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "memberType": "normal",
+    "idMemberAdded": "1234567890",
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "addMemberToBoard",
+  "member": {
+    "id": "1234567890",
+    "activityBlocked": false,
+    "avatarHash": "abc1234567890abc",
+    "avatarUrl": "https://example.com",
+    "fullName": "test",
+    "idMemberReferrer": null,
+    "initials": "TT",
+    "nonPublic": {},
+    "nonPublicAvailable": true,
+    "username": "test"
+  },
+  "translationKey": "action_added_member_to_board"
+}

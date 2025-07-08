@@ -1,0 +1,16 @@
+{
+  "data": {
+    "label": {
+      "color": "red_light",
+      "id": "1234567890",
+      "name": "test"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateLabel",
+  "translationKey": "unknown"
+}

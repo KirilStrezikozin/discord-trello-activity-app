@@ -1,0 +1,24 @@
+{
+  "data": {
+    "idMember": "1234567890",
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "makeAdminOfBoard",
+  "member": {
+    "id": "1234567890",
+    "activityBlocked": false,
+    "avatarHash": "abc1234567890abc",
+    "avatarUrl": "https://example.com",
+    "fullName": "Mozes Sara",
+    "idMemberReferrer": null,
+    "initials": "MS",
+    "nonPublic": {},
+    "nonPublicAvailable": true,
+    "username": "mozessara"
+  },
+  "translationKey": "action_made_admin_of_board"
+}

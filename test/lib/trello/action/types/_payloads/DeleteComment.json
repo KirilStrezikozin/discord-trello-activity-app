@@ -1,0 +1,20 @@
+{
+  "data": {
+    "action": {
+      "id": "1234567890"
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "deleteComment",
+  "translationKey": "unknown"
+}

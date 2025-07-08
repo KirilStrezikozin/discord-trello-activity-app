@@ -1,0 +1,25 @@
+{
+  "data": {
+    "old": {
+      "dueReminder": null
+    },
+    "card": {
+      "dueReminder": -1,
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "unknown"
+}

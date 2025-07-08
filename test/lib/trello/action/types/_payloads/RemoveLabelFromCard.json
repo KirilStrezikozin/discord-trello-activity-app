@@ -1,0 +1,24 @@
+{
+  "data": {
+    "value": "red",
+    "text": "test",
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "label": {
+      "id": "1234567890",
+      "name": "test",
+      "color": "red"
+    }
+  },
+  "type": "removeLabelFromCard",
+  "translationKey": "action_remove_label_from_card"
+}

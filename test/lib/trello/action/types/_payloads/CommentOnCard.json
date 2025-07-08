@@ -1,0 +1,26 @@
+{
+  "data": {
+    "idCard": "1234567890",
+    "text": "test",
+    "textData": {
+      "emoji": {}
+    },
+    "card": {
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "commentCard",
+  "translationKey": "action_comment_on_card"
+}

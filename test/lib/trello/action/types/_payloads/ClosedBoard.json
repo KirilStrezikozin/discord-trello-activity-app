@@ -1,0 +1,15 @@
+{
+  "data": {
+    "old": {
+      "closed": false
+    },
+    "board": {
+      "closed": true,
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "updateBoard",
+  "translationKey": "action_closed_board"
+}
