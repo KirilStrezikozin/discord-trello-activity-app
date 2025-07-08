@@ -16,10 +16,15 @@ import {
 } from "discord.js";
 
 /**
+ * Member represents a Trello member who triggered an action.
+ */
+export type Member = z.infer<typeof MemberSchema>;
+
+/**
  * Message options represent options for Action message builders.
  */
 export type MessageOptions = {
-  member?: z.infer<typeof MemberSchema> | null,
+  member?: Member | null,
   board?: {
     name?: string | null,
     id?: string | null,
