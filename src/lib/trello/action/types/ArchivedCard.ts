@@ -11,10 +11,12 @@ import { z } from "zod";
 import {
   Action,
   ActionBuildResult,
+  getMemberIcon,
   MessageOptions
 } from "./base";
 
 import {
+  EmbedBuilder,
   MessagePayload,
   WebhookMessageCreateOptions
 } from "discord.js";
@@ -70,7 +72,25 @@ export default class ActionArchivedCard extends Action {
     }
   }
 
-  buildMessage(_opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
-    return "";
+  buildMessage(opts: MessageOptions): (string | MessagePayload | WebhookMessageCreateOptions) {
+    const name = opts.member
+      ? `${opts.member?.username} has archived a card`
+      : "A card has been archived";
+
+    const embed = new EmbedBuilder()
+      .setColor(opts.board?.prefs?.backgroundColor ?? null)
+      .setThumbnail(opts.thumbnailUrl ?? null)
+      .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
+      .setTitle(this.data!.data.card.name)
+      .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
+      .setDescription("The card will no longer appear on the board. It can be restored from the board menu.")
+      .setFields(
+        { name: "List", value: this.data!.data.list.name, inline: true },
+      )
+      .setTimestamp()
+      .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
+      ;
+
+    return { embeds: [embed] };
   }
 }
