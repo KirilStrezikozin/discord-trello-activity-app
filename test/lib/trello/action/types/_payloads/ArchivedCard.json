@@ -1,0 +1,26 @@
+{
+  "data": {
+    "old": {
+      "closed": false
+    },
+    "card": {
+      "closed": true,
+      "dateClosed": "2025-07-07T06:40:47.648Z",
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "action_archived_card"
+}
