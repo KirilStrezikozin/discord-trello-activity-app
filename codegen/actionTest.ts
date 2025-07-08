@@ -21,6 +21,13 @@ import { payloadNames } from "@/test/lib/trello/action/types/common";
 const typesDirectory = "./src/lib/trello/action/types/";
 const testDirectory = "./test/lib/trello/action/types/";
 
+/* Delete old test files. */
+fs.readdirSync(testDirectory).forEach((filePath) => {
+  const fileName = path.parse(filePath).name;
+  const isTest = fileName.replace(/.*\./, "") === "test";
+  if (isTest) fs.unlinkSync(testDirectory + filePath);
+});
+
 /* Collect all activity type names. */
 const typeNames = fs.readdirSync(typesDirectory)
   .map(filePath => path.parse(filePath).name)
