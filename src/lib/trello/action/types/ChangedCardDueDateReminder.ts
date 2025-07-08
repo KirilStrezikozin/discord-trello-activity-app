@@ -26,11 +26,11 @@ export default class ActionChangedCardDueDateReminder extends Action {
 
     data: z.object({
       old: z.object({
-        dueReminder: z.number(),
+        dueReminder: z.number().nullable(),
       }),
 
       card: z.object({
-        dueReminder: z.number(),
+        dueReminder: z.number().nullable(),
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),
