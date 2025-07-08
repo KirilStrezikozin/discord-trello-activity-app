@@ -6,9 +6,14 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
+import { z } from "zod";
+import * as log from "@/src/lib/log";
+
 import { WebhookClient } from "discord.js";
 import { RequestError } from "@/src/lib/error";
 import { verifiedRequestBody } from "@/src/lib/crypto";
+import { WebhookOptions } from "@/src/lib/options";
+import { strToBoolean } from "@/src/lib/utils";
 
 import ActionError from "@/src/lib/trello/action/types/error";
 
@@ -17,10 +22,10 @@ import {
   UnsupportedActivityError
 } from "@/src/lib/trello/action/parse";
 
-import * as log from "@/src/lib/log";
-import { BoardModelSchema } from "@/src/lib/trello/action/schema";
-import { WebhookOptions } from "@/src/lib/options";
-import { strToBoolean } from "@/src/lib/utils";
+import {
+  BoardModelSchema,
+  WebhookRequestSchema
+} from "@/src/lib/trello/action/schema";
 
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 export async function HEAD(_request: Request) {
@@ -63,9 +68,16 @@ export async function POST(request: Request) {
     );
   }
 
+  let body: z.infer<typeof WebhookRequestSchema> | undefined;
+  let board: z.infer<typeof BoardModelSchema> | undefined;
+
   try {
     /* Verify and parse the request body. */
-    const body = await verifiedRequestBody(request, bodyText, options.secret);
+    body = await verifiedRequestBody(request, bodyText, options.secret);
+
+    /* If the model the webhook is subscribed to is a Trello board, Discord
+     * message builder below gets more information about the activity. */
+    board = BoardModelSchema.safeParse(body.model).data;
 
     /* Try to find an Action type matching the Trello activity data.
      * `UnsupportedActivityError` will be thrown on failure. */
@@ -75,15 +87,11 @@ export async function POST(request: Request) {
       translationKey: body.action.display?.translationKey
     });
 
-    /* If the model the webhook is subscribed to is a Trello board, Discord
-     * message builder below gets more information about the activity. */
-    const board = BoardModelSchema.safeParse(body.model).data;
-
     /* Use the matched Action to build a Discord message from
      * Trello activity data it holds. Send the message. */
     await discordClient.send(action.buildMessage({
       member: body.action.memberCreator,
-      board: {
+      board: (board) ? {
         id: board?.id,
         name: board?.name,
         prefs: {
@@ -92,7 +100,7 @@ export async function POST(request: Request) {
           backgroundBottomColor: board?.prefs.backgroundBottomColor,
           backgroundTopColor: board?.prefs.backgroundTopColor,
         },
-      },
+      } : null,
       thumbnailUrl: options.thumbnailURL,
       /* Our middleware has rewritten a request to /api, let the user know. */
       warningText: request.headers.get("x-from-middleware")
@@ -134,7 +142,24 @@ export async function POST(request: Request) {
 
       const action = ActionError.from({ error: error, action: actionData });
       if (action.success) {
-        await discordClient.send(action.action.buildMessage({}));
+        await discordClient.send(action.action.buildMessage({
+          member: body?.action.memberCreator,
+          board: (board) ? {
+            id: board?.id,
+            name: board?.name,
+            prefs: {
+              backgroundColor: board?.prefs.backgroundColor,
+              backgroundDarkColor: board?.prefs.backgroundDarkColor,
+              backgroundBottomColor: board?.prefs.backgroundBottomColor,
+              backgroundTopColor: board?.prefs.backgroundTopColor,
+            },
+          } : null,
+          thumbnailUrl: options.thumbnailURL,
+          /* Our middleware has rewritten a request to /api, let the user know. */
+          warningText: request.headers.get("x-from-middleware")
+            ? "Incorrect webhook URL is used, see the guide." : null,
+          iconSizePixels: options.iconSizePixels,
+        }));
       }
     }
 
