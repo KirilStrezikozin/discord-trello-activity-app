@@ -41,6 +41,11 @@ export async function POST(request: Request) {
     thumbnailURL: sp.get("thumbnailURL"),
     sendErrors: (v => v ? strToBoolean(v) : null)(sp.get("sendErrors")),
     suppressErrors: (v => v ? strToBoolean(v) : null)(sp.get("suppressErrors")),
+    iconSizePixels: (v => {
+      const num = Number(v);
+      if (!isNaN(num)) return num;
+      return null;
+    })(sp.get("iconSizePixels")),
   });
 
   if (log.IsDebug) {
@@ -93,6 +98,7 @@ export async function POST(request: Request) {
       /* Our middleware has rewritten a request to /api, let the user know. */
       errorText: request.headers.get("x-from-middleware")
         ? "Wrong webhook URL is used, see the guide" : null,
+      iconSizePixels: options.iconSizePixels,
     }));
 
   } catch (error) {

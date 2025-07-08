@@ -38,6 +38,7 @@ export type MessageOptions = {
   } | null,
   thumbnailUrl?: string | null,
   errorText?: string | null,
+  iconSizePixels?: number | null,
 };
 
 /**
