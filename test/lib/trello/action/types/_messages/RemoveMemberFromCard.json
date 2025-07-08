@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A member has been removed from a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Full Name",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}

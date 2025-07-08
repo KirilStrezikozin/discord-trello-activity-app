@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A card has been renamed"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Previous Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "New Name",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}

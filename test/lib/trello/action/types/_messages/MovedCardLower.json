@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A card has been moved lower in a list"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "In List",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}

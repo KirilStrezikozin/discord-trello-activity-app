@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A checklist has been added to a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Checklist Name",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A due date reminder has been changed in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Previous reminder",
+      "value": "Unknown",
+      "inline": true
+    },
+    {
+      "name": "New reminder",
+      "value": "None",
+      "inline": true
+    }
+  ]
+}

@@ -2,11 +2,12 @@
 
 import { expect, describe, test } from "vitest";
 
-import { findActionFor } from "@/src/lib/trello/action/parse";
 import CreateCard from "@/src/lib/trello/action/types/CreateCard";
+import { findActionFor } from "@/src/lib/trello/action/parse";
+import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/CreateCard.json";
-import { getPayloadsExceptFor } from "./common";
+import message from "./_messages/CreateCard.json";
 
 describe("CreateCard", () => {
   test("parse empty payload", () => {
@@ -17,9 +18,26 @@ describe("CreateCard", () => {
   test("parse", () => {
     const res = CreateCard.from(payload);
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+  });
 
-    const message = res.action?.buildMessage({});
-    expect(message, "Built message should be truthy").toBeTruthy();
+  test("build message", () => {
+    const res = CreateCard.from(payload);
+    const builtMessage = res.action!.buildMessage({});
+
+    expect(
+      builtMessage?.embeds?.length,
+      "Messsage should be an embed"
+    ).toBeTruthy();
+
+    const embed = builtMessage!.embeds![0];
+    embed.setTimestamp(null); /* Ensure no timestamp value present. */
+
+    const cleanEmbed = JSON.parse(JSON.stringify(embed.toJSON()));
+
+    expect(
+      areJSONObjectsEqual(cleanEmbed, message),
+      "Built message content does not match the expected one"
+    ).toBeTruthy();
   });
 
   test("find and parse", () => {

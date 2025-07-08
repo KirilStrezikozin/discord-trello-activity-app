@@ -63,3 +63,33 @@ export function* getPayloadsExceptFor(skipName: string): Generator<object, void,
     for (const x of values) yield x;
   }
 }
+
+/**
+ * Returns true if the given plain JSON-like objects are equal.
+ * Checks for similar keys and values, recursively.
+ */
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export function areJSONObjectsEqual(a: any, b: any): boolean {
+  if (a === b) return true;
+  else if (typeof a !== typeof b) return false;
+  else if (Array.isArray(a) !== Array.isArray(b)) return false;
+
+  if (Array.isArray(a)) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!areJSONObjectsEqual(a[i], b[i])) return false;
+    }
+    return true;
+  }
+
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+
+  for (const key of aKeys) {
+    if (!b.hasOwnProperty(key)) return false;
+    if (!areJSONObjectsEqual(a[key], b[key])) return false;
+  }
+
+  return true;
+}

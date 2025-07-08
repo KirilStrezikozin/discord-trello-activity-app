@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A due date has been added in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Due Date",
+      "value": "2025-07-05T15:04:00.000Z",
+      "inline": true
+    }
+  ]
+}

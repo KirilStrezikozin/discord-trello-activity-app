@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A due date has been removed in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Was",
+      "value": "2025-07-10T15:04:00.000Z",
+      "inline": true
+    }
+  ]
+}

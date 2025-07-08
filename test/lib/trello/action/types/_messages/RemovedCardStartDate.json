@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A start date has been removed in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Was",
+      "value": "2025-07-04T06:00:00.000Z",
+      "inline": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A start date has been added in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Start Date",
+      "value": "2025-07-03T06:00:00.000Z",
+      "inline": true
+    }
+  ]
+}

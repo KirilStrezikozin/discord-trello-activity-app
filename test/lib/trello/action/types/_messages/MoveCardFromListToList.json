@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A card has been moved"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Previous List",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "New List",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
