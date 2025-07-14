@@ -13,7 +13,6 @@ import { WebhookClient } from "discord.js";
 import { RequestError } from "@/src/lib/error";
 import { verifiedRequestBody } from "@/src/lib/crypto";
 import { WebhookOptions } from "@/src/lib/options";
-import { strToBoolean } from "@/src/lib/utils";
 
 import ActionError from "@/src/lib/trello/action/types/error";
 
@@ -40,18 +39,7 @@ export async function POST(request: Request) {
 
   /* Extract options used by this route. */
   const sp = new URL(request.url).searchParams;
-  const options = new WebhookOptions({
-    secret: sp.get("secret"),
-    webhookURL: sp.get("webhookURL"),
-    thumbnailURL: sp.get("thumbnailURL"),
-    sendErrors: (v => v ? strToBoolean(v) : null)(sp.get("sendErrors")),
-    suppressErrors: (v => v ? strToBoolean(v) : null)(sp.get("suppressErrors")),
-    iconSizePixels: (v => {
-      const num = Number(v);
-      if (!isNaN(num)) return num;
-      return null;
-    })(sp.get("iconSizePixels")),
-  });
+  const options = new WebhookOptions(sp);
 
   const bodyText = await request.text();
   log.log("LOG: Request payload:", bodyText || null);
