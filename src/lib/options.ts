@@ -20,23 +20,48 @@ export const defaultIconSizePixels = 60;
  * to overwrite the defaults.
  */
 export class WebhookOptions {
-  private options: {
-    secret?: string | null,
-    webhookURL?: string | null,
-    thumbnailURL?: string | null,
-    sendErrors?: boolean | null,
-    suppressErrors?: boolean | null,
-    iconSizePixels?: number | null
+  private options = {
+    apiKey: "",
+    token: "",
+    secret: "",
+    webhookURL: "",
+    thumbnailURL: "",
+    sendErrors: false,
+    suppressErrors: false,
+    iconSizePixels: defaultIconSizePixels,
   };
+
+  private optionEnvNames:
+    { [K in keyof typeof this.options]: string }
+    = {
+      apiKey: "DTAA_TRELLO_API_KEY",
+      token: "DTAA_TRELLO_TOKEN",
+      secret: "DTAA_TRELLO_SECRET",
+      webhookURL: "DTAA_DISCORD_WEBHOOK_URL",
+      thumbnailURL: "DTAA_DISCORD_MSG_THUMB_URL",
+      sendErrors: "DTAA_WEBHOOK_SEND_ERRORS_TO_DISCORD",
+      suppressErrors: "DTAA_WEBHOOK_SUPPRESS_ERRORS",
+      iconSizePixels: "DTAA_DISCORD_MSG_ICON_SIZE_PX",
+    };
+
+  /** Trello API key. */
+  public get apiKey(): string {
+    return this.options.apiKey;
+  }
+
+  /** Trello token. */
+  public get token(): string {
+    return this.options.token;
+  }
 
   /** Trello webhook secret. */
   public get secret(): string {
-    return this.options.secret ?? "";
+    return this.options.secret;
   }
 
   /** Discord webhook URL. */
   public get webhookURL(): string {
-    return this.options.webhookURL ?? "";
+    return this.options.webhookURL;
   }
 
   /**
@@ -44,7 +69,7 @@ export class WebhookOptions {
    * See https://discordjs.guide/popular-topics/display-components.html#thumbnail
    */
   public get thumbnailURL(): string {
-    return this.options.thumbnailURL ?? "";
+    return this.options.thumbnailURL;
   }
 
   /**
@@ -52,7 +77,7 @@ export class WebhookOptions {
    * sent to discord in a special message format.
    */
   public get sendErrors(): boolean {
-    return this.options.sendErrors ?? false;
+    return this.options.sendErrors;
   }
 
   /**
@@ -60,40 +85,97 @@ export class WebhookOptions {
    * suppressed to avoid request retries.
    */
   public get suppressErrors(): boolean {
-    return this.options.suppressErrors ?? false;
+    return this.options.suppressErrors;
   }
 
   /**
-    * Returns the desired icon size for a Discord message in pixels.
+   * Returns the desired icon size for a Discord message in pixels.
    */
   public get iconSizePixels(): number {
-    return this.options.iconSizePixels ?? defaultIconSizePixels;
+    return this.options.iconSizePixels;
   }
 
-  constructor(values?: typeof this.options) {
-    this.options = {
-      secret: process.env.TRELLO_WEBHOOK_SECRET
-        || values?.secret,
+  /**
+   * Modify individual option value.
+   * @param key Option name.
+   * @param value New option value.
+   */
+  private setOption<K extends keyof typeof this.options>(
+    key: K, value: (typeof this.options)[K]
+  ): void {
+    this.options[key] = value;
+  }
 
-      webhookURL: process.env.DISCORD_WEBHOOK_URL
-        || values?.webhookURL,
+  constructor();
+  constructor(values: typeof this.options);
+  constructor(values: URLSearchParams);
 
-      thumbnailURL: process.env.DISCORD_MESSAGE_THUMBNAIL_URL
-        || values?.thumbnailURL,
+  constructor(values?: typeof this.options | URLSearchParams) {
+    /* Helper to assign all option values from the given object that has the
+     * same keys but values are nullish or strings. */
+    const setValues = (newRawValues: {
+      [K in keyof typeof this.options]: string | null | undefined
+    }) => {
+      for (const key in this.options) {
+        const typedKey = key as keyof typeof this.options;
 
-      sendErrors: process.env.ERRORS_AS_DISCORD_MESSAGES
-        ? strToBoolean(process.env.ERRORS_AS_DISCORD_MESSAGES)
-        : values?.sendErrors,
+        const oldValue = this.options[typedKey];
+        const newRawValue = newRawValues[typedKey];
 
-      suppressErrors: process.env.SUPPRESS_ERRORS
-        ? strToBoolean(process.env.SUPPRESS_ERRORS)
-        : values?.suppressErrors,
+        if (typeof newRawValue === typeof oldValue) {
+          /* Type matches, assign directly. */
+          this.setOption(typedKey, newRawValue as typeof oldValue);
+        }
 
-      iconSizePixels: ((env) => {
-        const num = Number(env);
-        if (!isNaN(num)) return num;
-        return null;
-      })(process.env.DISCORD_MESSAGE_ICON_SIZE_PIXELS)
+        else if (typeof oldValue === "number") {
+          /* Parse number from string. */
+          const num = Number(newRawValue);
+          if (!isNaN(num)) this.setOption(typedKey, num);
+        }
+
+        else if (typeof oldValue === "boolean" && newRawValue) {
+          /* Parse boolean from string. */
+          this.setOption(typedKey, strToBoolean(newRawValue));
+        }
+
+        else if (newRawValue === null || newRawValue === undefined) {
+          /* Skip partial values. */
+          return;
+        }
+
+        else {
+          throw new Error(
+            "WebhookOptions, setValues: outdated options type inference logic"
+          );
+        }
+      }
     };
+
+    /* Collect env variable values and assign options to them. */
+    const envValues = {} as { [K in keyof typeof this.options]: string | undefined };
+    for (const key in this.options) {
+      const typedKey = key as keyof typeof this.options;
+      envValues[typedKey] = process.env[this.optionEnvNames[typedKey]];
+    }
+    setValues(envValues);
+
+    if (values instanceof URLSearchParams) {
+      /* The given values are URL search params, assign options. */
+      const spValues = {} as { [K in keyof typeof this.options]: string | null };
+      for (const key in this.options) {
+        const typedKey = key as keyof typeof this.options;
+        spValues[typedKey] = values.get(typedKey);
+      }
+      setValues(spValues);
+
+    } else if (values) {
+      /* The given values mimic the options object, assign options directly. */
+      for (const key in values) {
+        const typedKey = key as keyof typeof values;
+        this.setOption(typedKey, values[typedKey]);
+      }
+    }
+
+    /* Options have been set to env vars only at this point. */
   }
 };
