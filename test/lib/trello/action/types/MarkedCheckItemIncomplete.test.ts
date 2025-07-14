@@ -8,6 +8,7 @@ import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/MarkedCheckItemIncomplete.json";
 import message from "./_messages/MarkedCheckItemIncomplete.json";
+        const messageJSONExists = true;
 
 describe("MarkedCheckItemIncomplete", () => {
   test("parse empty payload", () => {
@@ -20,7 +21,7 @@ describe("MarkedCheckItemIncomplete", () => {
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
   });
 
-  test("build message", () => {
+  test.skipIf(!messageJSONExists)("build message", () => {
     const res = MarkedCheckItemIncomplete.from(payload);
     const builtMessage = res.action!.buildMessage({});
 

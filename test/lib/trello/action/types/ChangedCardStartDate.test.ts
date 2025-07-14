@@ -8,6 +8,7 @@ import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/ChangedCardStartDate.json";
 import message from "./_messages/ChangedCardStartDate.json";
+        const messageJSONExists = true;
 
 describe("ChangedCardStartDate", () => {
   test("parse empty payload", () => {
@@ -20,7 +21,7 @@ describe("ChangedCardStartDate", () => {
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
   });
 
-  test("build message", () => {
+  test.skipIf(!messageJSONExists)("build message", () => {
     const res = ChangedCardStartDate.from(payload);
     const builtMessage = res.action!.buildMessage({});
 

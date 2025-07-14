@@ -8,6 +8,7 @@ import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/DeletedCheckItem.json";
 import message from "./_messages/DeletedCheckItem.json";
+        const messageJSONExists = true;
 
 describe("DeletedCheckItem", () => {
   test("parse empty payload", () => {
@@ -20,7 +21,7 @@ describe("DeletedCheckItem", () => {
     expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
   });
 
-  test("build message", () => {
+  test.skipIf(!messageJSONExists)("build message", () => {
     const res = DeletedCheckItem.from(payload);
     const builtMessage = res.action!.buildMessage({});
 
