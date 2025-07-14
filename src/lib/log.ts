@@ -8,8 +8,8 @@
 
 import { strToBoolean } from "./utils";
 
-export const IsDebug = process.env.NDEBUG
-  ? !strToBoolean(process.env.NDEBUG) : true;
+export const IsDebug = process.env.DTAA_NDEBUG
+  ? !strToBoolean(process.env.DTAA_NDEBUG) : true;
 
 export function log(message?: unknown, ...optionalParams: unknown[]) {
   if (IsDebug) console.log(message, ...optionalParams);
