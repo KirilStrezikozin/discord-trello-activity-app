@@ -17,7 +17,7 @@ import {
 
 import { EmbedBuilder } from "discord.js";
 
-export default class ActionRemoveMemberFromCard extends Action {
+export default class ActionAddMemberToCard extends Action {
   static schema = z.object({
     id: z.string().min(1),
     type: z.literal("addMemberToCard"),
@@ -46,7 +46,7 @@ export default class ActionRemoveMemberFromCard extends Action {
   });
 
   public static type = this.schema.shape.type.value;
-  private data?: z.infer<typeof ActionRemoveMemberFromCard.schema>;
+  private data?: z.infer<typeof ActionAddMemberToCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
     const res = this.schema.safeParse(data);
