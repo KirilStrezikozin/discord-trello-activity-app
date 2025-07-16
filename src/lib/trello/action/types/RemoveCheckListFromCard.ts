@@ -19,6 +19,7 @@ import { EmbedBuilder } from "discord.js";
 
 export default class ActionRemoveCheckListFromCard extends Action {
   static schema = z.object({
+    id: z.string().min(1),
     type: z.literal("removeChecklistFromCard"),
 
     data: z.object({

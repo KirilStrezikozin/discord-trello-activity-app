@@ -22,6 +22,7 @@ export default class ActionAddCheckListToCard extends Action {
 
   static schema = z.object({
     type: z.literal(ActionAddCheckListToCard.type),
+    id: z.string().min(1),
 
     data: z.object({
       card: z.object({

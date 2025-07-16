@@ -19,6 +19,7 @@ import { EmbedBuilder } from "discord.js";
 
 export default class ActionMarkedCheckItemIncomplete extends Action {
   static schema = z.object({
+    id: z.string().min(1),
     type: z.literal("updateCheckItemStateOnCard"),
 
     data: z.object({
