@@ -17,6 +17,10 @@ import { WebhookOptions } from "@/src/lib/options";
 import ActionError from "@/src/lib/trello/action/types/error";
 
 import {
+  MessageOptions
+} from "@/src/lib/trello/action/types/base";
+
+import {
   findActionFor,
   UnsupportedActivityError
 } from "@/src/lib/trello/action/parse";
@@ -58,6 +62,7 @@ export async function POST(request: Request) {
 
   let body: z.infer<typeof WebhookRequestSchema> | undefined;
   let board: z.infer<typeof BoardModelSchema> | undefined;
+  let messageOptions: MessageOptions | undefined;
 
   try {
     /* Verify and parse the request body. */
@@ -67,17 +72,8 @@ export async function POST(request: Request) {
      * message builder below gets more information about the activity. */
     board = BoardModelSchema.safeParse(body.model).data;
 
-    /* Try to find an Action type matching the Trello activity data.
-     * `UnsupportedActivityError` will be thrown on failure. */
-    const action = findActionFor({
-      data: body.action.data,
-      type: body.action.type,
-      translationKey: body.action.display?.translationKey
-    });
-
-    /* Use the matched Action to build a Discord message from
-     * Trello activity data it holds. Send the message. */
-    await discordClient.send(action.buildMessage({
+    /* Gather data for message builders to output a more descriptive content. */
+    messageOptions = {
       member: body.action.memberCreator,
       board: (board) ? {
         id: board?.id,
@@ -94,7 +90,20 @@ export async function POST(request: Request) {
       warningText: request.headers.get("x-from-middleware")
         ? "Incorrect webhook URL is used, see the guide." : null,
       iconSizePixels: options.iconSizePixels,
-    }));
+    };
+
+    /* Try to find an Action type matching the Trello activity data.
+     * `UnsupportedActivityError` will be thrown on failure. */
+    const action = findActionFor({
+      id: body.action.id,
+      data: body.action.data,
+      type: body.action.type,
+      translationKey: body.action.display?.translationKey
+    });
+
+    /* Use the matched Action to build a Discord message from
+     * Trello activity data it holds. Send the message. */
+    await discordClient.send(action.buildMessage(messageOptions));
 
   } catch (error) {
     log.error("ERROR:", error);
@@ -119,9 +128,7 @@ export async function POST(request: Request) {
       status = options.suppressErrors ? 200 : 500;
     }
 
-    /* Report and send API server error as a Discord messages.
-     * Response status code is not consumed for Trello to sense the
-     * error and ultimately retry a request. */
+    /* Report and send API server error as a Discord messages. */
     if (options.sendErrors && error instanceof Error) {
       let actionData = undefined;
       if (error instanceof UnsupportedActivityError) {
@@ -130,24 +137,12 @@ export async function POST(request: Request) {
 
       const action = ActionError.from({ error: error, action: actionData });
       if (action.success) {
-        await discordClient.send(action.action.buildMessage({
-          member: body?.action.memberCreator,
-          board: (board) ? {
-            id: board?.id,
-            name: board?.name,
-            prefs: {
-              backgroundColor: board?.prefs.backgroundColor,
-              backgroundDarkColor: board?.prefs.backgroundDarkColor,
-              backgroundBottomColor: board?.prefs.backgroundBottomColor,
-              backgroundTopColor: board?.prefs.backgroundTopColor,
-            },
-          } : null,
-          thumbnailUrl: options.thumbnailURL,
-          /* Our middleware has rewritten a request to /api, let the user know. */
-          warningText: request.headers.get("x-from-middleware")
-            ? "Incorrect webhook URL is used, see the guide." : null,
-          iconSizePixels: options.iconSizePixels,
-        }));
+        /* Send a message describing the error to Discord.
+         * In case `messageOptions` was assigned before the error was caught,
+         * the sent message will be more descriptive. */
+        await discordClient.send(
+          action.action.buildMessage(messageOptions ?? {})
+        );
       }
     }
 
