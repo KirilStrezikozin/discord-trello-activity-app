@@ -8,7 +8,7 @@
 
 import { z } from "zod";
 import { MemberSchema } from "../schema";
-import { defaultIconSizePixels } from "@/src/lib/options";
+import { defaultIconSizePixels, WebhookOptions } from "@/src/lib/options";
 
 import {
   ColorResolvable,
@@ -56,6 +56,19 @@ export function getMemberIcon(opts: MessageOptions): string | undefined {
  * Actions without throwing exceptions.
  */
 export type ActionBuildResult = { success: true, action: Action } | { success: false, action: null };
+
+/**
+ * Describes an action type that can fetch additional data for its built
+ * message to become more descriptive.
+ *
+ * Action types that implement this interface should assume that the data
+ * fetching step may not be executed at all or may fail. `fetchData`, not the
+ * caller, is responsible for preserving any result of its operation by
+ * assigning properties on the action instance itself.
+ */
+export interface ActionWithData {
+  fetchData(opts: WebhookOptions): Promise<void>;
+};
 
 /**
  * @class Action

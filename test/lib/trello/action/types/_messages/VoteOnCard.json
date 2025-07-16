@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A card has been voted on"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Total Votes",
+      "value": "5",
+      "inline": false
+    }
+  ]
+}

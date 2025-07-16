@@ -27,6 +27,7 @@ import RemovedCardDueDate from "./types/RemovedCardDueDate";
 import RemovedCardStartDate from "./types/RemovedCardStartDate";
 import RenamedCard from "./types/RenamedCard";
 import RenamedCheckItem from "./types/RenamedCheckItem";
+import VoteOnCard from "./types/VoteOnCard";
 
 /**
  * List of all Action types in the library.
@@ -57,4 +58,5 @@ export const ActionTypes: (typeof Action)[] = [
   RemovedCardStartDate,
   RenamedCard,
   RenamedCheckItem,
+  VoteOnCard,
 ];

@@ -78,6 +78,33 @@ export const ActionSchema = z.object({
   memberCreator: MemberSchema.nullish(),
 }).passthrough();
 
+/** Schema of fetched card data for a Trello action. */
+export const ActionCardSchema = z.object({
+  id: z.string().min(1),
+  address: z.string().nullable(),
+
+  badges: z.object({
+    votes: z.number().nullish(),
+    checkItems: z.number().nullish(),
+    checkItemsChecked: z.number().nullish(),
+    comments: z.number().nullish(),
+    attachments: z.number().nullish(),
+    dueComplete: z.boolean().nullish(),
+  }).passthrough(),
+
+  name: z.string().min(1),
+  desc: z.string(),
+  idShort: z.number(),
+  shortLink: z.string(),
+  url: z.string().url(),
+  closed: z.boolean(),
+
+  cover: z.object({}).passthrough(),
+  idMembers: z.string().min(1).array(),
+  idMembersVoted: z.string().min(1).array(),
+  dateLastActivity: z.string().datetime({ precision: 3 }),
+}).passthrough();
+
 export const WebhookRequestSchema = z.object({
   model: ModelSchema,
   action: ActionSchema,
