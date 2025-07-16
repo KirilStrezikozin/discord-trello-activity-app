@@ -17,6 +17,7 @@ import { WebhookOptions } from "@/src/lib/options";
 import ActionError from "@/src/lib/trello/action/types/error";
 
 import {
+  ActionWithData,
   MessageOptions
 } from "@/src/lib/trello/action/types/base";
 
@@ -100,6 +101,15 @@ export async function POST(request: Request) {
       type: body.action.type,
       translationKey: body.action.display?.translationKey
     });
+
+    if ("fetchData" in action) {
+      await (action as ActionWithData).fetchData(options).catch((error) => {
+        /* Fetching additional data is optional for action types, the message
+         * would only be less descriptive on failure. Consequently, consume any
+         * errors and do not consider them fatal. */
+        log.log("ERROR: action.fetchData:", error);
+      });
+    }
 
     /* Use the matched Action to build a Discord message from
      * Trello activity data it holds. Send the message. */
