@@ -60,7 +60,7 @@ export default class ActionRenamedCheckItem extends Action {
   private data?: z.infer<typeof ActionRenamedCheckItem.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionRenamedCheckItem.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -68,7 +68,7 @@ export default class ActionRenamedCheckItem extends Action {
       }
     }
 
-    const action = new ActionRenamedCheckItem();
+    const action = new this();
     action.data = res.data;
 
     return {

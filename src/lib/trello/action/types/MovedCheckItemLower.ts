@@ -62,7 +62,7 @@ export default class ActionMovedCheckItemLower extends Action {
   private data?: z.infer<typeof ActionMovedCheckItemLower.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionMovedCheckItemLower.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -70,7 +70,7 @@ export default class ActionMovedCheckItemLower extends Action {
       }
     }
 
-    const action = new ActionMovedCheckItemLower();
+    const action = new this();
     action.data = res.data;
 
     return {

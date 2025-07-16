@@ -47,7 +47,7 @@ export default class ActionAddCheckListToCard extends Action {
   private data?: z.infer<typeof ActionAddCheckListToCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionAddCheckListToCard.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -55,7 +55,7 @@ export default class ActionAddCheckListToCard extends Action {
       }
     }
 
-    const action = new ActionAddCheckListToCard();
+    const action = new this();
     action.data = res.data;
 
     return {

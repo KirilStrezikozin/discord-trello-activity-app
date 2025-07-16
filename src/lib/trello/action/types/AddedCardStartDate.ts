@@ -52,7 +52,7 @@ export default class ActionAddedCardStartDate extends Action {
   private data?: z.infer<typeof ActionAddedCardStartDate.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionAddedCardStartDate.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -60,7 +60,7 @@ export default class ActionAddedCardStartDate extends Action {
       }
     }
 
-    const action = new ActionAddedCardStartDate();
+    const action = new this();
     action.data = res.data;
 
     return {

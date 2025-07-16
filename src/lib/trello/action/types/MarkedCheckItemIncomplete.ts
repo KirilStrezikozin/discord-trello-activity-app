@@ -56,7 +56,7 @@ export default class ActionMarkedCheckItemIncomplete extends Action {
   private data?: z.infer<typeof ActionMarkedCheckItemIncomplete.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionMarkedCheckItemIncomplete.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -64,7 +64,7 @@ export default class ActionMarkedCheckItemIncomplete extends Action {
       }
     }
 
-    const action = new ActionMarkedCheckItemIncomplete();
+    const action = new this();
     action.data = res.data;
 
     return {

@@ -53,7 +53,7 @@ export default class ActionMovedCardLower extends Action {
   private data?: z.infer<typeof ActionMovedCardLower.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionMovedCardLower.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -61,7 +61,7 @@ export default class ActionMovedCardLower extends Action {
       }
     }
 
-    const action = new ActionMovedCardLower();
+    const action = new this();
     action.data = res.data;
 
     return {

@@ -51,7 +51,7 @@ export default class ActionRenamedCard extends Action {
   private data?: z.infer<typeof ActionRenamedCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionRenamedCard.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -59,7 +59,7 @@ export default class ActionRenamedCard extends Action {
       }
     }
 
-    const action = new ActionRenamedCard();
+    const action = new this();
     action.data = res.data;
 
     return {

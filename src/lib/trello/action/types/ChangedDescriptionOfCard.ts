@@ -52,7 +52,7 @@ export default class ActionChangedDescriptionOfCard extends Action {
   private data?: z.infer<typeof ActionChangedDescriptionOfCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionChangedDescriptionOfCard.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -60,7 +60,7 @@ export default class ActionChangedDescriptionOfCard extends Action {
       }
     }
 
-    const action = new ActionChangedDescriptionOfCard();
+    const action = new this();
     action.data = res.data;
 
     return {

@@ -57,7 +57,7 @@ export default class ActionMoveCardFromListToList extends Action {
   private data?: z.infer<typeof ActionMoveCardFromListToList.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionMoveCardFromListToList.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -65,7 +65,7 @@ export default class ActionMoveCardFromListToList extends Action {
       }
     }
 
-    const action = new ActionMoveCardFromListToList();
+    const action = new this();
     action.data = res.data;
 
     return {

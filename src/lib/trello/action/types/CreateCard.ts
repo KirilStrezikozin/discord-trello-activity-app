@@ -47,7 +47,7 @@ export default class ActionCreateCard extends Action {
   private data?: z.infer<typeof ActionCreateCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionCreateCard.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -55,7 +55,7 @@ export default class ActionCreateCard extends Action {
       }
     }
 
-    const action = new ActionCreateCard();
+    const action = new this();
     action.data = res.data;
 
     return {

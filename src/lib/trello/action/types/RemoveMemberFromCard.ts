@@ -50,7 +50,7 @@ export default class ActionRemoveMemberFromCard extends Action {
   private data?: z.infer<typeof ActionRemoveMemberFromCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
-    const res = ActionRemoveMemberFromCard.schema.safeParse(data);
+    const res = this.schema.safeParse(data);
     if (!res.success) {
       return {
         success: false,
@@ -58,7 +58,7 @@ export default class ActionRemoveMemberFromCard extends Action {
       }
     }
 
-    const action = new ActionRemoveMemberFromCard();
+    const action = new this();
     action.data = res.data;
 
     return {
