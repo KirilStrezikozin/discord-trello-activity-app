@@ -56,6 +56,7 @@ export default class ActionRenamedCheckItem extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionRenamedCheckItem.schema>;
 
   static override from(data: unknown): ActionBuildResult {

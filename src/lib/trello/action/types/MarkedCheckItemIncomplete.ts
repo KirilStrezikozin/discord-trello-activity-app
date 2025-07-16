@@ -52,6 +52,7 @@ export default class ActionMarkedCheckItemIncomplete extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionMarkedCheckItemIncomplete.schema>;
 
   static override from(data: unknown): ActionBuildResult {

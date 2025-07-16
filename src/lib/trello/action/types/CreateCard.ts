@@ -43,6 +43,7 @@ export default class ActionCreateCard extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionCreateCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {

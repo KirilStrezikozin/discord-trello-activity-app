@@ -52,6 +52,7 @@ export default class ActionDeletedCheckItem extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionDeletedCheckItem.schema>;
 
   static override from(data: unknown): ActionBuildResult {

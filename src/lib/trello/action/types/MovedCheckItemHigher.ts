@@ -58,6 +58,7 @@ export default class ActionMovedCheckItemHigher extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionMovedCheckItemHigher.schema>;
 
   static override from(data: unknown): ActionBuildResult {

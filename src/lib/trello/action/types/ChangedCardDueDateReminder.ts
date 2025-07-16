@@ -48,6 +48,7 @@ export default class ActionChangedCardDueDateReminder extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionChangedCardDueDateReminder.schema>;
 
   static override from(data: unknown): ActionBuildResult {

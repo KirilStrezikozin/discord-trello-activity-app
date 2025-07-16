@@ -18,11 +18,9 @@ import {
 import { EmbedBuilder } from "discord.js";
 
 export default class ActionAddCheckListToCard extends Action {
-  static type = "addChecklistToCard";
-
   static schema = z.object({
-    type: z.literal(ActionAddCheckListToCard.type),
     id: z.string().min(1),
+    type: z.literal("addChecklistToCard"),
 
     data: z.object({
       card: z.object({
@@ -45,6 +43,7 @@ export default class ActionAddCheckListToCard extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionAddCheckListToCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {

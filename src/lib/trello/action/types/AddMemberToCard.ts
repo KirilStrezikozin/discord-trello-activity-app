@@ -45,6 +45,7 @@ export default class ActionRemoveMemberFromCard extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionRemoveMemberFromCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {

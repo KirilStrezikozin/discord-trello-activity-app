@@ -48,6 +48,7 @@ export default class ActionAddedCardStartDate extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionAddedCardStartDate.schema>;
 
   static override from(data: unknown): ActionBuildResult {

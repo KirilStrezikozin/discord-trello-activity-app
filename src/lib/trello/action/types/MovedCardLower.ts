@@ -49,6 +49,7 @@ export default class ActionMovedCardLower extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionMovedCardLower.schema>;
 
   static override from(data: unknown): ActionBuildResult {

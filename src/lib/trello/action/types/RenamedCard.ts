@@ -47,6 +47,7 @@ export default class ActionRenamedCard extends Action {
     }),
   });
 
+  public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionRenamedCard.schema>;
 
   static override from(data: unknown): ActionBuildResult {
