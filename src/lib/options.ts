@@ -138,7 +138,6 @@ export class WebhookOptions {
 
         else if (newRawValue === null || newRawValue === undefined) {
           /* Skip partial values. */
-          return;
         }
 
         else {
