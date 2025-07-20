@@ -3,27 +3,48 @@
 import { expect, describe, test } from "vitest";
 
 import ChangedCardStartDate from "@/src/lib/trello/action/types/ChangedCardStartDate";
+
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/ChangedCardStartDate.json";
 import message from "./_messages/ChangedCardStartDate.json";
-        const messageJSONExists = true;
+
+const messageJSONExists = true;
 
 describe("ChangedCardStartDate", () => {
-  test("parse empty payload", () => {
-    const res = ChangedCardStartDate.from({});
-    expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+  describe("Parsing", () => {
+    test("Empty payload", () => {
+      const res = ChangedCardStartDate.from({});
+      expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+    });
+
+    test("Direct", () => {
+      const res = ChangedCardStartDate.from(payload);
+      expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+    });
+
+    test("Find type", () => {
+      const res = findActionFor(payload);
+      expect(
+        res,
+        "Pre-made JSON payload should resolve to a correct action type"
+      ).toBeInstanceOf(ChangedCardStartDate);
+    });
+
+    test("Wrong payloads", () => {
+      for (const payload of getPayloadsExceptFor("ChangedCardStartDate")) {
+        const res = ChangedCardStartDate.from(payload);
+        expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
+      }
+    });
   });
 
-  test("parse", () => {
+  test.runIf(messageJSONExists)("Build message", async () => {
     const res = ChangedCardStartDate.from(payload);
-    expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
-  });
+    const action = res.action!;
 
-  test.skipIf(!messageJSONExists)("build message", () => {
-    const res = ChangedCardStartDate.from(payload);
-    const builtMessage = res.action!.buildMessage({});
+    const builtMessage = action.buildMessage({});
 
     expect(
       builtMessage?.embeds?.length,
@@ -39,20 +60,5 @@ describe("ChangedCardStartDate", () => {
       areJSONObjectsEqual(cleanEmbed, message),
       "Built message content does not match the expected one"
     ).toBeTruthy();
-  });
-
-  test("find and parse", () => {
-    const res = findActionFor(payload);
-    expect(
-      res,
-      "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(ChangedCardStartDate);
-  });
-
-  test("parse wrong payloads", () => {
-    for (const payload of getPayloadsExceptFor("ChangedCardStartDate")) {
-      const res = ChangedCardStartDate.from(payload);
-      expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    }
   });
 });

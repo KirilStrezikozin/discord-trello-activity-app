@@ -2,25 +2,28 @@
 
 import { expect, describe, test } from "vitest";
 
-import ChangedCardDueDateReminder from "@/src/lib/trello/action/types/ChangedCardDueDateReminder";
+import VoteOnCard from "@/src/lib/trello/action/types/VoteOnCard";
 
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
+import { ActionWithData } from "@/src/lib/trello/action/types/base";
 
-import payload from "./_payloads/ChangedCardDueDateReminder.0.json";
-import message from "./_messages/ChangedCardDueDateReminder.0.json";
+import * as fetchDataMocks from "./fetchDataMocks";
 
-const messageJSONExists = true;
+import payload from "./_payloads/VoteOnCard.json";
 
-describe("ChangedCardDueDateReminder", () => {
+const message = {};
+const messageJSONExists = false;
+
+describe("VoteOnCard", () => {
   describe("Parsing", () => {
     test("Empty payload", () => {
-      const res = ChangedCardDueDateReminder.from({});
+      const res = VoteOnCard.from({});
       expect(res.success, "Parsing empty payload should fail").toBeFalsy();
     });
 
     test("Direct", () => {
-      const res = ChangedCardDueDateReminder.from(payload);
+      const res = VoteOnCard.from(payload);
       expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
     });
 
@@ -29,20 +32,22 @@ describe("ChangedCardDueDateReminder", () => {
       expect(
         res,
         "Pre-made JSON payload should resolve to a correct action type"
-      ).toBeInstanceOf(ChangedCardDueDateReminder);
+      ).toBeInstanceOf(VoteOnCard);
     });
 
     test("Wrong payloads", () => {
-      for (const payload of getPayloadsExceptFor("ChangedCardDueDateReminder")) {
-        const res = ChangedCardDueDateReminder.from(payload);
+      for (const payload of getPayloadsExceptFor("VoteOnCard")) {
+        const res = VoteOnCard.from(payload);
         expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
       }
     });
   });
 
   test.runIf(messageJSONExists)("Build message", async () => {
-    const res = ChangedCardDueDateReminder.from(payload);
-    const action = res.action!;
+    const res = VoteOnCard.from(payload);
+    const action = res.action! as (ActionWithData & VoteOnCard);
+
+    await fetchDataMocks.callFor(action);
 
     const builtMessage = action.buildMessage({});
 

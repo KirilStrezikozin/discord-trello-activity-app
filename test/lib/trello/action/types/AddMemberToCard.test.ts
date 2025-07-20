@@ -3,27 +3,53 @@
 import { expect, describe, test } from "vitest";
 
 import AddMemberToCard from "@/src/lib/trello/action/types/AddMemberToCard";
+
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
+import { ActionWithData } from "@/src/lib/trello/action/types/base";
+
+import * as fetchDataMocks from "./fetchDataMocks";
 
 import payload from "./_payloads/AddMemberToCard.json";
 import message from "./_messages/AddMemberToCard.json";
-        const messageJSONExists = true;
+
+const messageJSONExists = true;
 
 describe("AddMemberToCard", () => {
-  test("parse empty payload", () => {
-    const res = AddMemberToCard.from({});
-    expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+  describe("Parsing", () => {
+    test("Empty payload", () => {
+      const res = AddMemberToCard.from({});
+      expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+    });
+
+    test("Direct", () => {
+      const res = AddMemberToCard.from(payload);
+      expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+    });
+
+    test("Find type", () => {
+      const res = findActionFor(payload);
+      expect(
+        res,
+        "Pre-made JSON payload should resolve to a correct action type"
+      ).toBeInstanceOf(AddMemberToCard);
+    });
+
+    test("Wrong payloads", () => {
+      for (const payload of getPayloadsExceptFor("AddMemberToCard")) {
+        const res = AddMemberToCard.from(payload);
+        expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
+      }
+    });
   });
 
-  test("parse", () => {
+  test.runIf(messageJSONExists)("Build message", async () => {
     const res = AddMemberToCard.from(payload);
-    expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
-  });
+    const action = res.action! as (ActionWithData & AddMemberToCard);
 
-  test.skipIf(!messageJSONExists)("build message", () => {
-    const res = AddMemberToCard.from(payload);
-    const builtMessage = res.action!.buildMessage({});
+    await fetchDataMocks.callFor(action);
+
+    const builtMessage = action.buildMessage({});
 
     expect(
       builtMessage?.embeds?.length,
@@ -39,20 +65,5 @@ describe("AddMemberToCard", () => {
       areJSONObjectsEqual(cleanEmbed, message),
       "Built message content does not match the expected one"
     ).toBeTruthy();
-  });
-
-  test("find and parse", () => {
-    const res = findActionFor(payload);
-    expect(
-      res,
-      "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(AddMemberToCard);
-  });
-
-  test("parse wrong payloads", () => {
-    for (const payload of getPayloadsExceptFor("AddMemberToCard")) {
-      const res = AddMemberToCard.from(payload);
-      expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    }
   });
 });

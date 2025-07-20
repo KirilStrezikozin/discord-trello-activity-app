@@ -3,27 +3,48 @@
 import { expect, describe, test } from "vitest";
 
 import ArchivedCard from "@/src/lib/trello/action/types/ArchivedCard";
+
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
 
 import payload from "./_payloads/ArchivedCard.json";
 import message from "./_messages/ArchivedCard.json";
-        const messageJSONExists = true;
+
+const messageJSONExists = true;
 
 describe("ArchivedCard", () => {
-  test("parse empty payload", () => {
-    const res = ArchivedCard.from({});
-    expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+  describe("Parsing", () => {
+    test("Empty payload", () => {
+      const res = ArchivedCard.from({});
+      expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+    });
+
+    test("Direct", () => {
+      const res = ArchivedCard.from(payload);
+      expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+    });
+
+    test("Find type", () => {
+      const res = findActionFor(payload);
+      expect(
+        res,
+        "Pre-made JSON payload should resolve to a correct action type"
+      ).toBeInstanceOf(ArchivedCard);
+    });
+
+    test("Wrong payloads", () => {
+      for (const payload of getPayloadsExceptFor("ArchivedCard")) {
+        const res = ArchivedCard.from(payload);
+        expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
+      }
+    });
   });
 
-  test("parse", () => {
+  test.runIf(messageJSONExists)("Build message", async () => {
     const res = ArchivedCard.from(payload);
-    expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
-  });
+    const action = res.action!;
 
-  test.skipIf(!messageJSONExists)("build message", () => {
-    const res = ArchivedCard.from(payload);
-    const builtMessage = res.action!.buildMessage({});
+    const builtMessage = action.buildMessage({});
 
     expect(
       builtMessage?.embeds?.length,
@@ -39,20 +60,5 @@ describe("ArchivedCard", () => {
       areJSONObjectsEqual(cleanEmbed, message),
       "Built message content does not match the expected one"
     ).toBeTruthy();
-  });
-
-  test("find and parse", () => {
-    const res = findActionFor(payload);
-    expect(
-      res,
-      "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(ArchivedCard);
-  });
-
-  test("parse wrong payloads", () => {
-    for (const payload of getPayloadsExceptFor("ArchivedCard")) {
-      const res = ArchivedCard.from(payload);
-      expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    }
   });
 });
