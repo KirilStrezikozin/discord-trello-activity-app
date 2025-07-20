@@ -16,6 +16,9 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
+import { WebhookOptions } from "@/src/lib/options";
+import { ActionMemberSchema } from "../schema";
+import { RequestError } from "@/src/lib/error";
 
 export default class ActionAddMemberToCard extends Action {
   static schema = z.object({
@@ -47,6 +50,7 @@ export default class ActionAddMemberToCard extends Action {
 
   public static type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionAddMemberToCard.schema>;
+  private actionMemberData?: z.infer<typeof ActionMemberSchema>;
 
   static override from(data: unknown): ActionBuildResult {
     const res = this.schema.safeParse(data);
@@ -66,6 +70,39 @@ export default class ActionAddMemberToCard extends Action {
     }
   }
 
+  /**
+   * Fetches additional member information
+   * (member avatar URL) to build a more descriptive message.
+   * @param opts Webhook app options. `apiKey` and `token` must be set.
+   */
+  async fetchData(opts: WebhookOptions): Promise<void> {
+    try {
+      const resp = await fetch(
+        `https://api.trello.com/1/actions/${this.data!.id}/member?key=${opts.apiKey}&token=${opts.token}`,
+        { method: 'GET', headers: { 'Accept': 'application/json' } }
+      );
+
+      if (resp.status != 200) {
+        throw new RequestError(
+          "Failed to fetch card for an action", resp.status
+        );
+      }
+
+      const data = await resp.json();
+      console.log(data);
+
+      const res = ActionMemberSchema.safeParse(data);
+      if (!res.success) {
+        throw new Error(res.error.toString());
+      }
+
+      this.actionMemberData = res.data;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   protected buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
@@ -82,8 +119,19 @@ export default class ActionAddMemberToCard extends Action {
         value: this.data!.data.member.name,
         inline: true
       })
-      .setImage(getMemberIcon(opts) ?? null)
       ;
+
+
+    if (this.actionMemberData) {
+      embed = embed
+        .addFields({
+          name: "Username",
+          value: this.actionMemberData.username,
+          inline: true
+        })
+        .setImage(getMemberIcon(this.actionMemberData.avatarUrl))
+        ;
+    }
 
     return embed;
   }

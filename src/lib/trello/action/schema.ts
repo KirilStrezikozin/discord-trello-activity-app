@@ -105,6 +105,20 @@ export const ActionCardSchema = z.object({
   dateLastActivity: z.string().datetime({ precision: 3 }),
 }).passthrough();
 
+/** Schema of fetched member data for a Trello action. */
+export const ActionMemberSchema = z.object({
+  id: z.string().min(1),
+  avatarHash: z.string(),
+  avatarUrl: z.string().url(),
+  bio: z.string(),
+  fullName: z.string(),
+  initials: z.string(),
+  url: z.string().url(),
+  username: z.string(),
+  status: z.string().nullish(),
+  email: z.string().email().nullish(),
+}).passthrough();
+
 export const WebhookRequestSchema = z.object({
   model: ModelSchema,
   action: ActionSchema,
