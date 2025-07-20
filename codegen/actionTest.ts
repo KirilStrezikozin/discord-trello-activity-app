@@ -17,6 +17,7 @@ import * as path from "path";
 
 import { green, red, bold, yellow } from "console-log-colors";
 import { payloadNames } from "@/test/lib/trello/action/types/common";
+import { ActionTypes } from "@/src/lib/trello/action/types";
 
 const typesDirectory = "./src/lib/trello/action/types/";
 const testDirectory = "./test/lib/trello/action/types/";
@@ -48,12 +49,14 @@ fs.readdirSync(messageDirectory)
 
 let countGenerated: number = 0;
 
-typeNames.forEach((typeName) => {
+typeNames.forEach((typeName, index) => {
   const pns = payloadNames.get(typeName);
   if (pns === undefined) {
     console.log(red(`actionTest.ts: ${typeName} tests skipped - no JSON payload(s)`));
     return;
   }
+
+  const actionTypeWithData = "fetchData" in new ActionTypes[index];
 
   let success = true;
   pns.forEach((payloadName) => {
@@ -69,9 +72,15 @@ typeNames.forEach((typeName) => {
 import { expect, describe, test } from "vitest";
 
 import ${typeName} from "@/src/lib/trello/action/types/${typeName}";
+
 import { findActionFor } from "@/src/lib/trello/action/parse";
 import { areJSONObjectsEqual, getPayloadsExceptFor } from "./common";
+${actionTypeWithData
+        ? `import { ActionWithData } from "@/src/lib/trello/action/types/base";
 
+import * as fetchDataMocks from "./fetchDataMocks";
+`
+        : ""}
 import payload from "./_payloads/${payloadName}.json";
 ${messageJSONExists
         ? `import message from "./_messages/${payloadName}.json";
@@ -92,7 +101,13 @@ describe("${typeName}", () => {
 
   test.skipIf(!messageJSONExists)("build message", () => {
     const res = ${typeName}.from(payload);
-    const builtMessage = res.action!.buildMessage({});
+    ${actionTypeWithData ?
+        `const action = res.action! as (ActionWithData & ${typeName});
+
+    await fetchDataMocks.callFor(action);`
+        : `const action = res.action!;`}
+
+    const builtMessage = action.buildMessage({});
 
     expect(
       builtMessage?.embeds?.length,
