@@ -16,6 +16,7 @@ fi
 filtered=$(
     jq '
 ({
+    id: .action.id,
     data: .action.data,
     type: .action.type,
     translationKey: .action.display.translationKey
