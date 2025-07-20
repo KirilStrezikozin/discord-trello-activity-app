@@ -9,5 +9,6 @@ pkgs.mkShell {
   packages = with pkgs; [
     corepack
     ngrok # Unfree package.
+    jq
   ];
 }
