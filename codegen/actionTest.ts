@@ -84,22 +84,41 @@ import * as fetchDataMocks from "./fetchDataMocks";
 import payload from "./_payloads/${payloadName}.json";
 ${messageJSONExists
         ? `import message from "./_messages/${payloadName}.json";
-        const messageJSONExists = true;`
-        : `const message = {};
-        const messageJSONExists = false;`}
+
+const messageJSONExists = true;`
+        : `
+const message = {};
+const messageJSONExists = false;`}
 
 describe("${typeName}", () => {
-  test("parse empty payload", () => {
-    const res = ${typeName}.from({});
-    expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+  describe("Parsing", () => {
+    test("Empty payload", () => {
+      const res = ${typeName}.from({});
+      expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+    });
+
+    test("Direct", () => {
+      const res = ${typeName}.from(payload);
+      expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
+    });
+
+    test("Find type", () => {
+      const res = findActionFor(payload);
+      expect(
+        res,
+        "Pre-made JSON payload should resolve to a correct action type"
+      ).toBeInstanceOf(${typeName});
+    });
+
+    test("Wrong payloads", () => {
+      for (const payload of getPayloadsExceptFor("${typeName}")) {
+        const res = ${typeName}.from(payload);
+        expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
+      }
+    });
   });
 
-  test("parse", () => {
-    const res = ${typeName}.from(payload);
-    expect(res.success, "Pre-made JSON payload should parse").toBeTruthy();
-  });
-
-  test.skipIf(!messageJSONExists)("build message", () => {
+  test.runIf(messageJSONExists)("Build message", async () => {
     const res = ${typeName}.from(payload);
     ${actionTypeWithData ?
         `const action = res.action! as (ActionWithData & ${typeName});
@@ -123,21 +142,6 @@ describe("${typeName}", () => {
       areJSONObjectsEqual(cleanEmbed, message),
       "Built message content does not match the expected one"
     ).toBeTruthy();
-  });
-
-  test("find and parse", () => {
-    const res = findActionFor(payload);
-    expect(
-      res,
-      "Pre-made JSON payload should resolve to a correct action type"
-    ).toBeInstanceOf(${typeName});
-  });
-
-  test("parse wrong payloads", () => {
-    for (const payload of getPayloadsExceptFor("${typeName}")) {
-      const res = ${typeName}.from(payload);
-      expect(res.success, "Parsing wrong payload should fail").toBeFalsy();
-    }
   });
 });
 `.trimStart()
