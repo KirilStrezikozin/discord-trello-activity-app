@@ -31,36 +31,34 @@ export class WebhookOptions {
     iconSizePixels: defaultIconSizePixels,
   };
 
-  private optionEnvNames:
-    { [K in keyof typeof this.options]: string }
-    = {
-      apiKey: "DTAA_TRELLO_API_KEY",
-      token: "DTAA_TRELLO_TOKEN",
-      secret: "DTAA_TRELLO_SECRET",
-      webhookURL: "DTAA_DISCORD_WEBHOOK_URL",
-      thumbnailURL: "DTAA_DISCORD_MSG_THUMB_URL",
-      sendErrors: "DTAA_WEBHOOK_SEND_ERRORS_TO_DISCORD",
-      suppressErrors: "DTAA_WEBHOOK_SUPPRESS_ERRORS",
-      iconSizePixels: "DTAA_DISCORD_MSG_ICON_SIZE_PX",
-    };
+  private optionEnvNames: Record<keyof typeof this.options, string> = {
+    apiKey: "DTAA_TRELLO_API_KEY",
+    token: "DTAA_TRELLO_TOKEN",
+    secret: "DTAA_TRELLO_SECRET",
+    webhookURL: "DTAA_DISCORD_WEBHOOK_URL",
+    thumbnailURL: "DTAA_DISCORD_MSG_THUMB_URL",
+    sendErrors: "DTAA_WEBHOOK_SEND_ERRORS_TO_DISCORD",
+    suppressErrors: "DTAA_WEBHOOK_SUPPRESS_ERRORS",
+    iconSizePixels: "DTAA_DISCORD_MSG_ICON_SIZE_PX",
+  };
 
   /** Trello API key. */
-  public get apiKey(): string {
+  public get apiKey(): typeof this.options.apiKey {
     return this.options.apiKey;
   }
 
   /** Trello token. */
-  public get token(): string {
+  public get token(): typeof this.options.token {
     return this.options.token;
   }
 
   /** Trello webhook secret. */
-  public get secret(): string {
+  public get secret(): typeof this.options.secret {
     return this.options.secret;
   }
 
   /** Discord webhook URL. */
-  public get webhookURL(): string {
+  public get webhookURL(): typeof this.options.webhookURL {
     return this.options.webhookURL;
   }
 
@@ -68,7 +66,7 @@ export class WebhookOptions {
    * Discord message thumbnail URL.
    * See https://discordjs.guide/popular-topics/display-components.html#thumbnail
    */
-  public get thumbnailURL(): string {
+  public get thumbnailURL(): typeof this.options.thumbnailURL {
     return this.options.thumbnailURL;
   }
 
@@ -76,7 +74,7 @@ export class WebhookOptions {
    * True when catchable server errors should be
    * sent to discord in a special message format.
    */
-  public get sendErrors(): boolean {
+  public get sendErrors(): typeof this.options.sendErrors {
     return this.options.sendErrors;
   }
 
@@ -84,14 +82,14 @@ export class WebhookOptions {
    * True when catchable server error codes should be
    * suppressed to avoid request retries.
    */
-  public get suppressErrors(): boolean {
+  public get suppressErrors(): typeof this.options.suppressErrors {
     return this.options.suppressErrors;
   }
 
   /**
    * Returns the desired icon size for a Discord message in pixels.
    */
-  public get iconSizePixels(): number {
+  public get iconSizePixels(): typeof this.options.iconSizePixels {
     return this.options.iconSizePixels;
   }
 
@@ -113,9 +111,9 @@ export class WebhookOptions {
   constructor(values?: typeof this.options | URLSearchParams) {
     /* Helper to assign all option values from the given object that has the
      * same keys but values are nullish or strings. */
-    const setValues = (newRawValues: {
-      [K in keyof typeof this.options]: string | null | undefined
-    }) => {
+    const setValues = (
+      newRawValues: Record<keyof typeof this.options, string | null | undefined>
+    ) => {
       for (const key in this.options) {
         const typedKey = key as keyof typeof this.options;
 
@@ -152,7 +150,7 @@ export class WebhookOptions {
     };
 
     /* Collect env variable values and assign options to them. */
-    const envValues = {} as { [K in keyof typeof this.options]: string | undefined };
+    const envValues = {} as Parameters<typeof setValues>[0];
     for (const key in this.options) {
       const typedKey = key as keyof typeof this.options;
       envValues[typedKey] = process.env[this.optionEnvNames[typedKey]];
@@ -161,7 +159,7 @@ export class WebhookOptions {
 
     if (values instanceof URLSearchParams) {
       /* The given values are URL search params, assign options. */
-      const spValues = {} as { [K in keyof typeof this.options]: string | null };
+      const spValues = {} as Parameters<typeof setValues>[0];
       for (const key in this.options) {
         const typedKey = key as keyof typeof this.options;
         spValues[typedKey] = values.get(typedKey);
