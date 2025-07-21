@@ -3,7 +3,7 @@
   "data": {
     "old": {
       "cover": {
-        "color": "green",
+        "color": "yellow",
         "idAttachment": null,
         "idUploadedBackground": null,
         "size": "full",
@@ -17,7 +17,7 @@
         "color": "yellow",
         "idAttachment": null,
         "idUploadedBackground": null,
-        "size": "full",
+        "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
         "plugin": null

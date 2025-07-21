@@ -1,9 +1,8 @@
 {
-  "id": "1234567890",
   "data": {
     "old": {
       "cover": {
-        "color": "green",
+        "color": null,
         "idAttachment": null,
         "idUploadedBackground": null,
         "size": "full",
@@ -14,7 +13,7 @@
     },
     "card": {
       "cover": {
-        "color": "yellow",
+        "color": "green",
         "idAttachment": null,
         "idUploadedBackground": null,
         "size": "full",

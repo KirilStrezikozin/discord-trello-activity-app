@@ -2,10 +2,26 @@
   "id": "1234567890",
   "data": {
     "old": {
-      "idAttachmentCover": null
+      "cover": {
+        "color": null,
+        "idAttachment": "1234567890",
+        "idUploadedBackground": null,
+        "size": "normal",
+        "brightness": "light",
+        "manualCoverAttachment": true,
+        "plugin": null
+      }
     },
     "card": {
-      "idAttachmentCover": "1234567890",
+      "cover": {
+        "color": "green",
+        "idAttachment": null,
+        "idUploadedBackground": null,
+        "size": "normal",
+        "brightness": "light",
+        "manualCoverAttachment": true,
+        "plugin": null
+      },
       "id": "1234567890",
       "name": "test",
       "idShort": 123,

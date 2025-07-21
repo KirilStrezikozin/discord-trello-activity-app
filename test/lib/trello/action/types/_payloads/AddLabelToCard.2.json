@@ -1,7 +1,8 @@
 {
+  "id": "1234567890",
   "data": {
     "value": "purple_light",
-    "text": "test",
+    "text": "",
     "card": {
       "id": "1234567890",
       "name": "test",
@@ -15,8 +16,7 @@
     },
     "label": {
       "id": "1234567890",
-      "name": "test",
-      "color": "purple_light"
+      "name": ""
     }
   },
   "type": "addLabelToCard",

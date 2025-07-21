@@ -3,21 +3,22 @@
   "data": {
     "old": {
       "cover": {
-        "color": "green",
+        "color": null,
         "idAttachment": null,
-        "idUploadedBackground": null,
-        "size": "full",
+        "idUploadedBackground": "687ccee22a2c41d7a73f6255",
+        "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
-        "plugin": null
+        "plugin": null,
+        "url": "https://example.com"
       }
     },
     "card": {
       "cover": {
-        "color": "yellow",
+        "color": null,
         "idAttachment": null,
-        "idUploadedBackground": null,
-        "size": "full",
+        "idUploadedBackground": "687ccfc2d2b74f7de178875b",
+        "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
         "plugin": null
