@@ -29,7 +29,7 @@ export default class ActionArchivedCard extends Action {
 
       card: z.object({
         closed: z.literal(true),
-        dateClosed: z.string().datetime({ precision: 3 }),
+        dateClosed: z.iso.datetime({ precision: 3 }),
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),

@@ -27,9 +27,9 @@ export default class ActionCompletedCheckItem extends Action {
         id: z.string().min(1),
         name: z.string().min(1),
         state: z.literal("complete"),
-        textData: z.object({
-          emoji: z.object({}).passthrough()
-        }).passthrough(),
+        textData: z.looseObject({
+          emoji: z.looseObject({}),
+        }),
       }),
 
       card: z.object({

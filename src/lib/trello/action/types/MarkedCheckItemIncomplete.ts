@@ -27,9 +27,7 @@ export default class ActionMarkedCheckItemIncomplete extends Action {
         id: z.string().min(1),
         name: z.string().min(1),
         state: z.literal("incomplete"),
-        textData: z.object({
-          emoji: z.object({}).passthrough()
-        }).passthrough(),
+        textData: z.object({}),
       }),
 
       card: z.object({

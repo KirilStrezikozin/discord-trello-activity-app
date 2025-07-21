@@ -24,11 +24,11 @@ export default class ActionChangedCardDueDate extends Action {
 
     data: z.object({
       old: z.object({
-        due: z.string().datetime({ precision: 3 }),
+        due: z.iso.datetime({ precision: 3 }),
       }),
 
       card: z.object({
-        due: z.string().datetime({ precision: 3 }),
+        due: z.iso.datetime({ precision: 3 }),
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),

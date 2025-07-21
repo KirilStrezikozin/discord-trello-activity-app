@@ -24,7 +24,7 @@ export default class ActionRemovedCardDueDate extends Action {
 
     data: z.object({
       old: z.object({
-        due: z.string().datetime({ precision: 3 }),
+        due: z.iso.datetime({ precision: 3 }),
       }),
 
       card: z.object({
