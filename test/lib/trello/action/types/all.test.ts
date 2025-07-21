@@ -1,0 +1,113 @@
+/**
+ * Copyright (c) 2025 Kiril Strezikozin
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * You may not use this file except in compliance with the MIT license terms.
+ */
+
+import { expect, describe, test } from "vitest";
+
+import { ActionTypes } from "@/src/lib/trello/action/types";
+import { findActionFor } from "@/src/lib/trello/action/parse";
+import { Action, ActionWithData } from "@/src/lib/trello/action/types/base";
+
+import * as fetchDataMocks from "./fetchDataMocks";
+
+import {
+  allTypeNames,
+  areJSONObjectsEqual,
+  messages,
+  payloads
+} from "./common";
+
+for (const ActionTypeName of allTypeNames.values()) {
+  const ActionTypeMaybeUndefined = ActionTypes.find(
+    (ActionType) => ActionType.name === `Action${ActionTypeName}`
+  );
+
+  const myPayloads = payloads.get(ActionTypeName) ?? [];
+  const myMessages = messages.get(ActionTypeName) ?? [];
+
+  describe.skipIf(ActionTypeMaybeUndefined === undefined)(ActionTypeName, () => {
+    const ActionType = ActionTypeMaybeUndefined!;
+    describe("Parsing", () => {
+      test("Empty payload", () => {
+        const res = ActionType.from({});
+        expect(res.success, "Parsing empty payload should fail").toBeFalsy();
+      });
+
+      describe.runIf(myPayloads.length)("Direct", () => {
+        myPayloads.forEach((payload, index) => {
+          test(`Payload ${index + 1}`, () => {
+            const res = ActionType.from(payload);
+            expect(
+              res.success, "Pre-made JSON payload should parse"
+            ).toBeTruthy();
+          });
+        });
+      });
+
+      describe.runIf(myPayloads.length)("Find type", () => {
+        myPayloads.forEach((payload, index) => {
+          test(`Payload ${index + 1}`, () => {
+            const res = findActionFor(payload);
+            expect(
+              res,
+              "Pre-made JSON payload should resolve to a correct action type"
+            ).toBeInstanceOf(ActionType);
+          });
+        });
+      });
+
+      test("Wrong payloads", () => {
+        for (const [payloadName, notMyPayloads] of payloads.entries()) {
+          if (payloadName === ActionTypeName) continue;
+
+          notMyPayloads.forEach((notMyPayload) => {
+            const res = ActionType.from(notMyPayload);
+            expect(
+              res.success,
+              `Against ${payloadName}: Parsing wrong payload should fail`
+            ).toBeFalsy();
+          });
+        };
+      });
+    });
+
+    describe.runIf(myPayloads.length)("Build message", () => {
+      myPayloads.forEach((payload, index) => {
+        const message = (index >= myMessages.length) ? null : myMessages[index];
+
+        test.skipIf(message === null)(
+          `Payload & Message: ${index + 1}`,
+          async () => {
+            const res = ActionType.from(payload);
+            const action = res.action!;
+
+            if ("fetchData" in action) {
+              await fetchDataMocks.callFor(action as (ActionWithData & Action));
+            }
+
+            const builtMessage = action.buildMessage({});
+
+            expect(
+              builtMessage?.embeds?.length,
+              "Messsage should be an embed"
+            ).toBeTruthy();
+
+            const embed = builtMessage!.embeds![0];
+            embed.setTimestamp(null); /* Ensure no timestamp value present. */
+
+            const cleanEmbed = JSON.parse(JSON.stringify(embed.toJSON()));
+
+            expect(cleanEmbed).toSatisfy(
+              value => areJSONObjectsEqual(value, message),
+              `Expected built message content to match:\n${JSON.stringify(message, null, 2)}`
+            );
+          }
+        );
+      });
+    });
+  });
+}

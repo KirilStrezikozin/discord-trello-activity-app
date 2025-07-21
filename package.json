@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "codegen": "tsx ./codegen/actionList.ts && tsx ./codegen/actionTest.ts",
+    "codegen": "tsx ./codegen/*",
     "dev": "npm run codegen && next dev --turbopack",
     "prebuild": "npm run codegen",
     "build": "next build",

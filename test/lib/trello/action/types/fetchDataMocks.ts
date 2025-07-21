@@ -9,7 +9,7 @@
 import { expect, vi } from "vitest";
 
 import { WebhookOptions } from "@/src/lib/options";
-import { ActionWithData } from "@/src/lib/trello/action/types/base";
+import { Action, ActionWithData } from "@/src/lib/trello/action/types/base";
 
 import VoteOnCard from "@/src/lib/trello/action/types/VoteOnCard";
 import AddMemberToCard from "@/src/lib/trello/action/types/AddMemberToCard";
@@ -76,11 +76,9 @@ export async function callForAddMemberToCard(
  * @returns Result returned by calling fetchData.
  */
 export async function callFor(
-  action: ActionWithData & (
-    VoteOnCard |
-    AddMemberToCard
-  )
+  action: ActionWithData & Action
 ): ReturnType<ActionWithData["fetchData"]> {
   if (action instanceof VoteOnCard) await callForVoteOnCard(action);
   else if (action instanceof AddMemberToCard) await callForAddMemberToCard(action);
+  else throw new Error("Unhandled action type");
 }
