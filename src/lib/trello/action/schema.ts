@@ -19,7 +19,7 @@ export const WebhookModelSchema = z.object({
   idModel: z.string().min(1),
   callbackURL: z.string().min(1),
   active: z.boolean(),
-});
+}).readonly();
 
 /**
  * Schema of the model the webhook for Trello is subscribed
@@ -28,7 +28,7 @@ export const WebhookModelSchema = z.object({
  */
 export const ModelSchema = z.looseObject({
   id: z.string().min(1),
-});
+}).readonly();
 
 /** Trello board schema if the model the webhook is subscribed to is a board. */
 export const BoardModelSchema = z.looseObject({
@@ -45,10 +45,10 @@ export const BoardModelSchema = z.looseObject({
     backgroundDarkColor: ColorSchema.nullish(),
     backgroundBottomColor: ColorSchema.nullish(),
     backgroundTopColor: ColorSchema.nullish(),
-  }),
+  }).readonly(),
 
-  labelNames: z.looseObject({}),
-});
+  labelNames: z.looseObject({}).readonly(),
+}).readonly();
 
 /** Schema of the member who triggered an action in Trello. */
 export const MemberSchema = z.looseObject({
@@ -57,7 +57,7 @@ export const MemberSchema = z.looseObject({
   fullName: z.string(),
   initials: z.string(),
   username: z.string().min(1),
-});
+}).readonly();
 
 /**
  * Schema of the action object which describes what action in
@@ -69,14 +69,14 @@ export const ActionSchema = z.object({
   date: z.iso.datetime({ precision: 3 }),
   idMemberCreator: z.string().min(1),
 
-  data: z.looseObject({}),
+  data: z.looseObject({}).readonly(),
 
   display: z.looseObject({
     translationKey: z.string().nullish(),
-  }).nullish(),
+  }).nullish().readonly(),
 
   memberCreator: MemberSchema.nullish(),
-});
+}).readonly();
 
 /** Schema of fetched card data for a Trello action. */
 export const ActionCardSchema = z.object({
@@ -90,7 +90,7 @@ export const ActionCardSchema = z.object({
     comments: z.number().nullish(),
     attachments: z.number().nullish(),
     dueComplete: z.boolean().nullish(),
-  }),
+  }).readonly(),
 
   name: z.string().min(1),
   desc: z.string(),
@@ -103,24 +103,24 @@ export const ActionCardSchema = z.object({
   idMembers: z.string().min(1).array(),
   idMembersVoted: z.string().min(1).array(),
   dateLastActivity: z.iso.datetime({ precision: 3 }),
-});
+}).readonly();
 
 /** Schema of fetched member data for a Trello action. */
 export const ActionMemberSchema = z.object({
   id: z.string().min(1),
-  avatarHash: z.string(),
+  avatarHash: z.string().min(1),
   avatarUrl: z.url(),
   bio: z.string(),
   fullName: z.string(),
   initials: z.string(),
   url: z.url(),
-  username: z.string(),
+  username: z.string().min(1),
   status: z.string().nullish(),
   email: z.email().nullish(),
-});
+}).readonly();
 
 export const WebhookRequestSchema = z.strictObject({
   model: ModelSchema,
   action: ActionSchema,
   webhook: WebhookModelSchema,
-});
+}).readonly();
