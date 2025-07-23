@@ -84,7 +84,7 @@ export default class ActionAddMemberToCard extends Action {
 
       if (resp.status != 200) {
         throw new RequestError(
-          "Failed to fetch card for an action", resp.status
+          "Failed to fetch member for an action", resp.status
         );
       }
 
