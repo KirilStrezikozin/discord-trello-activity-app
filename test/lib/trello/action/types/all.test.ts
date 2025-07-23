@@ -41,8 +41,11 @@ for (const ActionTypeName of allTypeNames.values()) {
         myPayloads.forEach((payload, index) => {
           test(`Payload ${index + 1}`, () => {
             const res = ActionType.from(payload);
+            if (res.success) return;
             expect(
-              res.success, "Pre-made JSON payload should parse"
+              res.success,
+              `Pre-made JSON payload should parse,\
+                issues:\n${JSON.stringify(res.issues, null, 2)}`
             ).toBeTruthy();
           });
         });

@@ -47,7 +47,7 @@ export type MessageOptions = {
  */
 export type ActionBuildResult =
   | { success: true, action: Action }
-  | { success: false, action: null };
+  | { success: false, action: null, issues: z.core.$ZodIssue[] };
 
 /**
  * Describes an action type that can fetch additional data for its built
@@ -109,6 +109,7 @@ export class Action {
       return {
         success: false,
         action: null,
+        issues: res.error.issues,
       }
     }
 
