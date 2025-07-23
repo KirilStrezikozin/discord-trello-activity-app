@@ -18,7 +18,7 @@ import { EmbedBuilder } from "discord.js";
 import { getMemberIcon } from "./utils";
 
 export default class ActionChangedCardStartDate extends Action {
-  static schema = z.object({
+  public static readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateCard"),
 
@@ -48,7 +48,7 @@ export default class ActionChangedCardStartDate extends Action {
     }),
   });
 
-  public static type = this.schema.shape.type.value;
+  public static readonly type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionChangedCardStartDate.schema>;
 
   static override from(data: unknown): ActionBuildResult {

@@ -22,7 +22,7 @@ import { RequestError } from "@/src/lib/error";
 import { getMemberIcon } from "./utils";
 
 export default class ActionVoteOnCard extends Action implements ActionWithData {
-  static schema = z.object({
+  public static readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("voteOnCard"),
 
@@ -44,7 +44,7 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
     }),
   });
 
-  public static type = this.schema.shape.type.value;
+  public static readonly type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionVoteOnCard.schema>;
   private actionCardData?: z.infer<typeof ActionCardSchema>;
 

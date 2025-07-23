@@ -21,7 +21,7 @@ import { RequestError } from "@/src/lib/error";
 import { getMemberIcon } from "./utils";
 
 export default class ActionAddMemberToCard extends Action {
-  static schema = z.object({
+  public static readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("addMemberToCard"),
 
@@ -48,7 +48,7 @@ export default class ActionAddMemberToCard extends Action {
     }),
   });
 
-  public static type = this.schema.shape.type.value;
+  public static readonly type = this.schema.shape.type.value;
   private data?: z.infer<typeof ActionAddMemberToCard.schema>;
   private actionMemberData?: z.infer<typeof ActionMemberSchema>;
 
