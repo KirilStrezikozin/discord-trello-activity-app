@@ -14,8 +14,3 @@ import { z } from "zod";
 export const ColorSchema = z.custom<`#${string}`>((val) => {
   return typeof val === "string" ? /^#(?:[0-9a-fA-F]{3,4}){1,2}$/.test(val) : false;
 });
-
-/**
- * Represents color value in hexadecimal format.
- */
-export type Color = z.infer<typeof ColorSchema>;
