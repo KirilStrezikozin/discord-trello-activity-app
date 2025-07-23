@@ -78,7 +78,8 @@ export default class ActionAddMemberToCard extends Action {
   async fetchData(opts: WebhookOptions): Promise<void> {
     try {
       const resp = await fetch(
-        `https://api.trello.com/1/actions/${this.data!.id}/member?key=${opts.apiKey}&token=${opts.token}`,
+        `https://api.trello.com/1/actions/${this.data!.id}\
+          /member?key=${opts.apiKey}&token=${opts.token}`,
         { method: 'GET', headers: { 'Accept': 'application/json' } }
       );
 
