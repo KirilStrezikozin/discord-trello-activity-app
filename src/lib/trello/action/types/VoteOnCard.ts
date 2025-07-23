@@ -12,7 +12,6 @@ import {
   Action,
   ActionBuildResult,
   ActionWithData,
-  getMemberIcon,
   MessageOptions
 } from "./base";
 
@@ -20,6 +19,7 @@ import { EmbedBuilder } from "discord.js";
 import { WebhookOptions } from "@/src/lib/options";
 import { ActionCardSchema } from "../schema";
 import { RequestError } from "@/src/lib/error";
+import { getMemberIcon } from "./utils";
 
 export default class ActionVoteOnCard extends Action implements ActionWithData {
   static schema = z.object({

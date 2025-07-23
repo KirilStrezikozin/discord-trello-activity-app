@@ -11,11 +11,11 @@ import { z } from "zod";
 import {
   Action,
   ActionBuildResult,
-  getMemberIcon,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
+import { getMemberIcon } from "./utils";
 
 export default class ActionRemoveMemberFromCard extends Action {
   static schema = z.object({

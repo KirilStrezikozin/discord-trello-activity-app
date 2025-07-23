@@ -9,12 +9,12 @@
 import {
   Action,
   ActionBuildResult,
-  getMemberIcon,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
 import { AppSourceUrl } from "@/src/lib/constants";
+import { getMemberIcon } from "./utils";
 
 /**
  * @class ActionError

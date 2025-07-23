@@ -11,7 +11,6 @@ import { z } from "zod";
 import {
   Action,
   ActionBuildResult,
-  getMemberIcon,
   MessageOptions
 } from "./base";
 
@@ -19,6 +18,7 @@ import { EmbedBuilder } from "discord.js";
 import { WebhookOptions } from "@/src/lib/options";
 import { ActionMemberSchema } from "../schema";
 import { RequestError } from "@/src/lib/error";
+import { getMemberIcon } from "./utils";
 
 export default class ActionAddMemberToCard extends Action {
   static schema = z.object({
