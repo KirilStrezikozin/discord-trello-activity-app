@@ -88,7 +88,9 @@ export function getMemberIcon(
  * The return type of functions that construct
  * Actions without throwing exceptions.
  */
-export type ActionBuildResult = { success: true, action: Action } | { success: false, action: null };
+export type ActionBuildResult =
+  | { success: true, action: Action }
+  | { success: false, action: null };
 
 /**
  * Describes an action type that can fetch additional data for its built
