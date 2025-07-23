@@ -1,0 +1,49 @@
+{
+  "id": "1234567890",
+  "data": {
+    "plugin": {
+      "id": "1234567890",
+      "idOrganizationOwner": "1234567890",
+      "author": "ADF TECH LTD",
+      "capabilities": [
+        "card-buttons",
+        "show-settings"
+      ],
+      "capabilitiesOptions": [],
+      "categories": [
+        "board-utilities",
+        "it-project-management"
+      ],
+      "iframeConnectorUrl": "https://example.com",
+      "name": "test",
+      "privacyUrl": "https://example.com",
+      "public": true,
+      "moderatedState": null,
+      "supportEmail": "myemail@myemail.com",
+      "tags": [],
+      "heroImageUrl": "https://example.com",
+      "claimedDomains": [],
+      "icon": {
+        "url": "https://example.com"
+      },
+      "listing": {
+        "name": "test",
+        "locale": "en-us",
+        "description": "test",
+        "overview": "test",
+        "updates": []
+      },
+      "isCompliantWithPrivacyStandards": null,
+      "usageBrackets": {
+        "boards": 10000
+      }
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    }
+  },
+  "type": "enablePlugin",
+  "translationKey": "action_enabled_plugin"
+}
