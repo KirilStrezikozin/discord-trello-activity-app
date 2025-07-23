@@ -111,7 +111,7 @@ export default class ActionAddMemberToCard extends Action {
       ? `${opts.member?.username} has added a member to a card`
       : "A member has been added to a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
@@ -124,7 +124,7 @@ export default class ActionAddMemberToCard extends Action {
 
 
     if (this.actionMemberData) {
-      embed = embed
+      embed
         .addFields({
           name: "Username",
           value: this.actionMemberData.username,

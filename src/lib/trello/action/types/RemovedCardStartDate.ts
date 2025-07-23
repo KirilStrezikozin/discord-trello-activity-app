@@ -76,7 +76,7 @@ export default class ActionRemovedCardStartDate extends Action {
       ? `${opts.member?.username} has removed a start date in a card`
       : "A start date has been removed in a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

@@ -106,14 +106,14 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
       ? `${opts.member?.username} has voted on a card`
       : "A card has been voted on";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       ;
 
     if (this.actionCardData) {
-      embed = embed
+      embed
         .addFields({
           name: "Total Votes",
           value: this.actionCardData.idMembersVoted.length.toString(),

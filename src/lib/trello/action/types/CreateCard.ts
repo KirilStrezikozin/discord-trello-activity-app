@@ -71,7 +71,7 @@ export default class ActionCreateCard extends Action {
       ? `${opts.member?.username} has created a new card`
       : "A new card has been created";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

@@ -80,7 +80,7 @@ export default class ActionCompletedCheckItem extends Action {
       ? `${opts.member?.username} has marked an item in a checklist in a card as complete`
       : "An item has been marked as completed in a checklist in a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

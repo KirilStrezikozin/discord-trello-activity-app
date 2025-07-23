@@ -47,7 +47,7 @@ export default class ActionError extends Action {
       ? `Activity from ${opts.member!.username} detected`
       : "Activity author unavailable";
 
-    embed = embed
+    embed
       .setColor("#DC143C")
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle("Internal Error")

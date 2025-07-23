@@ -76,7 +76,7 @@ export default class ActionChangedCardDueDate extends Action {
       ? `${opts.member?.username} has changed a due date in a card`
       : "A due date has been changed in a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

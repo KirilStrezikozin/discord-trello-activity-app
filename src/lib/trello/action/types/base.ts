@@ -125,17 +125,17 @@ export abstract class Action {
    * @returns Message payload ready to be sent to a Discord channel.
    */
   buildMessage(opts: MessageOptions) {
-    let embed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setColor(opts.board?.prefs?.backgroundColor ?? null)
       .setThumbnail(opts.thumbnailUrl || null)
       .setFooter(opts.board?.name ? { text: opts.board?.name } : null)
       .setTimestamp()
       ;
 
-    embed = this.buildMessageInner(embed, opts);
+    this.buildMessageInner(embed, opts);
 
     if (opts.warningText) {
-      embed = embed.addFields({ name: "Warning", value: opts.warningText });
+      embed.addFields({ name: "Warning", value: opts.warningText });
     }
 
     return { embeds: [embed] };

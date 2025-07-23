@@ -77,7 +77,7 @@ export default class ActionMovedCardHigher extends Action {
       ? `${opts.member?.username} has moved a card higher in a list`
       : "A card has been moved higher in a list";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

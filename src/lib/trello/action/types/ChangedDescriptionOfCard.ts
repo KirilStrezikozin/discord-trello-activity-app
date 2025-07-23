@@ -76,7 +76,7 @@ export default class ActionChangedDescriptionOfCard extends Action {
       ? `${opts.member?.username} has changed description of a card`
       : "Card description has been changed";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

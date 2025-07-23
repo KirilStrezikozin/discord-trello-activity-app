@@ -74,7 +74,7 @@ export default class ActionRemoveMemberFromCard extends Action {
       ? `${opts.member?.username} has removed a member from a card`
       : "A member has been removed from a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)

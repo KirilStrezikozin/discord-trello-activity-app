@@ -84,7 +84,7 @@ export default class ActionMovedCheckItemLower extends Action {
       ? `${opts.member?.username} has moved an item lower in a checklist in a card`
       : "An item has been moved lower in a checklist in a card";
 
-    embed = embed
+    embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
