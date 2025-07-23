@@ -10,7 +10,6 @@ import { z } from "zod";
 
 import {
   Action,
-  ActionBuildResult,
   ActionWithData,
   MessageOptions
 } from "./base";
@@ -22,7 +21,7 @@ import { RequestError } from "@/src/lib/error";
 import { getMemberIcon } from "./utils";
 
 export default class ActionVoteOnCard extends Action implements ActionWithData {
-  public static readonly schema = z.object({
+  public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("voteOnCard"),
 
@@ -44,27 +43,9 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
     }).readonly(),
   }).readonly();
 
-  public static readonly type = this.schema.def.innerType.shape.type.value;
-  private data?: z.infer<typeof ActionVoteOnCard.schema>;
+  public static override readonly type = this.schema.def.innerType.shape.type.value;
+  protected override data?: z.infer<typeof ActionVoteOnCard.schema>;
   private actionCardData?: z.infer<typeof ActionCardSchema>;
-
-  static override from(data: unknown): ActionBuildResult {
-    const res = this.schema.safeParse(data);
-    if (!res.success) {
-      return {
-        success: false,
-        action: null,
-      }
-    }
-
-    const action = new this();
-    action.data = res.data;
-
-    return {
-      success: true,
-      action: action,
-    }
-  }
 
   /**
    * Fetches additional card information
@@ -99,7 +80,7 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
     }
   }
 
-  protected buildMessageInner(
+  protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
     const name = opts.member

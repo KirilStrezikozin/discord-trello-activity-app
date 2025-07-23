@@ -23,7 +23,7 @@ import { getMemberIcon } from "./utils";
  * webhook users of unhandled Trello action types.
  */
 export default class ActionError extends Action {
-  private data?: { name: string, message: string, action: unknown };
+  protected override data?: { name: string, message: string, action: unknown };
 
   static override from(data: { error: Error, action: unknown }): ActionBuildResult {
     const action = new ActionError();

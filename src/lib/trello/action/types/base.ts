@@ -68,7 +68,7 @@ export interface ActionWithData {
  * message builder to build a Discord message describing the activity. It does
  * not represent a unit of Trello activity itself.
  *
- * Extend this abstract class to define custom Action types and specify how
+ * Extend this class to define custom Action types and specify how
  * they transform Trello activity data into Discord messages.
  *
  * Each Action type implements a static `from` method. It can be used to
@@ -84,7 +84,13 @@ export interface ActionWithData {
  *
  * https://developer.atlassian.com/cloud/trello/guides/rest-api/action-types
  */
-export abstract class Action {
+export class Action {
+  /* Override on subclasses: */
+  public static readonly schema: z.ZodType<Readonly<object>>;
+  public static readonly type: string;
+  protected data?: z.infer<typeof Action.schema>;
+  /* */
+
   constructor() { }
 
   /**
@@ -93,15 +99,25 @@ export abstract class Action {
    * @param data Trello action data.
    * @returns Action build result.
    */
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  static from(_data: unknown): ActionBuildResult {
+  static from(data: unknown): ActionBuildResult {
     /* Return a status object instead of throwing errors, because exception
      * handling is much slower, and incoming Trello activity data needs to be
      * parsed against every known Action subclass type. Subclasses of Action
      * must also follow this principle. */
+    const res = this.schema.safeParse(data);
+    if (!res.success) {
+      return {
+        success: false,
+        action: null,
+      }
+    }
+
+    const action = new this();
+    action.data = res.data;
+
     return {
-      success: false,
-      action: null,
+      success: true,
+      action: action,
     }
   }
 

@@ -10,7 +10,6 @@ import { z } from "zod";
 
 import {
   Action,
-  ActionBuildResult,
   MessageOptions
 } from "./base";
 
@@ -21,7 +20,7 @@ import { RequestError } from "@/src/lib/error";
 import { getMemberIcon } from "./utils";
 
 export default class ActionAddMemberToCard extends Action {
-  public static readonly schema = z.object({
+  public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("addMemberToCard"),
 
@@ -48,27 +47,9 @@ export default class ActionAddMemberToCard extends Action {
     }).readonly(),
   }).readonly();
 
-  public static readonly type = this.schema.def.innerType.shape.type.value;
-  private data?: z.infer<typeof ActionAddMemberToCard.schema>;
+  public static override readonly type = this.schema.def.innerType.shape.type.value;
+  protected override data?: z.infer<typeof ActionAddMemberToCard.schema>;
   private actionMemberData?: z.infer<typeof ActionMemberSchema>;
-
-  static override from(data: unknown): ActionBuildResult {
-    const res = this.schema.safeParse(data);
-    if (!res.success) {
-      return {
-        success: false,
-        action: null,
-      }
-    }
-
-    const action = new this();
-    action.data = res.data;
-
-    return {
-      success: true,
-      action: action,
-    }
-  }
 
   /**
    * Fetches additional member information
@@ -104,7 +85,7 @@ export default class ActionAddMemberToCard extends Action {
     }
   }
 
-  protected buildMessageInner(
+  protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
     const name = opts.member
