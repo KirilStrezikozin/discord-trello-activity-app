@@ -26,7 +26,7 @@ export default class ActionMovedCardLower extends Action {
     data: z.object({
       old: z.object({
         pos: z.number(),
-      }),
+      }).readonly(),
 
       card: z.object({
         pos: z.number(),
@@ -34,22 +34,22 @@ export default class ActionMovedCardLower extends Action {
         name: z.string().min(1),
         idShort: z.number(),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       board: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       list: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
-      }),
-    }),
-  });
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
 
-  public static readonly type = this.schema.shape.type.value;
+  public static readonly type = this.schema.def.innerType.shape.type.value;
   private data?: z.infer<typeof ActionMovedCardLower.schema>;
 
   static override from(data: unknown): ActionBuildResult {

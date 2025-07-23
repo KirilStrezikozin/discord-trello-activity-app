@@ -25,7 +25,7 @@ export default class ActionMoveCardFromListToList extends Action {
     data: z.object({
       old: z.object({
         idList: z.string().min(1),
-      }),
+      }).readonly(),
 
       card: z.object({
         idList: z.string().min(1),
@@ -33,27 +33,27 @@ export default class ActionMoveCardFromListToList extends Action {
         name: z.string().min(1),
         idShort: z.number(),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       board: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       listBefore: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
-      }),
+      }).readonly(),
 
       listAfter: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
-      }),
-    }),
-  });
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
 
-  public static readonly type = this.schema.shape.type.value;
+  public static readonly type = this.schema.def.innerType.shape.type.value;
   private data?: z.infer<typeof ActionMoveCardFromListToList.schema>;
 
   static override from(data: unknown): ActionBuildResult {

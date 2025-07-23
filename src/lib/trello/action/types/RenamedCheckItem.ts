@@ -25,36 +25,36 @@ export default class ActionRenamedCheckItem extends Action {
     data: z.object({
       old: z.object({
         name: z.string().min(1),
-      }),
+      }).readonly(),
 
       checkItem: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         state: z.literal("incomplete").or(z.literal("complete")),
         textData: z.object({}),
-      }),
+      }).readonly(),
 
       card: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       board: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       checklist: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
-      }),
-    }),
-  });
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
 
-  public static readonly type = this.schema.shape.type.value;
+  public static readonly type = this.schema.def.innerType.shape.type.value;
   private data?: z.infer<typeof ActionRenamedCheckItem.schema>;
 
   static override from(data: unknown): ActionBuildResult {

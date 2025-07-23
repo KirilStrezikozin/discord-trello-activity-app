@@ -26,7 +26,7 @@ export default class ActionMovedCheckItemLower extends Action {
     data: z.object({
       old: z.object({
         pos: z.number(),
-      }),
+      }).readonly(),
 
       checkItem: z.object({
         pos: z.number(),
@@ -34,29 +34,29 @@ export default class ActionMovedCheckItemLower extends Action {
         name: z.string().min(1),
         state: z.literal("incomplete").or(z.literal("complete")),
         textData: z.object({}),
-      }),
+      }).readonly(),
 
       card: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         idShort: z.number(),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       board: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       checklist: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
-      }),
-    }),
-  });
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
 
-  public static readonly type = this.schema.shape.type.value;
+  public static readonly type = this.schema.def.innerType.shape.type.value;
   private data?: z.infer<typeof ActionMovedCheckItemLower.schema>;
 
   static override from(data: unknown): ActionBuildResult {

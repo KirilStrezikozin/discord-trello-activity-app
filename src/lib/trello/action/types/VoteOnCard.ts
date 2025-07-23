@@ -34,17 +34,17 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
         name: z.string().min(1),
         idShort: z.number(),
         shortLink: z.string(),
-      }),
+      }).readonly(),
 
       board: z.object({
         id: z.string().min(1),
         name: z.string().min(1),
         shortLink: z.string(),
-      }),
-    }),
-  });
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
 
-  public static readonly type = this.schema.shape.type.value;
+  public static readonly type = this.schema.def.innerType.shape.type.value;
   private data?: z.infer<typeof ActionVoteOnCard.schema>;
   private actionCardData?: z.infer<typeof ActionCardSchema>;
 
