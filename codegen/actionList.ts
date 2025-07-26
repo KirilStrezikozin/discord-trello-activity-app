@@ -12,13 +12,13 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { green, bold } from "console-log-colors";
+import { typesDirectory } from "@/test/lib/trello/action/types/common";
 
-const actionTypesDirectory = "./src/lib/trello/action/types/";
 const actionLibDirectory = "./src/lib/trello/action/";
 const filePath = actionLibDirectory + "types.ts";
 
 /* Collect all activity type names. */
-const actionTypeNames = fs.readdirSync(actionTypesDirectory)
+const typeNames = fs.readdirSync(typesDirectory)
   .map(filePath => path.parse(filePath).name)
   .filter(filePath => /^[A-Z]$/.test(filePath[0]));
 
@@ -28,7 +28,7 @@ const fileData = `
 import { Action } from "./types/base";
 
 `.trimStart()
-  + actionTypeNames.map((name) => `import ${name} from "./types/${name}";`).join("\n")
+  + typeNames.map((name) => `import ${name} from "./types/${name}";`).join("\n")
   + `
 
 /**
@@ -36,11 +36,11 @@ import { Action } from "./types/base";
  */
 export const ActionTypes: (typeof Action)[] = [
 `
-  + actionTypeNames.map((name) => `  ${name},`).join("\n")
+  + typeNames.map((name) => `  ${name},`).join("\n")
   + `\n];`;
 
 fs.writeFileSync(filePath, fileData, "utf-8");
 
 console.log(bold(green(`actionList.ts: ${filePath} was written`)));
 console.log("actionList.ts: The following Trelo action types were collected:");
-console.log(actionTypeNames);
+console.log(typeNames);
