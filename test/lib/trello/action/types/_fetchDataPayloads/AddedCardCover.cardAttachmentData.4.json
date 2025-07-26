@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1234567890",
+    "bytes": null,
+    "date": "2025-07-24T12:36:39.559Z",
+    "edgeColor": null,
+    "idMember": "1234567890",
+    "isMalicious": false,
+    "isUpload": false,
+    "mimeType": "",
+    "name": "test",
+    "previews": [],
+    "url": "https://example.com",
+    "pos": 140737488371712,
+    "fileName": "test.png"
+  }
+]

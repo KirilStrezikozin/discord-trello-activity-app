@@ -89,7 +89,13 @@ for (const ActionTypeName of allTypeNames.values()) {
             const action = res.action!;
 
             if ("fetchData" in action) {
-              await fetchDataMocks.callFor(action as (ActionWithData & Action));
+              await fetchDataMocks.callFor(
+                action as (ActionWithData & Action),
+                ActionTypeName,
+                /* Mock wants to know which payload we use (in case a
+                 * different effect of fetchData was desired for it). */
+                index,
+              );
             }
 
             const builtMessage = action.buildMessage({});

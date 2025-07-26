@@ -49,7 +49,7 @@ export default class ActionAddMemberToCard extends Action {
 
   public static override readonly type = this.schema.def.innerType.shape.type.value;
   protected override data?: z.infer<typeof ActionAddMemberToCard.schema>;
-  private actionMemberData?: z.infer<typeof ActionMemberSchema>;
+  private actionMemberData?: z.infer<typeof ActionMemberSchema> = undefined;
 
   /**
    * Fetches additional member information

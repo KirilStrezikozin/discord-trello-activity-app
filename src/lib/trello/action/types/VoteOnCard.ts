@@ -45,7 +45,7 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
 
   public static override readonly type = this.schema.def.innerType.shape.type.value;
   protected override data?: z.infer<typeof ActionVoteOnCard.schema>;
-  private actionCardData?: z.infer<typeof ActionCardSchema>;
+  private actionCardData?: z.infer<typeof ActionCardSchema> = undefined;
 
   /**
    * Fetches additional card information

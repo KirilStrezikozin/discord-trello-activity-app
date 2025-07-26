@@ -14,6 +14,34 @@ export const payloadsDirectory = "./test/lib/trello/action/types/_payloads/";
 export const messagesDirectory = "./test/lib/trello/action/types/_messages/";
 
 /**
+ * Read and parse file contents as JSON.
+ * @param path Path to a JSON file.
+ * @returns File contents parsed as JSON on success.
+ */
+export function readJSONSync(
+  path: fs.PathOrFileDescriptor,
+  options:
+    | {
+      encoding: BufferEncoding;
+      flag?: string | undefined;
+    }
+    | BufferEncoding = "utf-8",
+) {
+  const fileData = fs.readFileSync(path, options);
+
+  try {
+    return JSON.parse(fileData);
+  } catch (error) {
+    let message = "unknown";
+    if (error instanceof Error) {
+      message = error.message;
+    }
+
+    throw new Error(`Error parsing ${path}.json, error:\n${message}`);
+  }
+}
+
+/**
  * Creates a map, where each key specifies a Trello action type, and values are
  * lists of filenames the names of which start with the type name.
  *
@@ -53,22 +81,9 @@ function readJSONWithMap(
   const JSONMap: ReturnType<typeof readJSONWithMap> = new Map();
 
   map.forEach((value, key) => {
-    JSONMap.set(key, value.map((JSONFileName) => {
-      const fileData = fs.readFileSync(
-        dirPath + JSONFileName + ".json", "utf-8"
-      );
-
-      try {
-        return JSON.parse(fileData);
-      } catch (error) {
-        let message = "unknown";
-        if (error instanceof Error) {
-          message = error.message;
-        }
-
-        throw new Error(`Error parsing ${JSONFileName}.json, error: ${message}`);
-      }
-    }));
+    JSONMap.set(key, value.map((JSONFileName) => readJSONSync(
+      dirPath + JSONFileName + ".json", "utf-8"
+    )));
   });
 
   return JSONMap;
