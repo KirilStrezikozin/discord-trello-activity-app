@@ -53,31 +53,26 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
    * @param opts Webhook app options. `apiKey` and `token` must be set.
    */
   async fetchData(opts: WebhookOptions): Promise<void> {
-    try {
-      const resp = await fetch(
-        `https://api.trello.com/1/actions/${this.data!.id}\
-          /card?key=${opts.apiKey}&token=${opts.token}`,
-        { method: 'GET', headers: { 'Accept': 'application/json' } }
+    const resp = await fetch(
+      `https://api.trello.com/1/actions/${this.data!.id}\
+/card?key=${opts.apiKey}&token=${opts.token}`,
+      { method: 'GET', headers: { 'Accept': 'application/json' } }
+    );
+
+    if (resp.status != 200) {
+      throw new RequestError(
+        "Failed to fetch card for an action", resp.status
       );
-
-      if (resp.status != 200) {
-        throw new RequestError(
-          "Failed to fetch card for an action", resp.status
-        );
-      }
-
-      const data = await resp.json();
-
-      const res = ActionCardSchema.safeParse(data);
-      if (!res.success) {
-        throw new Error(res.error.toString());
-      }
-
-      this.actionCardData = res.data;
-
-    } catch (error) {
-      throw error;
     }
+
+    const data = await resp.json();
+
+    const res = ActionCardSchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.actionCardData = res.data;
   }
 
   protected override buildMessageInner(
