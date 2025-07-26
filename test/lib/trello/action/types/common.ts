@@ -9,9 +9,9 @@
 import * as fs from "fs";
 import * as path from "path";
 
-const typesDirectory = "./src/lib/trello/action/types/";
-const payloadsDirectory = "./test/lib/trello/action/types/_payloads/";
-const messagesDirectory = "./test/lib/trello/action/types/_messages/";
+export const typesDirectory = "./src/lib/trello/action/types/";
+export const payloadsDirectory = "./test/lib/trello/action/types/_payloads/";
+export const messagesDirectory = "./test/lib/trello/action/types/_messages/";
 
 /**
  * Creates a map, where each key specifies a Trello action type, and values are
