@@ -55,3 +55,23 @@ export function getMemberIcon(
     ? `${opts.member?.avatarUrl}/${iconSizePixels}.png`
     : undefined;
 }
+
+/**
+ * Returns a preview with the smallest size in the given array of previews.
+ *
+ * @param previews Array of previews.
+ * @returns The smallest preview or `null` if the given array is empty.
+ */
+export function getSmallestAttachmentPreview(
+  previews: z.infer<typeof AttachmentPreviewsSchema>
+):
+  | (z.infer<typeof AttachmentPreviewsSchema> extends Readonly<(infer T)[]> ? T : never)
+  | null {
+  return previews.reduce((prev, curr) => {
+    if (prev === null) return curr;
+    return ((curr.width * curr.height) < (prev.width * prev.height))
+      ? curr
+      : prev
+      ;
+  }, previews.length ? previews[0] : null);
+}

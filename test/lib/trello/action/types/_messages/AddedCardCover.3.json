@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "A cover has been added to a card"
+  },
+  "color": 4968087,
+  "title": "test",
+  "description": "Attachment preview as card cover.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Attachment Link",
+      "value": "[Open Link](https://example.com)",
+      "inline": true
+    },
+    {
+      "name": "Cover Size",
+      "value": "normal",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/1"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "A cover has been added to a card"
+  },
+  "color": 4968087,
+  "title": "test",
+  "description": "Solid color card cover.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Cover Color",
+      "value": "green",
+      "inline": true
+    },
+    {
+      "name": "Cover Size",
+      "value": "full",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
