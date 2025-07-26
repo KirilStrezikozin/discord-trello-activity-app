@@ -39,7 +39,7 @@ for (const ActionTypeName of allTypeNames.values()) {
 
       describe.runIf(myPayloads.length)("Direct", () => {
         myPayloads.forEach((payload, index) => {
-          test(`Payload ${index + 1}`, () => {
+          test(`Payload ${index}`, () => {
             const res = ActionType.from(payload);
             if (res.success) return;
             expect(
@@ -53,7 +53,7 @@ for (const ActionTypeName of allTypeNames.values()) {
 
       describe.runIf(myPayloads.length)("Find type", () => {
         myPayloads.forEach((payload, index) => {
-          test(`Payload ${index + 1}`, () => {
+          test(`Payload ${index}`, () => {
             const res = findActionFor(payload);
             expect(
               res,
@@ -83,7 +83,7 @@ for (const ActionTypeName of allTypeNames.values()) {
         const message = (index >= myMessages.length) ? null : myMessages[index];
 
         test.skipIf(message === null)(
-          `Payload & Message: ${index + 1}`,
+          `Payload & Message: ${index}`,
           async () => {
             const res = ActionType.from(payload);
             const action = res.action!;
