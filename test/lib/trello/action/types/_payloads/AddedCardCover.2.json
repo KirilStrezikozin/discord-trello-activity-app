@@ -6,7 +6,7 @@
         "color": null,
         "idAttachment": null,
         "idUploadedBackground": null,
-        "size": "normal",
+        "size": "full",
         "brightness": "light",
         "manualCoverAttachment": true,
         "plugin": null
@@ -15,12 +15,62 @@
     "card": {
       "cover": {
         "color": null,
-        "idAttachment": "1234567890",
+        "idAttachment": null,
         "idUploadedBackground": null,
-        "size": "normal",
-        "brightness": "light",
-        "manualCoverAttachment": true,
-        "plugin": null
+        "size": "full",
+        "brightness": "dark",
+        "manualCoverAttachment": false,
+        "plugin": {
+          "idPlugin": "63335b84732512002ab83405",
+          "edgeColor": "#1c5c14",
+          "dateSet": "2025-07-22T12:55:50.992Z",
+          "scaled": [
+            {
+              "url": "https://example.com",
+              "bytes": 228,
+              "height": 50,
+              "width": 70,
+              "scaled": false
+            },
+            {
+              "url": "https://example.com",
+              "bytes": 575,
+              "height": 150,
+              "width": 250,
+              "scaled": false
+            },
+            {
+              "url": "https://example.com",
+              "bytes": 365,
+              "height": 89,
+              "width": 150,
+              "scaled": true
+            },
+            {
+              "url": "https://example.com",
+              "bytes": 723,
+              "height": 179,
+              "width": 300,
+              "scaled": true
+            },
+            {
+              "url": "https://example.com",
+              "bytes": 792,
+              "height": 200,
+              "width": 336,
+              "scaled": true
+            },
+            {
+              "url": "https://example.com",
+              "width": 336,
+              "height": 200,
+              "bytes": 1658,
+              "scaled": true
+            }
+          ]
+        },
+        "idPlugin": "63335b84732512002ab83405",
+        "edgeColor": "#1c5c14"
       },
       "id": "1234567890",
       "name": "test",
