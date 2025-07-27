@@ -6,7 +6,7 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-import { strToBoolean } from "./utils";
+import { getFullRequestUrl, strToBoolean } from "./utils";
 
 /**
  * Default size of an icon for a Discord message in pixels.
@@ -29,6 +29,7 @@ export class WebhookOptions {
     sendErrors: false,
     suppressErrors: false,
     iconSizePixels: defaultIconSizePixels,
+    originUrl: "",
   };
 
   private optionEnvNames: Record<keyof typeof this.options, string> = {
@@ -40,6 +41,7 @@ export class WebhookOptions {
     sendErrors: "DTAA_WEBHOOK_SEND_ERRORS_TO_DISCORD",
     suppressErrors: "DTAA_WEBHOOK_SUPPRESS_ERRORS",
     iconSizePixels: "DTAA_DISCORD_MSG_ICON_SIZE_PX",
+    originUrl: "DTAA_ORIGIN_URL",
   };
 
   /** Trello API key. */
@@ -94,6 +96,13 @@ export class WebhookOptions {
   }
 
   /**
+   * Resolved origin URL of this webhook server.
+   */
+  public get originUrl() {
+    return this.options.originUrl;
+  }
+
+  /**
    * Modify individual option value.
    * @param key Option name.
    * @param value New option value.
@@ -105,10 +114,12 @@ export class WebhookOptions {
   }
 
   constructor();
-  constructor(values: typeof this.options);
-  constructor(values: URLSearchParams);
+  constructor(values: typeof this.options, request?: Request);
+  constructor(values: URLSearchParams, request?: Request);
 
-  constructor(values?: typeof this.options | URLSearchParams) {
+  constructor(
+    values?: typeof this.options | URLSearchParams, request?: Request
+  ) {
     /* Helper to assign all option values from the given object that has the
      * same keys but values are nullish or strings. */
     const setValues = (
@@ -173,6 +184,10 @@ export class WebhookOptions {
       }
     }
 
-    /* Options have been set to env vars only at this point. */
+    if (request && !this.options.originUrl) {
+      /* Set the origin URL option if the request to read one from is given,
+       * and it is not already set by env var. */
+      this.setOption("originUrl", getFullRequestUrl(request).origin);
+    }
   }
 };

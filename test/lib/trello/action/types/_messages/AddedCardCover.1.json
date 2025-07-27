@@ -2,7 +2,7 @@
   "author": {
     "name": "A cover has been added to a card"
   },
-  "color": 4968087,
+  "color": 14474205,
   "title": "test",
   "description": "Unsplash image card cover.",
   "url": "https://trello.com/c/abc",
@@ -24,6 +24,6 @@
     }
   ],
   "image": {
-    "url": "https://example.com/1"
+    "url": "https://example.com/10"
   }
 }

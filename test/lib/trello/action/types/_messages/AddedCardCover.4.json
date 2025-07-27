@@ -12,6 +12,11 @@
       "inline": true
     },
     {
+      "name": "Attachment Preview",
+      "value": "Could not load attachment image preview.",
+      "inline": false
+    },
+    {
       "name": "Cover Size",
       "value": "normal",
       "inline": true

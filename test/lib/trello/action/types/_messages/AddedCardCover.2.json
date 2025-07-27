@@ -2,7 +2,7 @@
   "author": {
     "name": "A cover has been added to a card"
   },
-  "color": 4968087,
+  "color": 1858580,
   "title": "test",
   "description": "Card cover set with plugin automatically by Trello.",
   "url": "https://trello.com/c/abc",
@@ -19,6 +19,6 @@
     }
   ],
   "image": {
-    "url": "https://example.com/1"
+    "url": "https://example.com/5"
   }
 }

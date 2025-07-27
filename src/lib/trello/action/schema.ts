@@ -262,6 +262,18 @@ export const ActionCardSchema = z.object({
   dateLastActivity: z.iso.datetime({ precision: 3 }),
 }).readonly();
 
+/** Schema of proxied card attachment preview. */
+export const CardAttachmentPreviewProxySchema = z.union([
+  z.object({
+    success: z.literal(false),
+    url: z.undefined(),
+  }).readonly(),
+  z.object({
+    success: z.literal(true),
+    url: z.url(),
+  }).readonly(),
+]);
+
 /** Schema of fetched member data for a Trello action. */
 export const ActionMemberSchema = z.object({
   id: z.string().min(1),

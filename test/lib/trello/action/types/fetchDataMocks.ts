@@ -14,6 +14,7 @@ import { expect, vi } from "vitest";
 import {
   ActionCardSchema,
   ActionMemberSchema,
+  CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
 } from "@/src/lib/trello/action/schema";
 
@@ -32,6 +33,7 @@ const propertyMap = {
   actionCardData: ActionCardSchema,
   actionMemberData: ActionMemberSchema,
   cardAttachmentData: CardAttachmentSchema,
+  cardAttachmentPreviewProxy: CardAttachmentPreviewProxySchema,
 } as const;
 
 /**

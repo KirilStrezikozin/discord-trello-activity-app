@@ -57,19 +57,19 @@ export function getMemberIcon(
 }
 
 /**
- * Returns a preview with the smallest size in the given array of previews.
+ * Returns a preview with the largest size in the given array of previews.
  *
  * @param previews Array of previews.
- * @returns The smallest preview or `null` if the given array is empty.
+ * @returns The largest preview or `null` if the given array is empty.
  */
-export function getSmallestAttachmentPreview(
+export function getLargestAttachmentPreview(
   previews: z.infer<typeof AttachmentPreviewsSchema>
 ):
   | (z.infer<typeof AttachmentPreviewsSchema> extends Readonly<(infer T)[]> ? T : never)
   | null {
   return previews.reduce((prev, curr) => {
     if (prev === null) return curr;
-    return ((curr.width * curr.height) < (prev.width * prev.height))
+    return ((curr.width * curr.height) > (prev.width * prev.height))
       ? curr
       : prev
       ;

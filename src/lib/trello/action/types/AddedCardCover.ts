@@ -7,6 +7,8 @@
  */
 
 import { z } from "zod";
+import axios from "axios";
+import * as log from "@/src/lib/log";
 
 import {
   Action,
@@ -15,6 +17,7 @@ import {
 
 import {
   ActionCardSchema,
+  CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
   CardCoverColorNameToHexColor,
   CardCoverNoSourceSchema,
@@ -23,8 +26,7 @@ import {
 
 import { EmbedBuilder } from "discord.js";
 import { WebhookOptions } from "@/src/lib/options";
-import { RequestError } from "@/src/lib/error";
-import { getMemberIcon, getSmallestAttachmentPreview } from "./utils";
+import { getMemberIcon, getLargestAttachmentPreview } from "./utils";
 
 export default class ActionAddedCardCover extends Action {
   public static override readonly schema = z.object({
@@ -60,6 +62,7 @@ export default class ActionAddedCardCover extends Action {
   public static override readonly type = this.schema.def.innerType.shape.type.value;
   protected override data?: z.infer<typeof ActionAddedCardCover.schema>;
   private cardAttachmentData?: z.infer<typeof CardAttachmentSchema> = undefined;
+  private cardAttachmentPreviewProxy?: z.infer<typeof CardAttachmentPreviewProxySchema> = undefined;
   private actionCardData?: z.infer<typeof ActionCardSchema> = undefined;
 
   /**
@@ -72,45 +75,87 @@ export default class ActionAddedCardCover extends Action {
    * @param opts Webhook app options. `apiKey` and `token` must be set.
    */
   async fetchData(opts: WebhookOptions): Promise<void> {
-    const cover = this.data!.data.card.cover;
+    const actionId = this.data!.id;
+    const { card } = this.data!.data;
 
-    const fetchDataInner = async (url: string): Promise<unknown> => {
-      const resp = await fetch(
-        url, { method: 'GET', headers: { 'Accept': 'application/json' } }
+    /* Axios instance as a helper to fetch Trello data using its API. */
+    const axiosInst = axios.create({
+      method: "get",
+      baseURL: "https://api.trello.com/1/",
+      timeout: 10000,
+      responseType: "json",
+      params: {
+        "key": opts.apiKey,
+        "token": opts.token,
+      },
+    });
+
+    if (card.cover.idAttachment) {
+      /* Attachment is used as card cover, fetch attachment data. */
+      const { data } = await axiosInst(
+        `/cards/${card.id}/attachments/${card.cover.idAttachment}`,
       );
 
-      if (resp.status != 200) {
-        throw new RequestError(
-          "Failed to fetch card for an action or attachment for a card",
-          resp.status
-        );
-      }
-
-      return resp.json();
-    }
-
-    if (cover.idAttachment) {
-      const data = await fetchDataInner(
-        `https://api.trello.com/1/cards/${this.data!.data.card.id}\
-/attachments/${cover.idAttachment}?key=${opts.apiKey}&token=${opts.token}`
-      );
-
+      /* Parse and validate fetched data. */
       const res = CardAttachmentSchema.safeParse(data);
       if (!res.success) {
         throw new Error(res.error.toString());
       }
+
       this.cardAttachmentData = res.data;
 
-    } else if (cover.idUploadedBackground || cover.plugin) {
-      const data = await fetchDataInner(
-        `https://api.trello.com/1/actions/${this.data!.id}\
-/card?key=${opts.apiKey}&token=${opts.token}`
+      /* Resolve a proxy URL for the attachment preview, if attachment has
+       * image previews. Proxy URL to our webhook app avoids Trello credentials
+       * that would be otherwise required to request the attachment preview by
+       * its URL directly, and message content should be publicly hosted. */
+      const preview = getLargestAttachmentPreview(
+        this.cardAttachmentData.previews
       );
 
+      if (preview) {
+        /* Proxy URL is without credentials in search params to avoid
+         * accidentally leaking them. Proxy endpoint should be generally
+         * disabled if the webhook app is public, and anyone can get served. */
+        const previewProxyUrl = new URL(
+          `/api/proxy/trello/1/cards/${card.id}/\
+attachments/${card.cover.idAttachment}/previews/${preview?.id}/\
+download/${this.cardAttachmentData.fileName}`,
+          opts.originUrl
+        );
+
+        /* Fire a test HEAD request to our proxy endpoint to avoid missing an
+         * image in the message in case there is an error. */
+        try {
+          await axios.head(
+            previewProxyUrl.toString(),
+            { validateStatus: (status: number) => status === 200 },
+          );
+          /* Request to our proxy is ok at this point, save the URL. */
+          this.cardAttachmentPreviewProxy = {
+            success: true,
+            url: previewProxyUrl.toString(),
+          };
+        } catch (error) {
+          /* Request to our proxy was not successful. */
+          log.error(error);
+          this.cardAttachmentPreviewProxy = {
+            success: false,
+            url: undefined,
+          };
+        }
+
+      }
+
+    } else if (card.cover.idUploadedBackground || card.cover.plugin) {
+      /* Unsplash image is used as card cover or plugin set it, fetch card. */
+      const { data } = await axiosInst(`/actions/${actionId}/card`);
+
+      /* Parse and validate fetched data. */
       const res = ActionCardSchema.safeParse(data);
       if (!res.success) {
         throw new Error(res.error.toString());
       }
+
       this.actionCardData = res.data;
 
     } else {
@@ -171,18 +216,22 @@ export default class ActionAddedCardCover extends Action {
           embed.setColor(attachment.edgeColor);
         }
 
-        embed
-          .addFields({
-            name: "Attachment Link",
-            value: `[Open Link](${attachment.url})`,
-            inline: true,
-          })
-          .setImage(
-            getSmallestAttachmentPreview(
-              attachment.previews
-            )?.url ?? null
-          )
-          ;
+        embed.addFields({
+          name: "Attachment Link",
+          value: `[Open Link](${attachment.url})`,
+          inline: true,
+        });
+
+        const previewProxy = this.cardAttachmentPreviewProxy;
+        if (previewProxy?.success) {
+          embed.setImage(previewProxy.url);
+        } else {
+          embed.addFields({
+            name: "Attachment Preview",
+            value: "Could not load attachment image preview.",
+            inline: false,
+          });
+        }
       }
     } else if (cover.idUploadedBackground) {
       embed
@@ -202,12 +251,22 @@ export default class ActionAddedCardCover extends Action {
             value: `[Open Link](${this.actionCardData.cover.sharedSourceUrl})`,
             inline: true,
           })
-          .setImage(
-            getSmallestAttachmentPreview(
-              this.actionCardData.cover.scaled
-            )?.url ?? null
-          )
           ;
+
+        const preview = getLargestAttachmentPreview(
+          this.actionCardData.cover.scaled
+        );
+
+        if (preview) {
+          embed.setImage(preview.url);
+        } else {
+          embed.addFields({
+            name: "Image Preview",
+            value: "Could not load image preview.",
+            inline: false,
+          });
+        }
+
       }
     } else if (cover.plugin !== null) {
       embed
@@ -219,14 +278,25 @@ export default class ActionAddedCardCover extends Action {
         ;
 
       if (this.actionCardData && this.actionCardData.cover.idPlugin) {
-        embed
-          .setColor(this.actionCardData.cover.edgeColor)
-          .setImage(
-            getSmallestAttachmentPreview(
-              this.actionCardData.cover.scaled
-            )?.url ?? null
-          )
-          ;
+        embed.setColor(this.actionCardData.cover.edgeColor);
+
+        const preview = getLargestAttachmentPreview(
+          this.actionCardData.cover.scaled
+        );
+
+        /* Plugin-set card covers are the least reliable. Preview URL could be
+         * unique per plugin, as such no proxy logic as with shared background
+         * is used here. Simply pass the preview URL and ignore if it cannot be
+         * rendered. */
+        if (preview) {
+          embed.setImage(preview.url);
+        } else {
+          embed.addFields({
+            name: "Cover Preview",
+            value: "Could not load cover image preview.",
+            inline: false,
+          });
+        }
       }
     } else {
       /* Parsing will fail if the conditions above were not satisfied in the

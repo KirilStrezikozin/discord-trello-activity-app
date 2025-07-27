@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
   /* Extract options used by this route. */
   const sp = new URL(request.url).searchParams;
-  const options = new WebhookOptions(sp);
+  const options = new WebhookOptions(sp, request);
 
   const bodyText = await request.text();
   log.log("LOG: Request payload:", bodyText || null);
