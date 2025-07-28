@@ -152,13 +152,15 @@ export function areJSONObjectsEqual(a: any, b: any): boolean {
     return true;
   }
 
+  if (typeof a !== "object" && a !== b) return false;
+
   const aKeys = Object.keys(a);
   const bKeys = Object.keys(b);
   if (aKeys.length !== bKeys.length) return false;
 
   for (const key of aKeys) {
     if (!b.hasOwnProperty(key)) return false;
-    if (!areJSONObjectsEqual(a[key], b[key])) return false;
+    else if (!areJSONObjectsEqual(a[key], b[key])) return false;
   }
 
   return true;
