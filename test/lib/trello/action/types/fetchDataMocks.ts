@@ -134,7 +134,7 @@ export async function callFor(
 
           const fileNameBase = `${fetchDataPayloadsDirectory}${actionTypeName}.${propertyName}.json`;
           const fileNameIndex = (payloadIndex !== undefined)
-            ? `${fetchDataPayloadsDirectory}${actionTypeName}.${propertyName}.${payloadIndex}.json`
+            ? `${fetchDataPayloadsDirectory}${actionTypeName}.${payloadIndex}.${propertyName}.json`
             : fileNameBase;
 
           let data: PropertyMap[typeof propertyName];
