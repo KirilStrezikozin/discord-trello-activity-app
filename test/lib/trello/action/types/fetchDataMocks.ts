@@ -127,7 +127,7 @@ export async function callFor(
   using spiedFetchData = vi.spyOn(action, "fetchData")
     .mockImplementation(
       async () => {
-        const set = propertyNames.some((propertyName) => {
+        const set = propertyNames.map((propertyName) => {
           /* Try finding the mocked payload for `actionTypeName` for
            * the value of this `propertyName`, for the payload
            * of `payloadIndex` currently being tested. */
@@ -153,7 +153,7 @@ export async function callFor(
           }
 
           return setActionPropertyIfExists(action, propertyName, data);
-        });
+        }).some(value => value);
 
         if (!set) {
           throw new Error(
