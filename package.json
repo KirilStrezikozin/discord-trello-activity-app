@@ -5,7 +5,7 @@
   "scripts": {
     "codegen": "tsx ./codegen/*",
     "dev": "npm run codegen && next dev --turbopack",
-    "prebuild": "npm run codegen",
+    "prebuild": "npm run codegen && npm run test",
     "build": "next build",
     "start": "npm run codegen && next start",
     "lint": "next lint",
