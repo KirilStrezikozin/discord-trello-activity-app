@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "A label has been added to a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "color": 14670077,
+  "fields": [
+    {
+      "name": "Label Text",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Label Color",
+      "value": "purple_light",
+      "inline": false
+    }
+  ]
+}

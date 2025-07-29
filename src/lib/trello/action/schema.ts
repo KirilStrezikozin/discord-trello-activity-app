@@ -115,36 +115,67 @@ export const CardAttachmentSchema = CardAttachmentBaseSchema.or(
   )
 );
 
+const labelColorMap: Record<string, z.infer<typeof ColorSchema>> = {
+  "green_light": "#baf3db",
+  "green": "#4bce97",
+  "green_dark": "#1f845a",
+  "yellow_light": "#f8e6a0",
+  "yellow": "#e2b203",
+  "yellow_dark": "#946f00",
+  "orange_light": "#ffe2bd",
+  "orange": "#faa53d",
+  "orange_dark": "#b65c02",
+  "red_light": "#ffd2cc",
+  "red": "#f87462",
+  "red_dark": "#ca3521",
+  "purple_light": "#dfd8fd",
+  "purple": "#9f8fef",
+  "purple_dark": "#6e5dc6",
+  "blue_light": "#cce0ff",
+  "blue": "#579dff",
+  "blue_dark": "#0c66e4",
+  "sky_light": "#c1f0f5",
+  "sky": "#60c6d2",
+  "sky_dark": "#1d7f8c",
+  "lime_light": "#D3F1A7",
+  "lime": "#94c748",
+  "lime_dark": "#5b7f24",
+  "pink_light": "#fdd0ec",
+  "pink": "#e774bb",
+  "pink_dark": "#ae4787",
+  "black_light": "#dcdfe4",
+  "black": "#8590a2",
+  "black_dark": "#626f86",
+};
+
+/** Schema of allowed color names for a Trello label. */
+export const LabelColorName = z.literal(Object.keys(labelColorMap));
+
+/** Transform schema from label color names to their hex values. */
+export const LabelColorNameToHexColor = LabelColorName.transform((data) => {
+  return labelColorMap[data];
+});
+
+const cardCoverColorMap: Record<string, z.infer<typeof ColorSchema>> = {
+  "green": "#4bce97",
+  "yellow": "#e2b203",
+  "orange": "#faa53d",
+  "red": "#f87462",
+  "purple": "#9f8fef",
+  "blue": "#579dff",
+  "sky": "#60c6d2",
+  "lime": "#94c748",
+  "pink": "#e774bb",
+  "black": "#8590a2",
+};
+
 /** Schema of allowed color names for a Trello card cover. */
-export const CardCoverColorName = z.literal([
-  "green",
-  "yellow",
-  "orange",
-  "red",
-  "purple",
-  "blue",
-  "sky",
-  "lime",
-  "pink",
-  "black",
-]);
+export const CardCoverColorName = z.literal(Object.keys(cardCoverColorMap));
 
 /** Transform schema from card cover color names to their hex values. */
 export const CardCoverColorNameToHexColor =
   CardCoverColorName.transform((data) => {
-    const m: { [K in typeof data]: z.infer<typeof ColorSchema> } = {
-      "green": "#4bce97",
-      "yellow": "#e2b203",
-      "orange": "#faa53d",
-      "red": "#f87462",
-      "purple": "#9f8fef",
-      "blue": "#579dff",
-      "sky": "#60c6d2",
-      "lime": "#94c748",
-      "pink": "#e774bb",
-      "black": "#8590a2",
-    };
-    return m[data];
+    return cardCoverColorMap[data];
   });
 
 const CardCoverBaseSchema = z.object({
