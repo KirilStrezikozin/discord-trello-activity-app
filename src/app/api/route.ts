@@ -47,14 +47,14 @@ export async function POST(request: Request) {
   const options = new WebhookOptions(sp, request);
 
   const bodyText = await request.text();
-  log.log("LOG: Request payload:", bodyText || null);
+  log.log("Request payload:", bodyText || null);
 
   /* Try instantiating a Discord webhook client. */
   let discordClient: WebhookClient;
   try {
     discordClient = new WebhookClient({ url: options.webhookURL });
   } catch (error) {
-    log.error("ERROR:", error);
+    log.error(error);
     return new Response(
       "Error: could not instantiate a Discord client to communicate with",
       { status: options.suppressErrors ? 200 : 500 }
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
         /* Fetching additional data is optional for action types, the message
          * would only be less descriptive on failure. Consequently, consume any
          * errors and do not consider them fatal. */
-        log.log("ERROR: action.fetchData:", error);
+        log.error("action.fetchData:", error);
       });
     }
 
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
     await discordClient.send(action.buildMessage(messageOptions));
 
   } catch (error) {
-    log.error("ERROR:", error);
+    log.error(error);
 
     let message: string;
     let status: number; /* Error status code or 200 if `SuppressErrors` is true. */

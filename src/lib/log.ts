@@ -12,21 +12,21 @@ export const IsDebug = process.env.DTAA_NDEBUG
   ? !strToBoolean(process.env.DTAA_NDEBUG) : true;
 
 export function log(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDebug) console.log(message, ...optionalParams);
+  if (IsDebug) console.log("LOG:", message, ...optionalParams);
 }
 
 export function info(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDebug) console.info(message, ...optionalParams);
+  if (IsDebug) console.info("INFO:", message, ...optionalParams);
 }
 
 export function error(message?: unknown, ...optionalParams: unknown[]) {
-  console.error(message, ...optionalParams);
+  console.error("ERROR:", message, ...optionalParams);
 }
 
 export function warn(message?: unknown, ...optionalParams: unknown[]) {
-  console.warn(message, ...optionalParams);
+  console.warn("WARN:", message, ...optionalParams);
 }
 
 export function trace(message?: unknown, ...optionalParams: unknown[]) {
-  if (IsDebug) console.trace(message, ...optionalParams);
+  if (IsDebug) console.trace("TRACE:", message, ...optionalParams);
 }

@@ -35,7 +35,7 @@ export function middleware(request: NextRequest) {
    * and POST requests land at statically-generated root page instead.
    */
   if (pathname === "/" && method !== "GET") {
-    log.warn(`WARNING: Wrong webhook URL has been set. Redirecting ${request.method} to /api`);
+    log.warn(`Wrong webhook URL has been set. Redirecting ${request.method} to /api`);
 
     const response = NextResponse.rewrite(new URL("/api", request.url));
     /* Let the /api route know the response is rewritten. */
