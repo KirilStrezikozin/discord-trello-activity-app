@@ -4,6 +4,7 @@ import { Action } from "./types/base";
 
 import AddAttachmentToCard from "./types/AddAttachmentToCard";
 import AddCheckListToCard from "./types/AddCheckListToCard";
+import AddMemberToBoard from "./types/AddMemberToBoard";
 import AddMemberToCard from "./types/AddMemberToCard";
 import AddedCardCover from "./types/AddedCardCover";
 import AddedCardDueDate from "./types/AddedCardDueDate";
@@ -37,6 +38,7 @@ import VoteOnCard from "./types/VoteOnCard";
 export const ActionTypes: (typeof Action)[] = [
   AddAttachmentToCard,
   AddCheckListToCard,
+  AddMemberToBoard,
   AddMemberToCard,
   AddedCardCover,
   AddedCardDueDate,
