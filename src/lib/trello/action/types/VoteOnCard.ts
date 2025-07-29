@@ -15,9 +15,9 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { WebhookOptions } from "@/src/lib/options";
 import { ActionCardSchema } from "../schema";
-import { RequestError } from "@/src/lib/error";
+import { WebhookOptions } from "@/src/lib/options";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
 import { getMemberIcon } from "./utils";
 
 export default class ActionVoteOnCard extends Action implements ActionWithData {
@@ -48,24 +48,15 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
   private actionCardData?: z.infer<typeof ActionCardSchema> = undefined;
 
   /**
-   * Fetches additional card information
-   * (total number of votes) to build a more descriptive message.
-   * @param opts Webhook app options. `apiKey` and `token` must be set.
+   * Fetches additional card information (total number of votes) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
    */
   async fetchData(opts: WebhookOptions): Promise<void> {
-    const resp = await fetch(
-      `https://api.trello.com/1/actions/${this.data!.id}\
-/card?key=${opts.apiKey}&token=${opts.token}`,
-      { method: 'GET', headers: { 'Accept': 'application/json' } }
-    );
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
 
-    if (resp.status != 200) {
-      throw new RequestError(
-        "Failed to fetch card for an action", resp.status
-      );
-    }
-
-    const data = await resp.json();
+    const { data } = await axiosInst(`/actions/${this.data!.id}/card`);
 
     const res = ActionCardSchema.safeParse(data);
     if (!res.success) {

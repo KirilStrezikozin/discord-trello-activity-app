@@ -14,9 +14,9 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { WebhookOptions } from "@/src/lib/options";
 import { ActionMemberSchema } from "../schema";
-import { RequestError } from "@/src/lib/error";
+import { WebhookOptions } from "@/src/lib/options";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
 import { getMemberIcon } from "./utils";
 
 export default class ActionAddMemberToCard extends Action {
@@ -52,24 +52,15 @@ export default class ActionAddMemberToCard extends Action {
   private actionMemberData?: z.infer<typeof ActionMemberSchema> = undefined;
 
   /**
-   * Fetches additional member information
-   * (member avatar URL) to build a more descriptive message.
-   * @param opts Webhook app options. `apiKey` and `token` must be set.
+   * Fetches additional member information (member avatar URL) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
    */
   async fetchData(opts: WebhookOptions): Promise<void> {
-    const resp = await fetch(
-      `https://api.trello.com/1/actions/${this.data!.id}\
-/member?key=${opts.apiKey}&token=${opts.token}`,
-      { method: 'GET', headers: { 'Accept': 'application/json' } }
-    );
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
 
-    if (resp.status != 200) {
-      throw new RequestError(
-        "Failed to fetch member for an action", resp.status
-      );
-    }
-
-    const data = await resp.json();
+    const { data } = await axiosInst(`/actions/${this.data!.id}/member`);
 
     const res = ActionMemberSchema.safeParse(data);
     if (!res.success) {
