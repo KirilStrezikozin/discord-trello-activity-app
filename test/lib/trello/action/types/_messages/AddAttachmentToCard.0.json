@@ -1,0 +1,28 @@
+{
+  "author": {
+    "name": "An attachment has been added to a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "color": 2236978,
+  "fields": [
+    {
+      "name": "Attachment Name",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Attachment Link",
+      "value": "[Open Link](https://example.com)",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": true
+    }
+  ],
+  "image": {
+    "url": "https://example.com/preview.png"
+  }
+}

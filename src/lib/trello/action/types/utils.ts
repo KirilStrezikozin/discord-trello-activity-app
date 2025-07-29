@@ -7,9 +7,16 @@
  */
 
 import { z } from "zod";
+import axios from "axios";
+import * as log from "@/src/lib/log";
+
 import { MessageOptions } from "./base";
-import { defaultIconSizePixels } from "@/src/lib/options";
-import { AttachmentPreviewsSchema } from "../schema";
+import { defaultIconSizePixels, WebhookOptions } from "@/src/lib/options";
+
+import {
+  AttachmentPreviewsSchema,
+  CardAttachmentPreviewProxySchema,
+} from "../schema";
 
 /**
  * Returns an icon URL for a member who triggered the action.
@@ -74,4 +81,53 @@ export function getLargestAttachmentPreview(
       : prev
       ;
   }, previews.length ? previews[0] : null);
+}
+
+/**
+ * Resolve and return a proxy URL for a card attachment preview URL.
+ * Tests a HEAD request to the proxy to verify the resolved URL and
+ * automatically logs an error on failure.
+ *
+ * @param opts Webhook options used.
+ * @param data Trello card ID, attachment ID and filename, preview ID.
+ *
+ * @returns Promise with card attachment preview proxy data.
+ */
+export async function resolveAttachmentPreviewProxy(
+  opts: WebhookOptions,
+  data: {
+    cardId: string,
+    attachmentId: string,
+    attachmentFileName: string,
+    previewId: string,
+  },
+): Promise<z.infer<typeof CardAttachmentPreviewProxySchema>> {
+  /* Proxy URL is without credentials in search params to avoid
+   * accidentally leaking them. Proxy endpoint should be generally
+   * disabled if the webhook app is public, and anyone can get served. */
+  const previewProxyUrl = new URL(
+    `/api/proxy/trello/1/cards/${data.cardId}/attachments/${data.attachmentId}/previews/${data.previewId}/download/${data.attachmentFileName}`,
+    opts.originUrl
+  );
+
+  /* Fire a test HEAD request to our proxy endpoint to avoid missing an
+   * image in the message in case there is an error. */
+  try {
+    await axios.head(
+      previewProxyUrl.toString(),
+      { validateStatus: (status: number) => status === 200 },
+    );
+    /* Request to our proxy is ok at this point, save the URL. */
+    return {
+      success: true,
+      url: previewProxyUrl.toString(),
+    };
+  } catch (error) {
+    /* Request to our proxy was not successful. */
+    log.error(error);
+    return {
+      success: false,
+      url: undefined,
+    };
+  }
 }

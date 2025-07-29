@@ -7,8 +7,6 @@
  */
 
 import { z } from "zod";
-import axios from "axios";
-import * as log from "@/src/lib/log";
 
 import {
   Action,
@@ -26,7 +24,13 @@ import {
 
 import { EmbedBuilder } from "discord.js";
 import { WebhookOptions } from "@/src/lib/options";
-import { getMemberIcon, getLargestAttachmentPreview } from "./utils";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
+
+import {
+  getMemberIcon,
+  getLargestAttachmentPreview,
+  resolveAttachmentPreviewProxy
+} from "./utils";
 
 export default class ActionAddedCardCover extends Action {
   public static override readonly schema = z.object({
@@ -72,23 +76,13 @@ export default class ActionAddedCardCover extends Action {
    * If `idUploadedBackground`, fetches action card data to retrieve
    * the URL of uploaded background.
    *
-   * @param opts Webhook app options. `apiKey` and `token` must be set.
+   * @param opts Webhook app options.
    */
   async fetchData(opts: WebhookOptions): Promise<void> {
     const actionId = this.data!.id;
     const { card } = this.data!.data;
 
-    /* Axios instance as a helper to fetch Trello data using its API. */
-    const axiosInst = axios.create({
-      method: "get",
-      baseURL: "https://api.trello.com/1/",
-      timeout: 10000,
-      responseType: "json",
-      params: {
-        "key": opts.apiKey,
-        "token": opts.token,
-      },
-    });
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
 
     if (card.cover.idAttachment) {
       /* Attachment is used as card cover, fetch attachment data. */
@@ -111,39 +105,16 @@ export default class ActionAddedCardCover extends Action {
       const preview = getLargestAttachmentPreview(
         this.cardAttachmentData.previews
       );
-
       if (preview) {
-        /* Proxy URL is without credentials in search params to avoid
-         * accidentally leaking them. Proxy endpoint should be generally
-         * disabled if the webhook app is public, and anyone can get served. */
-        const previewProxyUrl = new URL(
-          `/api/proxy/trello/1/cards/${card.id}/\
-attachments/${card.cover.idAttachment}/previews/${preview?.id}/\
-download/${this.cardAttachmentData.fileName}`,
-          opts.originUrl
+        this.cardAttachmentPreviewProxy = await resolveAttachmentPreviewProxy(
+          opts,
+          {
+            cardId: card.id,
+            attachmentId: card.cover.idAttachment,
+            attachmentFileName: this.cardAttachmentData.fileName,
+            previewId: preview.id,
+          }
         );
-
-        /* Fire a test HEAD request to our proxy endpoint to avoid missing an
-         * image in the message in case there is an error. */
-        try {
-          await axios.head(
-            previewProxyUrl.toString(),
-            { validateStatus: (status: number) => status === 200 },
-          );
-          /* Request to our proxy is ok at this point, save the URL. */
-          this.cardAttachmentPreviewProxy = {
-            success: true,
-            url: previewProxyUrl.toString(),
-          };
-        } catch (error) {
-          /* Request to our proxy was not successful. */
-          log.error(error);
-          this.cardAttachmentPreviewProxy = {
-            success: false,
-            url: undefined,
-          };
-        }
-
       }
 
     } else if (card.cover.idUploadedBackground || card.cover.plugin) {
@@ -226,6 +197,8 @@ download/${this.cardAttachmentData.fileName}`,
         if (previewProxy?.success) {
           embed.setImage(previewProxy.url);
         } else {
+          /* Attachment card cover should be previewable, which means that,
+           * in this case, we had an error with resolving a proxy URL. */
           embed.addFields({
             name: "Attachment Preview",
             value: "Could not load attachment image preview.",
@@ -260,6 +233,7 @@ download/${this.cardAttachmentData.fileName}`,
         if (preview) {
           embed.setImage(preview.url);
         } else {
+          /* Shared background card cover should always be previewable. */
           embed.addFields({
             name: "Image Preview",
             value: "Could not load image preview.",

@@ -2,6 +2,7 @@
 
 import { Action } from "./types/base";
 
+import AddAttachmentToCard from "./types/AddAttachmentToCard";
 import AddCheckListToCard from "./types/AddCheckListToCard";
 import AddMemberToCard from "./types/AddMemberToCard";
 import AddedCardCover from "./types/AddedCardCover";
@@ -34,6 +35,7 @@ import VoteOnCard from "./types/VoteOnCard";
  * List of all Action types in the library.
  */
 export const ActionTypes: (typeof Action)[] = [
+  AddAttachmentToCard,
   AddCheckListToCard,
   AddMemberToCard,
   AddedCardCover,
