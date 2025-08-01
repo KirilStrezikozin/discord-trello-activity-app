@@ -162,7 +162,8 @@ export async function callFor(
         if (!set) {
           throw new Error(
             `Mocking fetchData has no effect on "${actionTypeName}" instance, \
-index "${payloadIndex}". This is not allowed.`
+index "${payloadIndex}". This is not allowed. Perhaps the private property was \
+not initialized.`
           );
         }
       }
