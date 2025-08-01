@@ -237,6 +237,17 @@ export const CardCoverWithSourceSchema = CardCoverNoSourceSchema.def.innerType.e
     }
   );
 
+/** Schema of Trello label data. */
+export const LabelSchema = z.object({
+  id: z.string().min(1),
+  idBoard: z.string().min(1),
+  idOrganization: z.string().min(1),
+  name: z.string(),
+  color: LabelColorName.nullable(),
+  /** How many times the label has been used. */
+  uses: z.number().nonnegative(),
+}).readonly();
+
 /** Schema of Trello card data. */
 export const CardSchema = z.object({
   id: z.string().min(1),
@@ -269,6 +280,8 @@ export const CardSchema = z.object({
   dateLastActivity: z.iso.datetime({ precision: 3 }),
   due: z.iso.datetime({ precision: 3 }).nullable(),
   dueReminder: z.number().nullable(),
+
+  labels: LabelSchema.array().readonly(),
 
   cover: z.union([
     CardCoverBaseSchema,
