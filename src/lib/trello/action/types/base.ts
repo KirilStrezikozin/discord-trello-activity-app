@@ -86,7 +86,7 @@ export interface ActionWithData {
  */
 export class Action {
   /* Override on subclasses: */
-  public static readonly schema: z.ZodType<Readonly<object>>;
+  public static readonly schema: z.ZodReadonly<z.ZodObject>;
   public static readonly type: string;
   protected data?: z.infer<typeof Action.schema>;
   /* */
@@ -157,4 +157,15 @@ export class Action {
 
     return { embeds: [embed] };
   }
+}
+
+/**
+ * Returns the Trello action type inferred from the given read-only schema.
+ * @param schema Read-only Zod Object schema with a Zod Literal string type key.
+ * @returns Trello action type literal.
+ */
+export function getActionTypeFromSchema<
+  T extends z.ZodReadonly<z.ZodObject<{ type: z.ZodLiteral<string> }>>
+>(schema: T): z.infer<T>["type"] {
+  return Array.from(schema.def.innerType.shape.type.values.values())[0];
 }

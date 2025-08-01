@@ -9,6 +9,7 @@
 import { z } from "zod";
 
 import {
+  getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
@@ -59,7 +60,7 @@ export default class ActionAddedCardCover extends CardCoverActionBase {
     ].filter(prop => prop).length === 0
     );
 
-  public static override readonly type = this.schema.def.innerType.shape.type.value;
+  public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionAddedCardCover.schema>;
 
   protected override buildMessageInner(

@@ -11,6 +11,7 @@ import { z } from "zod";
 import {
   Action,
   ActionWithData,
+  getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
@@ -63,7 +64,7 @@ export default class ActionAddAttachmentToCard extends Action implements ActionW
     }).readonly(),
   }).readonly();
 
-  public static override readonly type = this.schema.def.innerType.shape.type.value;
+  public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionAddAttachmentToCard.schema>;
   private cardAttachmentData?: z.infer<typeof CardAttachmentSchema> = undefined;
   private cardAttachmentPreviewProxy?: z.infer<typeof CardAttachmentPreviewProxySchema> = undefined;

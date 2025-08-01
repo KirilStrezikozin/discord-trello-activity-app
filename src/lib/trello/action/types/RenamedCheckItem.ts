@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import {
   Action,
+  getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
@@ -53,7 +54,7 @@ export default class ActionRenamedCheckItem extends Action {
     }).readonly(),
   }).readonly();
 
-  public static readonly type = this.schema.def.innerType.shape.type.value;
+  public static readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionRenamedCheckItem.schema>;
 
   protected override buildMessageInner(

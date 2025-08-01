@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import {
   Action,
+  getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
@@ -52,7 +53,7 @@ export default class ActionMoveCardFromListToList extends Action {
     }).readonly(),
   }).readonly();
 
-  public static override readonly type = this.schema.def.innerType.shape.type.value;
+  public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionMoveCardFromListToList.schema>;
 
   protected override buildMessageInner(
