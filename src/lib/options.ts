@@ -6,7 +6,8 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-import { getFullRequestUrl, strToBoolean } from "./utils";
+import { getFullRequestUrl } from "./utils/url";
+import { strToBoolean } from "./utils/conv";
 
 /**
  * Default size of an icon for a Discord message in pixels.

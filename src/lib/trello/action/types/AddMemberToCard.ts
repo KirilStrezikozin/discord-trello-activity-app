@@ -17,7 +17,7 @@ import {
 import { EmbedBuilder } from "discord.js";
 import { ActionMemberSchema } from "../schema";
 import { WebhookOptions } from "@/src/lib/options";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
 import { getMemberIcon } from "./utils";
 
 export default class ActionAddMemberToCard extends Action implements ActionWithData {

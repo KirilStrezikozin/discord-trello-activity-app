@@ -15,7 +15,7 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
 import { WebhookOptions } from "@/src/lib/options";
 
 import {

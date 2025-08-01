@@ -18,7 +18,7 @@ import { EmbedBuilder } from "discord.js";
 import { getMemberIcon } from "./utils";
 import { WebhookOptions } from "@/src/lib/options";
 import { ListCardsSchema } from "../schema";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
+import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
 
 export default class ActionArchivedList extends Action implements ActionWithData {
   public static override readonly schema = z.object({

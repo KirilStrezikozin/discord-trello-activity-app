@@ -6,7 +6,7 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-import { strToBoolean } from "./utils";
+import { strToBoolean } from "./utils/conv";
 
 export const IsDebug = process.env.DTAA_NDEBUG
   ? !strToBoolean(process.env.DTAA_NDEBUG) : true;
