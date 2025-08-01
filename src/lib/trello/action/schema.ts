@@ -7,7 +7,11 @@
  */
 
 import { z } from "zod";
-import { ColorSchema } from "../../color";
+
+/** Schema for parsing color values in hexadecimal format. */
+export const ColorSchema = z.custom<`#${string}`>((val) => {
+  return typeof val === "string" ? /^#(?:[0-9a-fA-F]{3,4}){1,2}$/.test(val) : false;
+});
 
 /**
  * Webhook model schema of the webhook response from Trello.
