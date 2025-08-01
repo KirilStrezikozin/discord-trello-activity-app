@@ -1,0 +1,34 @@
+{
+  "author": {
+    "name": "A cover has been changed on a card"
+  },
+  "color": 2236978,
+  "title": "test",
+  "description": "Card cover: Attachment Preview.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Old Card Cover",
+      "value": "Attachment Preview",
+      "inline": false
+    },
+    {
+      "name": "Attachment Link",
+      "value": "[Open Link](https://example.com)",
+      "inline": true
+    },
+    {
+      "name": "Cover Size",
+      "value": "full",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/preview.png"
+  }
+}

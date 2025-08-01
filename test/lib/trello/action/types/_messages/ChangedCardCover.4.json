@@ -1,0 +1,34 @@
+{
+  "author": {
+    "name": "A cover has been changed on a card"
+  },
+  "color": 14474205,
+  "title": "test",
+  "description": "Card cover: Unsplash Image.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Old Card Cover",
+      "value": "Unsplash Image",
+      "inline": false
+    },
+    {
+      "name": "Image Link",
+      "value": "[Open Link](https://example.com)",
+      "inline": true
+    },
+    {
+      "name": "Cover Size",
+      "value": "normal",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/10"
+  }
+}

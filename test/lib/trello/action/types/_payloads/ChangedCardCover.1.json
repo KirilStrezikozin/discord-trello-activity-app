@@ -3,10 +3,10 @@
   "data": {
     "old": {
       "cover": {
-        "color": "green",
-        "idAttachment": null,
+        "color": null,
+        "idAttachment": "1234567890",
         "idUploadedBackground": null,
-        "size": "full",
+        "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
         "plugin": null
@@ -14,10 +14,10 @@
     },
     "card": {
       "cover": {
-        "color": "yellow",
+        "color": "green",
         "idAttachment": null,
         "idUploadedBackground": null,
-        "size": "full",
+        "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
         "plugin": null

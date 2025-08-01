@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "A cover has been changed on a card"
+  },
+  "color": 1858580,
+  "title": "test",
+  "description": "Card cover: Set with Plugin.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Old Card Cover",
+      "value": "Set with Plugin",
+      "inline": false
+    },
+    {
+      "name": "Cover Size",
+      "value": "normal",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/5"
+  }
+}

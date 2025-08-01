@@ -14,9 +14,9 @@
     },
     "card": {
       "cover": {
-        "color": "green",
+        "color": null,
         "idAttachment": null,
-        "idUploadedBackground": null,
+        "idUploadedBackground": "687ccee22a2c41d7a73f6255",
         "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,

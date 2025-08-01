@@ -12,23 +12,19 @@ import {
   MessageOptions
 } from "./base";
 
-import {
-  CardCoverNoSourceSchema,
-  CardCoverWithSourceSchema,
-} from "../schema";
-
 import { EmbedBuilder } from "discord.js";
+import { CardCoverWithSourceSchema } from "../schema";
 import { CardCoverActionBase } from "./shared";
 import { getMemberIcon } from "./utils";
 
-export default class ActionAddedCardCover extends CardCoverActionBase {
+export default class ActionChangedCardCover extends CardCoverActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateCard"),
 
     data: z.object({
       old: z.object({
-        cover: CardCoverNoSourceSchema,
+        cover: CardCoverWithSourceSchema,
       }).readonly(),
 
       card: z.object({
@@ -51,38 +47,43 @@ export default class ActionAddedCardCover extends CardCoverActionBase {
       }).readonly(),
     }).readonly(),
   }).readonly()
-    .refine((data) => [
-      data.data.old.cover.color,
-      data.data.old.cover.idAttachment,
-      data.data.old.cover.idUploadedBackground,
-      data.data.old.cover.plugin
-    ].filter(prop => prop).length === 0
-    );
+    .refine((data) => {
+      const old = data.data.old.cover;
+      const curr = data.data.card.cover;
+      return (
+        old.idAttachment !== curr.idAttachment
+        || old.idUploadedBackground !== curr.idUploadedBackground
+        || old.plugin !== curr.plugin
+      );
+    });
 
   public static override readonly type = this.schema.def.innerType.shape.type.value;
-  protected override data?: z.infer<typeof ActionAddedCardCover.schema>;
+  protected override data?: z.infer<typeof ActionChangedCardCover.schema>;
 
   protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
     const name = opts.member
-      ? `${opts.member?.username} has added a cover to a card`
-      : "A cover has been added to a card";
+      ? `${opts.member?.username} has changed a cover on a card`
+      : "A cover has been changed on a card";
 
-    const { card, list } = this.data!.data;
-    const { cover } = card;
+    const { old, card, list } = this.data!.data;
+    const oldCover = old.cover;
+    const cover = card.cover;
 
-    const coverDesc = this.getCoverDescription(cover);
+    const oldCoverDesc = this.getCoverDescription(oldCover);
+    const currCoverDesc = this.getCoverDescription(cover);
 
     embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(card.name)
       .setURL(`https://trello.com/c/${card.shortLink}`)
-      .setDescription(
-        (cover.manualCoverAttachment)
-          ? `Card cover: ${coverDesc}.`
-          : `Card cover selected automatically by Trello: ${coverDesc}.`
-      )
+      .setDescription(`Card cover: ${currCoverDesc}.`)
+      .addFields({
+        name: "Old Card Cover",
+        value: oldCoverDesc,
+        inline: false,
+      })
       ;
 
     if (this.coverIsSolidColor(cover)) {

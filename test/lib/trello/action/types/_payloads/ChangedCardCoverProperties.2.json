@@ -3,21 +3,20 @@
   "data": {
     "old": {
       "cover": {
-        "color": null,
+        "color": "yellow",
         "idAttachment": null,
-        "idUploadedBackground": "687ccee22a2c41d7a73f6255",
-        "size": "normal",
-        "brightness": "light",
+        "idUploadedBackground": null,
+        "size": "full",
+        "brightness": "dark",
         "manualCoverAttachment": true,
-        "plugin": null,
-        "url": "https://example.com"
+        "plugin": null
       }
     },
     "card": {
       "cover": {
-        "color": null,
+        "color": "purple",
         "idAttachment": null,
-        "idUploadedBackground": "687ccfc2d2b74f7de178875b",
+        "idUploadedBackground": null,
         "size": "normal",
         "brightness": "light",
         "manualCoverAttachment": true,
