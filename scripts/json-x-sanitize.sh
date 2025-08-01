@@ -18,7 +18,7 @@ fi
 # 3. Replacing values of name, text, description keys with "test".
 
 filtered=$(
-  jq '
+    jq '
     walk(
       if type == "object" then
         reduce keys[] as $k (
@@ -36,7 +36,9 @@ filtered=$(
             desc: "test",
             text: "test",
             idShort: 123,
+            initials: "TT",
             locale: "en-us",
+            fullName: "test",
             overview: "test",
             shortLink: "abc",
             id: "1234567890",
@@ -49,6 +51,7 @@ filtered=$(
             idBoard: "1234567890",
             idMember: "1234567890",
             idPlugin: "1234567890",
+            idChecklist: "1234567890",
             idAttachment: "1234567890",
             idMemberAdded: "1234567890",
             idOrganization: "1234567890",
