@@ -136,6 +136,18 @@ export default class ActionAddedCardCover extends Action implements ActionWithDa
     }
   }
 
+  private coverDescription(
+    data: z.infer<typeof CardCoverWithSourceSchema>
+  ): string {
+    return (
+      (data.color) ? "Solid Color"
+        : (data.idAttachment) ? "Attachment Preview"
+          : (data.idUploadedBackground) ? "Unsplash Image"
+            : (data.plugin) ? "Set with Plugin"
+              : "Unknown"
+    );
+  }
+
   protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
@@ -143,162 +155,121 @@ export default class ActionAddedCardCover extends Action implements ActionWithDa
       ? `${opts.member?.username} has added a cover to a card`
       : "A cover has been added to a card";
 
+    const { card, list } = this.data!.data;
+    const { cover } = card;
+    const coverDesc = this.coverDescription(cover);
+
     embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
-      .setTitle(this.data!.data.card.name)
-      .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
+      .setTitle(card.name)
+      .setURL(`https://trello.com/c/${card.shortLink}`)
+      .setDescription(
+        (cover.manualCoverAttachment)
+          ? `Card cover: ${coverDesc}.`
+          : `Card cover selected automatically by Trello: ${coverDesc}.`
+      )
       ;
 
-    const cover = this.data!.data.card.cover;
-
     if (cover.color) {
+      embed.addFields({
+        name: "Cover Color",
+        value: cover.color,
+        inline: true,
+      });
+
+      const parsedEdgeColor = CardCoverColorNameToHexColor.safeParse(cover.color);
+      if (parsedEdgeColor.success) {
+        embed.setColor(parsedEdgeColor.data);
+      }
+
+    } else if (cover.idAttachment && this.cardAttachmentData) {
+      const attachment = this.cardAttachmentData;
+
+      if (attachment.edgeColor) {
+        embed.setColor(attachment.edgeColor);
+      }
+
+      embed.addFields({
+        name: "Attachment Link",
+        value: `[Open Link](${attachment.url})`,
+        inline: true,
+      });
+
+      const previewProxy = this.cardAttachmentPreviewProxy;
+      if (previewProxy?.success) {
+        embed.setImage(previewProxy.url);
+      } else {
+        /* Attachment card cover should be previewable, which means that,
+         * in this case, we had an error with resolving a proxy URL. */
+        embed.addFields({
+          name: "Attachment Preview",
+          value: "Could not load attachment image preview.",
+          inline: false,
+        });
+      }
+
+    } else if (
+      cover.idUploadedBackground
+      && this.cardData
+      && this.cardData.cover.idUploadedBackground
+    ) {
       embed
-        .setDescription(
-          cover.manualCoverAttachment
-            ? "Solid color card cover."
-            : "Solid color card cover automatically selected by Trello."
-        )
+        .setColor(this.cardData.cover.edgeColor)
         .addFields({
-          name: "Cover Color",
-          value: cover.color,
+          name: "Image Link",
+          value: `[Open Link](${this.cardData.cover.sharedSourceUrl})`,
           inline: true,
         })
         ;
 
-      const parsedEdgeColor = CardCoverColorNameToHexColor.safeParse(
-        cover.color
-      );
+      const preview = getLargestAttachmentPreview(this.cardData.cover.scaled);
 
-      if (parsedEdgeColor.success) {
-        embed.setColor(parsedEdgeColor.data);
-      }
-    } else if (cover.idAttachment) {
-      embed
-        .setDescription(
-          cover.manualCoverAttachment
-            ? "Attachment preview as card cover."
-            : "Attachment preview automatically selected by Trello as card cover."
-        )
-        ;
-
-      if (this.cardAttachmentData) {
-        const attachment = this.cardAttachmentData;
-
-        if (attachment.edgeColor) {
-          embed.setColor(attachment.edgeColor);
-        }
-
+      if (preview) {
+        embed.setImage(preview.url);
+      } else {
+        /* Shared background card cover should always be previewable. */
         embed.addFields({
-          name: "Attachment Link",
-          value: `[Open Link](${attachment.url})`,
-          inline: true,
+          name: "Image Preview",
+          value: "Could not load image preview.",
+          inline: false,
         });
-
-        const previewProxy = this.cardAttachmentPreviewProxy;
-        if (previewProxy?.success) {
-          embed.setImage(previewProxy.url);
-        } else {
-          /* Attachment card cover should be previewable, which means that,
-           * in this case, we had an error with resolving a proxy URL. */
-          embed.addFields({
-            name: "Attachment Preview",
-            value: "Could not load attachment image preview.",
-            inline: false,
-          });
-        }
       }
-    } else if (cover.idUploadedBackground) {
-      embed
-        .setDescription(
-          cover.manualCoverAttachment
-            ? "Unsplash image card cover."
-            : "Unsplash image card cover automatically selected by Trello."
-        )
-        ;
 
-      if (this.cardData
-        && this.cardData.cover.idUploadedBackground) {
-        embed
-          .setColor(this.cardData.cover.edgeColor)
-          .addFields({
-            name: "Image Link",
-            value: `[Open Link](${this.cardData.cover.sharedSourceUrl})`,
-            inline: true,
-          })
-          ;
+    } else if (
+      cover.plugin !== null
+      && this.cardData && this.cardData.cover.idPlugin
+    ) {
+      embed.setColor(this.cardData.cover.edgeColor);
 
-        const preview = getLargestAttachmentPreview(
-          this.cardData.cover.scaled
-        );
+      const preview = getLargestAttachmentPreview(this.cardData.cover.scaled);
 
-        if (preview) {
-          embed.setImage(preview.url);
-        } else {
-          /* Shared background card cover should always be previewable. */
-          embed.addFields({
-            name: "Image Preview",
-            value: "Could not load image preview.",
-            inline: false,
-          });
-        }
-
+      /* Plugin-set card covers are the least reliable. Preview URL could be
+       * unique per plugin, as such no proxy logic as with shared background
+       * is used here. Simply pass the preview URL and ignore if it cannot be
+       * rendered. */
+      if (preview) {
+        embed.setImage(preview.url);
+      } else {
+        embed.addFields({
+          name: "Cover Preview",
+          value: "Could not load cover image preview.",
+          inline: false,
+        });
       }
-    } else if (cover.plugin !== null) {
-      embed
-        .setDescription(
-          cover.manualCoverAttachment
-            ? "Card cover set with plugin."
-            : "Card cover set with plugin automatically by Trello."
-        )
-        ;
-
-      if (this.cardData && this.cardData.cover.idPlugin) {
-        embed.setColor(this.cardData.cover.edgeColor);
-
-        const preview = getLargestAttachmentPreview(
-          this.cardData.cover.scaled
-        );
-
-        /* Plugin-set card covers are the least reliable. Preview URL could be
-         * unique per plugin, as such no proxy logic as with shared background
-         * is used here. Simply pass the preview URL and ignore if it cannot be
-         * rendered. */
-        if (preview) {
-          embed.setImage(preview.url);
-        } else {
-          embed.addFields({
-            name: "Cover Preview",
-            value: "Could not load cover image preview.",
-            inline: false,
-          });
-        }
-      }
-    } else {
-      /* Parsing will fail if the conditions above were not satisfied in the
-       * first place, but this case still exists for clarity. */
-      embed
-        .setDescription(
-          cover.manualCoverAttachment
-            ? "Unknown card cover."
-            : "Unknown card cover automatically selected by Trello."
-        )
-        ;
     }
 
-    embed
-      .addFields(
-        {
-          name: "Cover Size",
-          value: cover.size,
-          inline: true,
-        },
-        {
-          name: "List",
-          value: this.data!.data.list.name,
-          inline: false,
-        },
-      )
-      ;
+    embed.addFields(
+      {
+        name: "Cover Size",
+        value: cover.size,
+        inline: true,
+      },
+      {
+        name: "List",
+        value: list.name,
+        inline: false,
+      },
+    );
 
     return embed;
   }
