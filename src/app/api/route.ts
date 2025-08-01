@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     log.error(error);
     return new Response(
       "Error: could not instantiate a Discord client to communicate with",
-      { status: options.suppressErrors ? 200 : 500 }
+      { status: 500 }
     );
   }
 
