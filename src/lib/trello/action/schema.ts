@@ -119,7 +119,7 @@ export const CardAttachmentSchema = CardAttachmentBaseSchema.or(
   )
 );
 
-const labelColorMap: Record<string, z.infer<typeof ColorSchema>> = {
+const labelColorMap = {
   "green_light": "#baf3db",
   "green": "#4bce97",
   "green_dark": "#1f845a",
@@ -150,17 +150,19 @@ const labelColorMap: Record<string, z.infer<typeof ColorSchema>> = {
   "black_light": "#dcdfe4",
   "black": "#8590a2",
   "black_dark": "#626f86",
-};
+} satisfies Record<string, z.infer<typeof ColorSchema>>;
 
 /** Schema of allowed color names for a Trello label. */
-export const LabelColorName = z.literal(Object.keys(labelColorMap));
+export const LabelColorName = z.literal(
+  Object.keys(labelColorMap) as unknown as keyof typeof labelColorMap
+);
 
 /** Transform schema from label color names to their hex values. */
 export const LabelColorNameToHexColor = LabelColorName.transform((data) => {
   return labelColorMap[data];
 });
 
-const cardCoverColorMap: Record<string, z.infer<typeof ColorSchema>> = {
+const cardCoverColorMap = {
   "green": "#4bce97",
   "yellow": "#e2b203",
   "orange": "#faa53d",
@@ -171,10 +173,12 @@ const cardCoverColorMap: Record<string, z.infer<typeof ColorSchema>> = {
   "lime": "#94c748",
   "pink": "#e774bb",
   "black": "#8590a2",
-};
+} satisfies Record<string, z.infer<typeof ColorSchema>>;
 
 /** Schema of allowed color names for a Trello card cover. */
-export const CardCoverColorName = z.literal(Object.keys(cardCoverColorMap));
+export const CardCoverColorName = z.literal(
+  Object.keys(cardCoverColorMap) as unknown as keyof typeof cardCoverColorMap
+);
 
 /** Transform schema from card cover color names to their hex values. */
 export const CardCoverColorNameToHexColor =
@@ -216,7 +220,7 @@ export const CardCoverNoSourceSchema = CardCoverBaseSchema.omit({
  */
 export const CardCoverWithSourceSchema = CardCoverNoSourceSchema.def.innerType.extend({
   /** Not null if the card cover is a solid color. */
-  color: z.string().min(1).nullable(),
+  color: CardCoverColorName.nullable(),
   /** Not null if the card cover is a user-uploaded card attachment. */
   idAttachment: z.string().min(1).nullable(),
   /** Not null if the card cover is a Trello-uploaded Unsplash background. */
