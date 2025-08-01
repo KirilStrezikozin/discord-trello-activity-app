@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import {
   Action,
+  ActionWithData,
   MessageOptions
 } from "./base";
 
@@ -32,7 +33,7 @@ import {
   resolveAttachmentPreviewProxy
 } from "./utils";
 
-export default class ActionAddedCardCover extends Action {
+export default class ActionAddedCardCover extends Action implements ActionWithData {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateCard"),
@@ -78,7 +79,7 @@ export default class ActionAddedCardCover extends Action {
    *
    * @param opts Webhook app options.
    */
-  async fetchData(opts: WebhookOptions): Promise<void> {
+  public async fetchData(opts: WebhookOptions): Promise<void> {
     const actionId = this.data!.id;
     const { card } = this.data!.data;
 

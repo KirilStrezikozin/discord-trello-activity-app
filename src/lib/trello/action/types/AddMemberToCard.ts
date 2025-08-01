@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import {
   Action,
+  ActionWithData,
   MessageOptions
 } from "./base";
 
@@ -19,7 +20,7 @@ import { WebhookOptions } from "@/src/lib/options";
 import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
 import { getMemberIcon } from "./utils";
 
-export default class ActionAddMemberToCard extends Action {
+export default class ActionAddMemberToCard extends Action implements ActionWithData {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("addMemberToCard"),
@@ -57,7 +58,7 @@ export default class ActionAddMemberToCard extends Action {
    *
    * @param opts Webhook app options.
    */
-  async fetchData(opts: WebhookOptions): Promise<void> {
+  public async fetchData(opts: WebhookOptions): Promise<void> {
     const axiosInst = newTrelloAPIAxiosInstance(opts);
 
     const { data } = await axiosInst(`/actions/${this.data!.id}/member`);
