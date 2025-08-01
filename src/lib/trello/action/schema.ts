@@ -314,6 +314,9 @@ export const CardSchema = z.object({
   ]).readonly(),
 }).readonly();
 
+/** Schema of list cards data array. */
+export const ListCardsSchema = CardSchema.array().readonly();
+
 /** Schema of proxied card attachment preview. */
 export const CardAttachmentPreviewProxySchema = z.union([
   z.object({

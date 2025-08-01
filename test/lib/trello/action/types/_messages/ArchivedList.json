@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "A list has been archived"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "description": "The list will no longer appear on the board. It can be restored from the board menu.",
+  "fields": [
+    {
+      "name": "Total Cards Archived in List",
+      "value": "2",
+      "inline": false
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
