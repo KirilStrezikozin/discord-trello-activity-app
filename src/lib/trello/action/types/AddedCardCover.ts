@@ -14,7 +14,7 @@ import {
 } from "./base";
 
 import {
-  ActionCardSchema,
+  CardSchema,
   CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
   CardCoverColorNameToHexColor,
@@ -67,7 +67,7 @@ export default class ActionAddedCardCover extends Action {
   protected override data?: z.infer<typeof ActionAddedCardCover.schema>;
   private cardAttachmentData?: z.infer<typeof CardAttachmentSchema> = undefined;
   private cardAttachmentPreviewProxy?: z.infer<typeof CardAttachmentPreviewProxySchema> = undefined;
-  private actionCardData?: z.infer<typeof ActionCardSchema> = undefined;
+  private cardData?: z.infer<typeof CardSchema> = undefined;
 
   /**
    * Fetches additional information to build a more descriptive message.
@@ -122,12 +122,12 @@ export default class ActionAddedCardCover extends Action {
       const { data } = await axiosInst(`/actions/${actionId}/card`);
 
       /* Parse and validate fetched data. */
-      const res = ActionCardSchema.safeParse(data);
+      const res = CardSchema.safeParse(data);
       if (!res.success) {
         throw new Error(res.error.toString());
       }
 
-      this.actionCardData = res.data;
+      this.cardData = res.data;
 
     } else {
       /* No attachment or uploaded background ID is set, no-op. */
@@ -215,19 +215,19 @@ export default class ActionAddedCardCover extends Action {
         )
         ;
 
-      if (this.actionCardData
-        && this.actionCardData.cover.idUploadedBackground) {
+      if (this.cardData
+        && this.cardData.cover.idUploadedBackground) {
         embed
-          .setColor(this.actionCardData.cover.edgeColor)
+          .setColor(this.cardData.cover.edgeColor)
           .addFields({
             name: "Image Link",
-            value: `[Open Link](${this.actionCardData.cover.sharedSourceUrl})`,
+            value: `[Open Link](${this.cardData.cover.sharedSourceUrl})`,
             inline: true,
           })
           ;
 
         const preview = getLargestAttachmentPreview(
-          this.actionCardData.cover.scaled
+          this.cardData.cover.scaled
         );
 
         if (preview) {
@@ -251,11 +251,11 @@ export default class ActionAddedCardCover extends Action {
         )
         ;
 
-      if (this.actionCardData && this.actionCardData.cover.idPlugin) {
-        embed.setColor(this.actionCardData.cover.edgeColor);
+      if (this.cardData && this.cardData.cover.idPlugin) {
+        embed.setColor(this.cardData.cover.edgeColor);
 
         const preview = getLargestAttachmentPreview(
-          this.actionCardData.cover.scaled
+          this.cardData.cover.scaled
         );
 
         /* Plugin-set card covers are the least reliable. Preview URL could be

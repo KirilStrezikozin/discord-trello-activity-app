@@ -237,8 +237,8 @@ export const CardCoverWithSourceSchema = CardCoverNoSourceSchema.def.innerType.e
     }
   );
 
-/** Schema of fetched card data for a Trello action. */
-export const ActionCardSchema = z.object({
+/** Schema of Trello card data. */
+export const CardSchema = z.object({
   id: z.string().min(1),
   address: z.string().nullish(),
 
@@ -257,6 +257,18 @@ export const ActionCardSchema = z.object({
   shortLink: z.string(),
   url: z.url(),
   closed: z.boolean(),
+  dueComplete: z.boolean(),
+  pinned: z.boolean(),
+  subscribed: z.boolean(),
+  manualCoverAttachment: z.boolean(),
+  idAttachmentCover: z.string().min(1).nullable(),
+  idMembers: z.string().min(1).array(),
+  idMembersVoted: z.string().min(1).array(),
+  idLabels: z.string().min(1).array(),
+  idList: z.string().min(1),
+  dateLastActivity: z.iso.datetime({ precision: 3 }),
+  due: z.iso.datetime({ precision: 3 }).nullable(),
+  dueReminder: z.number().nullable(),
 
   cover: z.union([
     CardCoverBaseSchema,
@@ -287,10 +299,6 @@ export const ActionCardSchema = z.object({
       idPlugin: z.string().min(1),
     }),
   ]).readonly(),
-
-  idMembers: z.string().min(1).array(),
-  idMembersVoted: z.string().min(1).array(),
-  dateLastActivity: z.iso.datetime({ precision: 3 }),
 }).readonly();
 
 /** Schema of proxied card attachment preview. */

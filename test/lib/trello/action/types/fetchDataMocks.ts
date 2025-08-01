@@ -12,7 +12,7 @@ import { z } from "zod";
 import { expect, vi } from "vitest";
 
 import {
-  ActionCardSchema,
+  CardSchema,
   ActionMemberSchema,
   CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
@@ -30,7 +30,7 @@ const fetchDataPayloadsDirectory = "./test/lib/trello/action/types/_fetchDataPay
  * the result of calling `fetchData`.
  */
 const propertyMap = {
-  actionCardData: ActionCardSchema,
+  cardData: CardSchema,
   actionMemberData: ActionMemberSchema,
   cardAttachmentData: CardAttachmentSchema,
   cardAttachmentPreviewProxy: CardAttachmentPreviewProxySchema,

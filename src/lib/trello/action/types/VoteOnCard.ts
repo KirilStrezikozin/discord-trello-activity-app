@@ -15,7 +15,7 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { ActionCardSchema } from "../schema";
+import { CardSchema } from "../schema";
 import { WebhookOptions } from "@/src/lib/options";
 import { newTrelloAPIAxiosInstance } from "@/src/lib/utils";
 import { getMemberIcon } from "./utils";
@@ -45,7 +45,7 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
 
   public static override readonly type = this.schema.def.innerType.shape.type.value;
   protected override data?: z.infer<typeof ActionVoteOnCard.schema>;
-  private actionCardData?: z.infer<typeof ActionCardSchema> = undefined;
+  private cardData?: z.infer<typeof CardSchema> = undefined;
 
   /**
    * Fetches additional card information (total number of votes) to build
@@ -58,12 +58,12 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
 
     const { data } = await axiosInst(`/actions/${this.data!.id}/card`);
 
-    const res = ActionCardSchema.safeParse(data);
+    const res = CardSchema.safeParse(data);
     if (!res.success) {
       throw new Error(res.error.toString());
     }
 
-    this.actionCardData = res.data;
+    this.cardData = res.data;
   }
 
   protected override buildMessageInner(
@@ -79,11 +79,11 @@ export default class ActionVoteOnCard extends Action implements ActionWithData {
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       ;
 
-    if (this.actionCardData) {
+    if (this.cardData) {
       embed
         .addFields({
           name: "Total Votes",
-          value: this.actionCardData.idMembersVoted.length.toString(),
+          value: this.cardData.idMembersVoted.length.toString(),
           inline: false
         })
         ;
