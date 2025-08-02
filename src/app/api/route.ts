@@ -113,7 +113,9 @@ export async function POST(request: Request) {
 
     /* Use the matched Action to build a Discord message from
      * Trello activity data it holds. Send the message. */
-    await discordClient.send(action.buildMessage(messageOptions));
+    if (!options.muted) {
+      await discordClient.send(action.buildMessage(messageOptions));
+    }
 
   } catch (error) {
     log.error(error);
@@ -139,7 +141,7 @@ export async function POST(request: Request) {
     }
 
     /* Report and send API server error as a Discord messages. */
-    if (options.sendErrors && error instanceof Error) {
+    if (!options.muted && options.sendErrors && error instanceof Error) {
       let actionData = undefined;
       if (error instanceof UnsupportedActivityError) {
         actionData = error.data;
@@ -150,6 +152,7 @@ export async function POST(request: Request) {
         /* Send a message describing the error to Discord.
          * In case `messageOptions` was assigned before the error was caught,
          * the sent message will be more descriptive. */
+
         await discordClient.send(
           action.action.buildMessage(messageOptions ?? {})
         );

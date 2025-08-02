@@ -35,6 +35,7 @@ export class WebhookOptions {
     iconSizePixels: defaultIconSizePixels,
     originUrl: "",
     useProxy: false,
+    muted: false,
   };
 
   /**
@@ -54,6 +55,7 @@ export class WebhookOptions {
       iconSizePixels: false,
       originUrl: true,
       useProxy: true,
+      muted: true,
     };
 
   /**
@@ -70,6 +72,7 @@ export class WebhookOptions {
     iconSizePixels: "DTAA_DISCORD_MSG_ICON_SIZE_PX",
     originUrl: "DTAA_ORIGIN_URL",
     useProxy: "DTAA_USE_PROXY",
+    muted: "DTAA_NO_DISCORD_MSGS",
   };
 
   /** Trello API key. */
@@ -135,6 +138,13 @@ export class WebhookOptions {
    */
   public get useProxy() {
     return this.options.useProxy;
+  }
+
+  /**
+   * Whether sending Discord messages is enabled or not.
+   */
+  public get muted() {
+    return this.options.muted;
   }
 
   /**
