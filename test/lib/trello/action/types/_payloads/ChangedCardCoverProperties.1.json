@@ -3,22 +3,22 @@
   "data": {
     "old": {
       "cover": {
-        "color": "yellow",
-        "idAttachment": null,
+        "color": null,
+        "idAttachment": "1234567890",
         "idUploadedBackground": null,
         "size": "full",
-        "brightness": "light",
-        "manualCoverAttachment": true,
+        "brightness": "dark",
+        "manualCoverAttachment": false,
         "plugin": null
       }
     },
     "card": {
       "cover": {
-        "color": "yellow",
-        "idAttachment": null,
+        "color": null,
+        "idAttachment": "1234567890",
         "idUploadedBackground": null,
         "size": "normal",
-        "brightness": "light",
+        "brightness": "dark",
         "manualCoverAttachment": true,
         "plugin": null
       },

@@ -1,0 +1,46 @@
+{
+  "author": {
+    "name": "Cover properties have been changed on a card"
+  },
+  "color": 14856707,
+  "title": "test",
+  "description": "Card cover: Solid Color.",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Old Color",
+      "value": "green",
+      "inline": true
+    },
+    {
+      "name": "Old Size",
+      "value": "full",
+      "inline": true
+    },
+    {
+      "name": "Old Theme",
+      "value": "light",
+      "inline": true
+    },
+    {
+      "name": "New Color",
+      "value": "yellow",
+      "inline": true
+    },
+    {
+      "name": "New Size",
+      "value": "full",
+      "inline": true
+    },
+    {
+      "name": "New Theme",
+      "value": "light",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}

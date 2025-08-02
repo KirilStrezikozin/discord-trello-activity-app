@@ -13,6 +13,7 @@ import AddedCardStartDate from "./types/AddedCardStartDate";
 import ArchivedCard from "./types/ArchivedCard";
 import ArchivedList from "./types/ArchivedList";
 import ChangedCardCover from "./types/ChangedCardCover";
+import ChangedCardCoverProperties from "./types/ChangedCardCoverProperties";
 import ChangedCardDueDate from "./types/ChangedCardDueDate";
 import ChangedCardDueDateReminder from "./types/ChangedCardDueDateReminder";
 import ChangedCardStartDate from "./types/ChangedCardStartDate";
@@ -50,6 +51,7 @@ export const ActionTypes: (typeof Action)[] = [
   ArchivedCard,
   ArchivedList,
   ChangedCardCover,
+  ChangedCardCoverProperties,
   ChangedCardDueDate,
   ChangedCardDueDateReminder,
   ChangedCardStartDate,
