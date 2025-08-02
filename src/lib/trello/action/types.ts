@@ -17,6 +17,7 @@ import ChangedCardCoverProperties from "./types/ChangedCardCoverProperties";
 import ChangedCardDueDate from "./types/ChangedCardDueDate";
 import ChangedCardDueDateReminder from "./types/ChangedCardDueDateReminder";
 import ChangedCardStartDate from "./types/ChangedCardStartDate";
+import ChangedDescriptionOfBoard from "./types/ChangedDescriptionOfBoard";
 import ChangedDescriptionOfCard from "./types/ChangedDescriptionOfCard";
 import CompletedCheckItem from "./types/CompletedCheckItem";
 import CreateCard from "./types/CreateCard";
@@ -55,6 +56,7 @@ export const ActionTypes: (typeof Action)[] = [
   ChangedCardDueDate,
   ChangedCardDueDateReminder,
   ChangedCardStartDate,
+  ChangedDescriptionOfBoard,
   ChangedDescriptionOfCard,
   CompletedCheckItem,
   CreateCard,
