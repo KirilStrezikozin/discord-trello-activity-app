@@ -10,7 +10,12 @@ import { expect, describe, test } from "vitest";
 
 import { ActionTypes } from "@/src/lib/trello/action/types";
 import { findActionFor } from "@/src/lib/trello/action/parse";
-import { Action, ActionWithData } from "@/src/lib/trello/action/types/base";
+
+import {
+  Action,
+  ActionWithData,
+  getActionTypeFromSchema
+} from "@/src/lib/trello/action/types/base";
 
 import * as fetchDataMocks from "./fetchDataMocks";
 
@@ -31,6 +36,22 @@ for (const ActionTypeName of allTypeNames.values()) {
 
   describe.skipIf(ActionTypeMaybeUndefined === undefined)(ActionTypeName, () => {
     const ActionType = ActionTypeMaybeUndefined!;
+
+    describe("Properties", () => {
+      test("Type matches Type in Schema", () => {
+        const schemaTyped = ActionType.schema as (
+          Parameters<typeof getActionTypeFromSchema>[0]
+        );
+
+        expect(
+          ActionType.type,
+          `Property "type" should match the value of "type" in "schema"`
+        ).toStrictEqual(
+          Array.from(schemaTyped.def.innerType.shape.type.values.values())[0]
+        );
+      });
+    });
+
     describe("Parsing", () => {
       test("Empty payload", () => {
         const res = ActionType.from({});
@@ -67,11 +88,11 @@ for (const ActionTypeName of allTypeNames.values()) {
         for (const [payloadName, notMyPayloads] of payloads.entries()) {
           if (payloadName === ActionTypeName) continue;
 
-          notMyPayloads.forEach((notMyPayload) => {
+          notMyPayloads.forEach((notMyPayload, index) => {
             const res = ActionType.from(notMyPayload);
             expect(
               res.success,
-              `Against ${payloadName}: Parsing wrong payload should fail`
+              `Against ${payloadName}.${index}: Parsing wrong payload should fail`
             ).toBeFalsy();
           });
         };
