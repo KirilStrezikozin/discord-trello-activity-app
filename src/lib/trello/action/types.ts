@@ -43,6 +43,7 @@ import RenamedCard from "./types/RenamedCard";
 import RenamedCheckItem from "./types/RenamedCheckItem";
 import RenamedList from "./types/RenamedList";
 import RestoredCard from "./types/RestoredCard";
+import RestoredList from "./types/RestoredList";
 import VoteOnCard from "./types/VoteOnCard";
 
 /**
@@ -90,5 +91,6 @@ export const ActionTypes: (typeof Action)[] = [
   RenamedCheckItem,
   RenamedList,
   RestoredCard,
+  RestoredList,
   VoteOnCard,
 ];

@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A list has been restored from archive"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Total Cards Restored with List",
+      "value": "2",
+      "inline": false
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
