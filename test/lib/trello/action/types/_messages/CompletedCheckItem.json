@@ -8,11 +8,16 @@
     {
       "name": "Checklist Item",
       "value": "test",
-      "inline": true
+      "inline": false
     },
     {
       "name": "Checklist",
       "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Completed Checkitems",
+      "value": "2/4",
       "inline": true
     }
   ]

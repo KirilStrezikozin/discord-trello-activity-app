@@ -18,7 +18,12 @@
     {
       "name": "Checklist",
       "value": "test",
-      "inline": true
+      "inline": false
+    },
+    {
+      "name": "Completed Checkitems",
+      "value": "2/4",
+      "inline": false
     }
   ]
 }

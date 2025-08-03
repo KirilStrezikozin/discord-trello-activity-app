@@ -19,7 +19,8 @@ import {
   CardAttachmentSchema,
   CardCoverColorNameToHexColor,
   CardCoverWithSourceSchema,
-  CardCoverColorName
+  CardCoverColorName,
+  CardCheckListItemsSchema
 } from "../schema";
 
 import { EmbedBuilder } from "discord.js";
@@ -274,5 +275,62 @@ export class CardCoverActionBase extends Action implements ActionWithData {
         inline: false,
       });
     }
+  }
+}
+
+/**
+ * Base class for action types for Trello card checklist changes that share
+ * additional data fetching and message building steps.
+ */
+export class CheckListActionBase extends Action implements ActionWithData {
+  public static override readonly schema = z.object({
+    data: z.object({
+      checklist: z.object({
+        id: z.string().min(1),
+        name: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof CheckListActionBase.schema>;
+  protected checkListItemsData?: z.infer<typeof CardCheckListItemsSchema> = undefined;
+
+  /**
+   * Fetches additional checklist information (checklist items) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
+
+    const { data } = await axiosInst(
+      `/checklists/${this.data!.data.checklist.id}/checkItems`
+    );
+
+    const res = CardCheckListItemsSchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.checkListItemsData = res.data;
+  }
+
+  protected buildTotalCompletedCheckItemsField(
+    embed: EmbedBuilder,
+    checkItems: z.infer<typeof CardCheckListItemsSchema>,
+    inline: boolean,
+    name: string = "Completed Checkitems",
+  ) {
+    const totalItems = checkItems.length;
+    const completedItems = checkItems.reduce(
+      (acc, item) => item.state === "complete" ? acc + 1 : acc, 0
+    );
+
+    embed.addFields({
+      name: name,
+      value: `${completedItems}/${totalItems}`,
+      inline: inline
+    });
   }
 }

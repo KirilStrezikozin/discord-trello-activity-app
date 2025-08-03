@@ -17,6 +17,7 @@ import {
   CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
   ListCardsSchema,
+  CardCheckListItemsSchema,
 } from "@/src/lib/trello/action/schema";
 
 import { WebhookOptions } from "@/src/lib/options";
@@ -36,6 +37,7 @@ const propertyMap = {
   cardAttachmentData: CardAttachmentSchema,
   cardAttachmentPreviewProxy: CardAttachmentPreviewProxySchema,
   listCardsData: ListCardsSchema,
+  checkListItemsData: CardCheckListItemsSchema,
 } as const;
 
 /**

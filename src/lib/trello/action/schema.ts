@@ -337,6 +337,25 @@ export const CardAttachmentPreviewProxySchema = z.union([
   }).readonly(),
 ]);
 
+/** Schema of card checklist item. */
+export const CardCheckListItemSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  nameData: z.looseObject({
+    emoji: z.looseObject({}),
+  }),
+  pos: z.number(),
+  state: z.literal(["complete", "incomplete"]),
+  due: z.iso.datetime({ precision: 3 }).nullable(),
+  dueReminder: z.number().nullable(),
+  /** Member ID this checklist item is assigned to. */
+  idMember: z.string().min(1).nullable(),
+  idChecklist: z.string().min(1),
+}).readonly();
+
+/** Schema of card checklist items array. */
+export const CardCheckListItemsSchema = CardCheckListItemSchema.array().readonly();
+
 /** Schema of fetched member data for a Trello action. */
 export const ActionMemberSchema = z.object({
   id: z.string().min(1),

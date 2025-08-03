@@ -9,15 +9,15 @@
 import { z } from "zod";
 
 import {
-  Action,
   getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
+import { CheckListActionBase } from "./shared";
 import { getMemberIcon } from "./utils";
 
-export default class ActionCreateCheckItem extends Action {
+export default class ActionCreateCheckItem extends CheckListActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("createCheckItem"),
@@ -68,7 +68,7 @@ export default class ActionCreateCheckItem extends Action {
         {
           name: "Checklist Item",
           value: this.data!.data.checkItem.name,
-          inline: true
+          inline: false
         },
         {
           name: "Checklist",
@@ -77,6 +77,12 @@ export default class ActionCreateCheckItem extends Action {
         },
       )
       ;
+
+    if (this.checkListItemsData) {
+      this.buildTotalCompletedCheckItemsField(
+        embed, this.checkListItemsData, true
+      );
+    }
 
     return embed;
   }
