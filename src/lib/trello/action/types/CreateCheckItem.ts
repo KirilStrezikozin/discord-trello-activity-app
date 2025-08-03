@@ -66,12 +66,12 @@ export default class ActionCreateCheckItem extends Action {
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       .addFields(
         {
-          name: "Checlist Item",
+          name: "Checklist Item",
           value: this.data!.data.checkItem.name,
           inline: true
         },
         {
-          name: "Checlist",
+          name: "Checklist",
           value: this.data!.data.checklist.name,
           inline: true
         },

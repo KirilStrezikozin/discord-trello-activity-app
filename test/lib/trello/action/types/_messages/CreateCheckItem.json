@@ -6,12 +6,12 @@
   "url": "https://trello.com/c/abc",
   "fields": [
     {
-      "name": "Checlist Item",
+      "name": "Checklist Item",
       "value": "test",
       "inline": true
     },
     {
-      "name": "Checlist",
+      "name": "Checklist",
       "value": "test",
       "inline": true
     }

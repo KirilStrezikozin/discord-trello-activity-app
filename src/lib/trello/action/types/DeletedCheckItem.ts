@@ -71,7 +71,7 @@ export default class ActionDeletedCheckItem extends Action {
           inline: true
         },
         {
-          name: "Checlist",
+          name: "Checklist",
           value: this.data!.data.checklist.name,
           inline: true
         },

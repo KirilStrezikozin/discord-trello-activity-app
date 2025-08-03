@@ -59,7 +59,7 @@ export default class ActionCompletedCheckItem extends Action {
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
     const name = opts.member
-      ? `${opts.member?.username} has marked an item in a checklist in a card as complete`
+      ? `${opts.member?.username} has marked an item in a checklist in a card as completed`
       : "An item has been marked as completed in a checklist in a card";
 
     embed
@@ -68,12 +68,12 @@ export default class ActionCompletedCheckItem extends Action {
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       .addFields(
         {
-          name: "Checlist Item",
+          name: "Checklist Item",
           value: this.data!.data.checkItem.name,
           inline: true
         },
         {
-          name: "Checlist",
+          name: "Checklist",
           value: this.data!.data.checklist.name,
           inline: true
         },
