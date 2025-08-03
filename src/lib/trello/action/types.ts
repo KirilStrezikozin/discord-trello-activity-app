@@ -29,6 +29,7 @@ import CopyCommentFromCard from "./types/CopyCommentFromCard";
 import CreateCard from "./types/CreateCard";
 import CreateCheckItem from "./types/CreateCheckItem";
 import CreateList from "./types/CreateList";
+import DeleteCard from "./types/DeleteCard";
 import DeletedCheckItem from "./types/DeletedCheckItem";
 import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
 import MoveCardFromListToList from "./types/MoveCardFromListToList";
@@ -82,6 +83,7 @@ export const ActionTypes: (typeof Action)[] = [
   CreateCard,
   CreateCheckItem,
   CreateList,
+  DeleteCard,
   DeletedCheckItem,
   MarkedCheckItemIncomplete,
   MoveCardFromListToList,

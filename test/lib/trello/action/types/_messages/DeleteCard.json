@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "A card has been deleted"
+  },
+  "title": "Card Deleted",
+  "url": "https://trello.com/c/abc",
+  "description": "This cannot be undone.",
+  "fields": [
+    {
+      "name": "List before the card got archived",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
