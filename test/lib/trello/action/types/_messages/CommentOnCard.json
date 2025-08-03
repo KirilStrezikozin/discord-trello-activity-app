@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "A card has been commented on"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "description": "test",
+  "fields": [
+    {
+      "name": "List",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
