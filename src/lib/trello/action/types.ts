@@ -23,6 +23,7 @@ import ClosedBoard from "./types/ClosedBoard";
 import CommentOnCard from "./types/CommentOnCard";
 import CompletedCheckItem from "./types/CompletedCheckItem";
 import CopyCard from "./types/CopyCard";
+import CopyCommentFromCard from "./types/CopyCommentFromCard";
 import CreateCard from "./types/CreateCard";
 import CreateCheckItem from "./types/CreateCheckItem";
 import DeletedCheckItem from "./types/DeletedCheckItem";
@@ -65,6 +66,7 @@ export const ActionTypes: (typeof Action)[] = [
   CommentOnCard,
   CompletedCheckItem,
   CopyCard,
+  CopyCommentFromCard,
   CreateCard,
   CreateCheckItem,
   DeletedCheckItem,

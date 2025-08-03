@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "A comment has been copied to a card"
+  },
+  "title": "test",
+  "description": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "From Card",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Original Comment From",
+      "value": "test (test)",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/60.png"
+  }
+}
