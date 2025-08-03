@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "A list has been renamed"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Previous Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "New Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
