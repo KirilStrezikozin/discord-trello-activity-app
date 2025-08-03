@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "A checklist item has been converted to a new card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "From Checklist",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Completed Checkitems",
+      "value": "2/4",
+      "inline": true
+    },
+    {
+      "name": "From Card",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
