@@ -38,6 +38,7 @@ import RemoveCheckListFromCard from "./types/RemoveCheckListFromCard";
 import RemoveMemberFromCard from "./types/RemoveMemberFromCard";
 import RemovedCardDueDate from "./types/RemovedCardDueDate";
 import RemovedCardStartDate from "./types/RemovedCardStartDate";
+import RenamedBoard from "./types/RenamedBoard";
 import RenamedCard from "./types/RenamedCard";
 import RenamedCheckItem from "./types/RenamedCheckItem";
 import VoteOnCard from "./types/VoteOnCard";
@@ -82,6 +83,7 @@ export const ActionTypes: (typeof Action)[] = [
   RemoveMemberFromCard,
   RemovedCardDueDate,
   RemovedCardStartDate,
+  RenamedBoard,
   RenamedCard,
   RenamedCheckItem,
   VoteOnCard,
