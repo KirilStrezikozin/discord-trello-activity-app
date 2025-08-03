@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1234567890",
+    "name": "test",
+    "nameData": {
+      "emoji": {}
+    },
+    "pos": 16384,
+    "state": "incomplete",
+    "due": null,
+    "dueReminder": null,
+    "idMember": null,
+    "idChecklist": "1234567890"
+  },
+  {
+    "id": "1234567890",
+    "name": "test",
+    "nameData": {
+      "emoji": {}
+    },
+    "pos": 8192,
+    "state": "complete",
+    "due": null,
+    "dueReminder": null,
+    "idMember": null,
+    "idChecklist": "1234567890"
+  },
+  {
+    "id": "1234567890",
+    "name": "test",
+    "nameData": {
+      "emoji": {}
+    },
+    "pos": 24576,
+    "state": "complete",
+    "due": null,
+    "dueReminder": null,
+    "idMember": null,
+    "idChecklist": "1234567890"
+  },
+  {
+    "id": "1234567890",
+    "name": "test",
+    "nameData": {
+      "emoji": {}
+    },
+    "pos": 32768,
+    "state": "incomplete",
+    "due": null,
+    "dueReminder": null,
+    "idMember": null,
+    "idChecklist": "1234567890"
+  }
+]

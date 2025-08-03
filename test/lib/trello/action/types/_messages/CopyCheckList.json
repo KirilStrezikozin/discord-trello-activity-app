@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A checklist has been copied from card to card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "From Checklist",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Completed Checkitems",
+      "value": "2/4",
+      "inline": false
+    }
+  ]
+}
