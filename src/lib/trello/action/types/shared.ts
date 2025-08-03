@@ -20,7 +20,8 @@ import {
   CardCoverColorNameToHexColor,
   CardCoverWithSourceSchema,
   CardCoverColorName,
-  CardCheckListItemsSchema
+  CardCheckListItemsSchema,
+  CommentReactionsSummarySchema
 } from "../schema";
 
 import { EmbedBuilder } from "discord.js";
@@ -330,6 +331,68 @@ export class CheckListActionBase extends Action implements ActionWithData {
     embed.addFields({
       name: name,
       value: `${completedItems}/${totalItems}`,
+      inline: inline
+    });
+  }
+}
+
+/**
+ * Base class for action types for Trello comment updated that share
+ * additional data fetching and message building steps.
+ */
+export class CommentActionBase extends Action implements ActionWithData {
+  public static override readonly schema = z.object({
+    data: z.object({
+      action: z.object({
+        id: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof CommentActionBase.schema>;
+  protected commentReactionsSummaryData?: z.infer<typeof CommentReactionsSummarySchema> = undefined;
+
+  /**
+   * Fetches additional comment information (reaction summary) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
+
+    const { data } = await axiosInst(
+      `/actions/${this.data!.data.action.id}/reactionsSummary`
+    );
+
+    const res = CommentReactionsSummarySchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.commentReactionsSummaryData = res.data;
+  }
+
+  protected buildCommentReactionsSummaryField(
+    embed: EmbedBuilder,
+    reactionsSummary: z.infer<typeof CommentReactionsSummarySchema>,
+    inline: boolean,
+  ) {
+    const summary = reactionsSummary.reduce(
+      (accum, reaction) => {
+        accum.totalCount += reaction.count;
+        accum.concat += reaction.emoji.native;
+        return accum;
+      },
+      {
+        totalCount: 0,
+        concat: "",
+      }
+    );
+
+    embed.addFields({
+      name: "Reactions",
+      value: `${summary.totalCount} (${summary.concat})`,
       inline: inline
     });
   }

@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "A comment has been updated on a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Old",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "New",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Reactions",
+      "value": "3 (👍😀😍)",
+      "inline": false
+    }
+  ]
+}

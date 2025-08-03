@@ -372,6 +372,19 @@ export const BoardListsWithCardsSchema = z.array(
   }).readonly()
 ).readonly();
 
+/** Schema of comment reactions summary. */
+export const CommentReactionsSummarySchema = z.array(
+  z.object({
+    count: z.number().positive(),
+    id: z.string().min(1),
+    emoji: z.object({
+      native: z.string(),
+      name: z.string(),
+      shortName: z.string(),
+    }).readonly(),
+  }).readonly()
+).readonly();
+
 /** Schema of fetched member data for a Trello action. */
 export const ActionMemberSchema = z.object({
   id: z.string().min(1),

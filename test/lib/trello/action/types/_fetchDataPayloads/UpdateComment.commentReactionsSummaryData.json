@@ -1,0 +1,47 @@
+[
+  {
+    "count": 1,
+    "id": "1234567890",
+    "firstReacted": "2025-08-02T17:47:52.000Z",
+    "idEmoji": "1F44D",
+    "idModel": "1234567890",
+    "idReaction": "1234567890",
+    "emoji": {
+      "unified": "1F44D",
+      "native": "👍",
+      "name": "test",
+      "skinVariation": null,
+      "shortName": "+1"
+    }
+  },
+  {
+    "count": 1,
+    "id": "1234567890",
+    "firstReacted": "2025-08-02T17:49:55.000Z",
+    "idEmoji": "1F600",
+    "idModel": "1234567890",
+    "idReaction": "1234567890",
+    "emoji": {
+      "unified": "1F600",
+      "native": "😀",
+      "name": "test",
+      "skinVariation": null,
+      "shortName": "grinning"
+    }
+  },
+  {
+    "count": 1,
+    "id": "1234567890",
+    "firstReacted": "2025-08-02T17:50:35.000Z",
+    "idEmoji": "1F60D",
+    "idModel": "1234567890",
+    "idReaction": "1234567890",
+    "emoji": {
+      "unified": "1F60D",
+      "native": "😍",
+      "name": "test",
+      "skinVariation": null,
+      "shortName": "heart_eyes"
+    }
+  }
+]

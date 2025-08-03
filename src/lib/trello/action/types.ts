@@ -48,6 +48,7 @@ import RenamedList from "./types/RenamedList";
 import ReopenedBoard from "./types/ReopenedBoard";
 import RestoredCard from "./types/RestoredCard";
 import RestoredList from "./types/RestoredList";
+import UpdateComment from "./types/UpdateComment";
 import VoteOnCard from "./types/VoteOnCard";
 
 /**
@@ -100,5 +101,6 @@ export const ActionTypes: (typeof Action)[] = [
   ReopenedBoard,
   RestoredCard,
   RestoredList,
+  UpdateComment,
   VoteOnCard,
 ];
