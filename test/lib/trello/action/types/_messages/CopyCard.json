@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A card has been copied to create a new one"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "From Card",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
