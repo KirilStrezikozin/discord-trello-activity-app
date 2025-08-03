@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A board has been reopened"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Total Open Lists",
+      "value": "13",
+      "inline": false
+    },
+    {
+      "name": "Total Open Cards",
+      "value": "6",
+      "inline": false
+    }
+  ]
+}

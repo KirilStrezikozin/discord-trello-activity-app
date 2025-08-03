@@ -356,6 +356,22 @@ export const CardCheckListItemSchema = z.object({
 /** Schema of card checklist items array. */
 export const CardCheckListItemsSchema = CardCheckListItemSchema.array().readonly();
 
+/** Schema of Trello list data. */
+export const ListSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  closed: z.boolean(),
+  color: z.string().nullable(),
+  idBoard: z.string().min(1),
+}).readonly();
+
+/** Schema of an array of lists with an array of cards. */
+export const BoardListsWithCardsSchema = z.array(
+  ListSchema.def.innerType.extend({
+    cards: CardSchema.array().readonly(),
+  }).readonly()
+).readonly();
+
 /** Schema of fetched member data for a Trello action. */
 export const ActionMemberSchema = z.object({
   id: z.string().min(1),
