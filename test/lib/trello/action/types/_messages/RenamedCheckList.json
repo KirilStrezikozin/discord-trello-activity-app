@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "A checklist has been renamed in a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Previous Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "New Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Completed Checkitems",
+      "value": "2/4",
+      "inline": false
+    }
+  ]
+}

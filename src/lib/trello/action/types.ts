@@ -41,6 +41,7 @@ import RemovedCardStartDate from "./types/RemovedCardStartDate";
 import RenamedBoard from "./types/RenamedBoard";
 import RenamedCard from "./types/RenamedCard";
 import RenamedCheckItem from "./types/RenamedCheckItem";
+import RenamedCheckList from "./types/RenamedCheckList";
 import RenamedList from "./types/RenamedList";
 import RestoredCard from "./types/RestoredCard";
 import RestoredList from "./types/RestoredList";
@@ -89,6 +90,7 @@ export const ActionTypes: (typeof Action)[] = [
   RenamedBoard,
   RenamedCard,
   RenamedCheckItem,
+  RenamedCheckList,
   RenamedList,
   RestoredCard,
   RestoredList,
