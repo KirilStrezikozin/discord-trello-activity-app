@@ -26,6 +26,11 @@ import {
   payloads
 } from "./common";
 
+test("No duplicate type names", () => {
+  const set = new Set(ActionTypes.map((ActionType) => ActionType.name));
+  expect(set, "Duplicate type names found").toHaveLength(ActionTypes.length);
+});
+
 for (const ActionTypeName of allTypeNames.values()) {
   const ActionTypeMaybeUndefined = ActionTypes.find(
     (ActionType) => ActionType.name === `Action${ActionTypeName}`
@@ -65,8 +70,7 @@ for (const ActionTypeName of allTypeNames.values()) {
             if (res.success) return;
             expect(
               res.success,
-              `Pre-made JSON payload should parse,\
-                issues:\n${JSON.stringify(res.issues, null, 2)}`
+              `Pre-made JSON payload should parse, issues:\n${JSON.stringify(res.issues, null, 2)}`
             ).toBeTruthy();
           });
         });
