@@ -469,10 +469,47 @@ export class CheckListActionBase extends Action implements ActionWithData {
 }
 
 /**
+ * Base class for action types that need to fetch Trello card's list data.
+ */
+export class CardListActionBase extends Action implements ActionWithData {
+  protected static readonly _schema = z.object({
+    data: z.object({
+      card: z.object({
+        id: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof CardListActionBase._schema>;
+  protected listData?: z.infer<typeof ListSchema> = undefined;
+
+  /**
+   * Fetches additional card information (card's list) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
+
+    const { data } = await axiosInst(
+      `/cards/${this.data!.data.card.id}/list`
+    );
+
+    const res = ListSchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.listData = res.data;
+  }
+}
+
+/**
  * Base class for action types for Trello comment updated that share
  * additional data fetching and message building steps.
  */
-export class CommentActionBase extends Action implements ActionWithData {
+export class CommentActionBase extends CardListActionBase {
   protected static readonly _schema = z.object({
     data: z.object({
       action: z.object({
@@ -487,7 +524,6 @@ export class CommentActionBase extends Action implements ActionWithData {
 
   protected override data?: z.infer<typeof CommentActionBase._schema>;
   protected commentReactionsSummaryData?: z.infer<typeof CommentReactionsSummarySchema> = undefined;
-  protected listData?: z.infer<typeof ListSchema> = undefined;
 
   /**
    * Fetches additional comment information to build
@@ -498,34 +534,21 @@ export class CommentActionBase extends Action implements ActionWithData {
    *
    * @param opts Webhook app options.
    */
-  public async fetchData(opts: WebhookOptions): Promise<void> {
+  public override async fetchData(opts: WebhookOptions): Promise<void> {
+    await super.fetchData(opts); /* Fetch `listData`. */
+
     const axiosInst = newTrelloAPIAxiosInstance(opts);
 
-    {
-      const { data } = await axiosInst(
-        `/actions/${this.data!.data.action.id}/reactionsSummary`
-      );
+    const { data } = await axiosInst(
+      `/actions/${this.data!.data.action.id}/reactionsSummary`
+    );
 
-      const res = CommentReactionsSummarySchema.safeParse(data);
-      if (!res.success) {
-        throw new Error(res.error.toString());
-      }
-
-      this.commentReactionsSummaryData = res.data;
+    const res = CommentReactionsSummarySchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
     }
 
-    {
-      const { data } = await axiosInst(
-        `/cards/${this.data!.data.card.id}/list`
-      );
-
-      const res = ListSchema.safeParse(data);
-      if (!res.success) {
-        throw new Error(res.error.toString());
-      }
-
-      this.listData = res.data;
-    }
+    this.commentReactionsSummaryData = res.data;
   }
 
   protected buildCommentReactionsSummaryField(
