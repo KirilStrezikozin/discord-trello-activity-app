@@ -16,8 +16,13 @@
       "inline": true
     },
     {
-      "name": "Reactions",
+      "name": "Comment Reactions",
       "value": "3 (👍😀😍)",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
       "inline": false
     }
   ]

@@ -81,6 +81,14 @@ export default class ActionUpdateComment extends CommentActionBase {
       );
     }
 
+    if (this.listData) {
+      embed.addFields({
+        name: "List",
+        value: this.listData.name,
+        inline: false,
+      });
+    }
+
     return embed;
   }
 }

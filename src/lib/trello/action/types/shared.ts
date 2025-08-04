@@ -21,7 +21,8 @@ import {
   CardCoverWithSourceSchema,
   CardCoverColorName,
   CardCheckListItemsSchema,
-  CommentReactionsSummarySchema
+  CommentReactionsSummarySchema,
+  ListSchema
 } from "../schema";
 
 import { EmbedBuilder } from "discord.js";
@@ -346,31 +347,54 @@ export class CommentActionBase extends Action implements ActionWithData {
       action: z.object({
         id: z.string().min(1),
       }).readonly(),
+
+      card: z.object({
+        id: z.string().min(1),
+      }).readonly(),
     }).readonly(),
   }).readonly();
 
   protected override data?: z.infer<typeof CommentActionBase.schema>;
   protected commentReactionsSummaryData?: z.infer<typeof CommentReactionsSummarySchema> = undefined;
+  protected listData?: z.infer<typeof ListSchema> = undefined;
 
   /**
-   * Fetches additional comment information (reaction summary) to build
-   * a more descriptive message.
+   * Fetches additional comment information to build
+   * a more descriptive message:
+   *
+   *   - Card comment reaction summary.
+   *   - Card's list.
    *
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
     const axiosInst = newTrelloAPIAxiosInstance(opts);
 
-    const { data } = await axiosInst(
-      `/actions/${this.data!.data.action.id}/reactionsSummary`
-    );
+    {
+      const { data } = await axiosInst(
+        `/actions/${this.data!.data.action.id}/reactionsSummary`
+      );
 
-    const res = CommentReactionsSummarySchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
+      const res = CommentReactionsSummarySchema.safeParse(data);
+      if (!res.success) {
+        throw new Error(res.error.toString());
+      }
+
+      this.commentReactionsSummaryData = res.data;
     }
 
-    this.commentReactionsSummaryData = res.data;
+    {
+      const { data } = await axiosInst(
+        `/cards/${this.data!.data.card.id}/list`
+      );
+
+      const res = ListSchema.safeParse(data);
+      if (!res.success) {
+        throw new Error(res.error.toString());
+      }
+
+      this.listData = res.data;
+    }
   }
 
   protected buildCommentReactionsSummaryField(
@@ -391,7 +415,7 @@ export class CommentActionBase extends Action implements ActionWithData {
     );
 
     embed.addFields({
-      name: "Reactions",
+      name: "Comment Reactions",
       value: `${summary.totalCount} (${summary.concat})`,
       inline: inline
     });

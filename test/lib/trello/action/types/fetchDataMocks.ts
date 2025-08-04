@@ -20,6 +20,7 @@ import {
   CardCheckListItemsSchema,
   BoardListsWithCardsSchema,
   CommentReactionsSummarySchema,
+  ListSchema,
 } from "@/src/lib/trello/action/schema";
 
 import { WebhookOptions } from "@/src/lib/options";
@@ -42,6 +43,7 @@ const propertyMap = {
   checkListItemsData: CardCheckListItemsSchema,
   boardListsWithCardsData: BoardListsWithCardsSchema,
   commentReactionsSummaryData: CommentReactionsSummarySchema,
+  listData: ListSchema,
 } as const;
 
 /**
