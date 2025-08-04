@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A card has been marked as completed"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "List",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
