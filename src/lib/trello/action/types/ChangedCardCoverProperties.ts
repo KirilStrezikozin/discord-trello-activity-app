@@ -28,6 +28,8 @@ export default class ActionChangedCardCoverProperties extends CardCoverActionBas
     type: z.literal("updateCard"),
 
     data: z.object({
+      attachment: z.any(), /* For compatibility with the base's `data` prop. */
+
       old: z.object({
         cover: CardCoverWithSourceSchema,
       }).readonly(),

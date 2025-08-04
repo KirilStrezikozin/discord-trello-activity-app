@@ -19,7 +19,7 @@
     {
       "name": "List",
       "value": "test",
-      "inline": true
+      "inline": false
     }
   ],
   "image": {
