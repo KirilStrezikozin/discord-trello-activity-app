@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "A comment has been deleted on a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "description": "This cannot be undone.",
+  "fields": [
+    {
+      "name": "Comment Reactions",
+      "value": "3 (👍😀😍)",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
