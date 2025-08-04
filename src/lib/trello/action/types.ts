@@ -42,6 +42,7 @@ import MovedCardLower from "./types/MovedCardLower";
 import MovedCheckItemHigher from "./types/MovedCheckItemHigher";
 import MovedCheckItemLower from "./types/MovedCheckItemLower";
 import MovedListLeft from "./types/MovedListLeft";
+import MovedListRight from "./types/MovedListRight";
 import RemoveCheckListFromCard from "./types/RemoveCheckListFromCard";
 import RemoveMemberFromCard from "./types/RemoveMemberFromCard";
 import RemovedCardDueDate from "./types/RemovedCardDueDate";
@@ -102,6 +103,7 @@ export const ActionTypes: (typeof Action)[] = [
   MovedCheckItemHigher,
   MovedCheckItemLower,
   MovedListLeft,
+  MovedListRight,
   RemoveCheckListFromCard,
   RemoveMemberFromCard,
   RemovedCardDueDate,

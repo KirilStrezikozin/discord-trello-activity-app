@@ -1,0 +1,14 @@
+{
+  "author": {
+    "name": "A list has been moved right in a board"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "In Board",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
