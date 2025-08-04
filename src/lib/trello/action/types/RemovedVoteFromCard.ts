@@ -17,13 +17,13 @@ import { EmbedBuilder } from "discord.js";
 import { VoteActionBase } from "./shared";
 import { getMemberIcon } from "./utils";
 
-export default class ActionVoteOnCard extends VoteActionBase {
+export default class ActionRemovedVoteFromCard extends VoteActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("voteOnCard"),
 
     data: z.object({
-      voted: z.literal(true),
+      voted: z.literal(false),
 
       card: z.object({
         id: z.string().min(1),
@@ -41,14 +41,14 @@ export default class ActionVoteOnCard extends VoteActionBase {
   }).readonly();
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
-  protected override data?: z.infer<typeof ActionVoteOnCard.schema>;
+  protected override data?: z.infer<typeof ActionRemovedVoteFromCard.schema>;
 
   protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
   ): EmbedBuilder {
     const name = opts.member
-      ? `${opts.member?.username} has voted on a card`
-      : "A card has been voted on";
+      ? `${opts.member?.username} has removed a vote from a card`
+      : "A vote has been removed from a card";
 
     embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })

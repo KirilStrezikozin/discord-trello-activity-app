@@ -397,3 +397,43 @@ export class CommentActionBase extends Action implements ActionWithData {
     });
   }
 }
+
+/**
+ * Base class for action types for Trello votes that share
+ * additional data fetching and message building steps.
+ */
+export class VoteActionBase extends Action implements ActionWithData {
+  public static override schema = z.object({
+  }).readonly();
+
+  protected cardData?: z.infer<typeof CardSchema> = undefined;
+
+  /**
+   * Fetches additional card information (total number of votes) to build
+   * a more descriptive message.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    const axiosInst = newTrelloAPIAxiosInstance(opts);
+
+    const { data } = await axiosInst(`/actions/${this.data!.id}/card`);
+
+    const res = CardSchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.cardData = res.data;
+  }
+
+  protected buildTotalVotesField(
+    embed: EmbedBuilder, cardData: z.infer<typeof CardSchema>, inline: boolean
+  ) {
+    embed.addFields({
+      name: "Total Votes",
+      value: cardData.idMembersVoted.length.toString(),
+      inline: inline
+    });
+  }
+}
