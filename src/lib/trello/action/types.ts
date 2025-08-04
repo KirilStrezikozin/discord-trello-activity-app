@@ -31,6 +31,7 @@ import CreateCheckItem from "./types/CreateCheckItem";
 import CreateList from "./types/CreateList";
 import DeleteCard from "./types/DeleteCard";
 import DeletedCheckItem from "./types/DeletedCheckItem";
+import EmailCard from "./types/EmailCard";
 import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
 import MoveCardFromListToList from "./types/MoveCardFromListToList";
 import MovedCardHigher from "./types/MovedCardHigher";
@@ -86,6 +87,7 @@ export const ActionTypes: (typeof Action)[] = [
   CreateList,
   DeleteCard,
   DeletedCheckItem,
+  EmailCard,
   MarkedCheckItemIncomplete,
   MoveCardFromListToList,
   MovedCardHigher,

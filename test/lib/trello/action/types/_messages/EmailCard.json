@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "A new card has been emailed"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "List",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": true
+    }
+  ]
+}
