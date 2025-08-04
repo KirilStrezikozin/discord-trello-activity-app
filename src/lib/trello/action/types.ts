@@ -29,6 +29,7 @@ import CopyCommentFromCard from "./types/CopyCommentFromCard";
 import CreateCard from "./types/CreateCard";
 import CreateCheckItem from "./types/CreateCheckItem";
 import CreateList from "./types/CreateList";
+import DeleteAttachmentFromCard from "./types/DeleteAttachmentFromCard";
 import DeleteCard from "./types/DeleteCard";
 import DeleteComment from "./types/DeleteComment";
 import DeletedCheckItem from "./types/DeletedCheckItem";
@@ -90,6 +91,7 @@ export const ActionTypes: (typeof Action)[] = [
   CreateCard,
   CreateCheckItem,
   CreateList,
+  DeleteAttachmentFromCard,
   DeleteCard,
   DeleteComment,
   DeletedCheckItem,

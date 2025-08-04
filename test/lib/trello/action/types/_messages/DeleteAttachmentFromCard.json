@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "An attachment has been removed from a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "description": "This cannot be undone.",
+  "fields": [
+    {
+      "name": "Attachment Name",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
