@@ -21,7 +21,6 @@ export default class ActionMovedCardHigher extends Action {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateCard"),
-    translationKey: z.literal("action_moved_card_higher"),
 
     data: z.object({
       old: z.object({
@@ -47,7 +46,8 @@ export default class ActionMovedCardHigher extends Action {
         name: z.string().min(1),
       }).readonly(),
     }).readonly(),
-  }).readonly();
+  }).readonly()
+    .refine((data) => data.data.card.pos > data.data.old.pos);
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionMovedCardHigher.schema>;

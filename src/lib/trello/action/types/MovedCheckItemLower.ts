@@ -21,7 +21,6 @@ export default class ActionMovedCheckItemLower extends CheckListActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateCheckItem"),
-    translationKey: z.literal("action_moved_checkitem_lower"),
 
     data: z.object({
       old: z.object({
@@ -54,7 +53,8 @@ export default class ActionMovedCheckItemLower extends CheckListActionBase {
         name: z.string().min(1),
       }).readonly(),
     }).readonly(),
-  }).readonly();
+  }).readonly()
+    .refine((data) => data.data.checkItem.pos > data.data.old.pos);
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionMovedCheckItemLower.schema>;
