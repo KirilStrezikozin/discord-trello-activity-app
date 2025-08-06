@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "An attachment has been set as a card cover"
+  },
+  "color": 2236978,
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Attachment Link",
+      "value": "[Open Link](https://example.com)",
+      "inline": false
+    },
+    {
+      "name": "List",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/api/proxy/trello/1/cards/1234567890/attachments/1234567890/previews/1234567890/download/test.png"
+  }
+}
