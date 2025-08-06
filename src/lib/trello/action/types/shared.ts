@@ -130,6 +130,14 @@ export class AttachmentActionBase extends Action implements ActionWithData {
   protected cardAttachmentData?: CardAttachmentDataProperty = undefined;
 
   /**
+   * Internal helper to fetch attachment ID. Override on subclasses instead of
+   * repeating attachment data fetching in `fetchData` if schema changes.
+   */
+  protected getAttachmentId(): string {
+    return this.data!.data.attachment.id;
+  }
+
+  /**
    * Fetches additional information to build a more descriptive message:
    *
    * 1. Attachment data and resolves its preview URL through our proxy endpoint.
@@ -137,13 +145,13 @@ export class AttachmentActionBase extends Action implements ActionWithData {
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
-    const { card, attachment } = this.data!.data;
+    const { card } = this.data!.data;
 
     this.cardAttachmentData = new CardAttachmentDataProperty(opts);
 
     /* Fetch attachment data. */
     await this.cardAttachmentData.resolve(
-      { cardId: card.id, attachmentId: attachment.id }
+      { cardId: card.id, attachmentId: this.getAttachmentId() }
     );
 
     /* Fetch attachment preview data. */
@@ -213,6 +221,9 @@ export class CardCoverActionBase extends Mixin(
        * extensions. Here, we propagate the `attachment` key. */
       ...shape(shape(this.mixin["_schema"]).data),
 
+      /* Promote to `any`, so that subclasses can change it to `undefined`. */
+      attachment: z.any(),
+
       card: z.object({
         ...shape(shape(shape(this.mixin["_schema"]).data).card),
 
@@ -223,6 +234,11 @@ export class CardCoverActionBase extends Mixin(
   }).readonly();
 
   protected override data?: z.infer<typeof CardCoverActionBase._schema>;
+
+  /** @see `AttachmentActionBase.getAttachmentId()` */
+  protected override getAttachmentId(): string {
+    return this.data!.data.card.cover.idAttachment!;
+  }
 
   /**
    * Fetches additional information to build a more descriptive message.
@@ -240,18 +256,9 @@ export class CardCoverActionBase extends Mixin(
       /* Attachment is used as card cover,
        * fetch attachment data and resolve its preview. */
 
-      /* Would work for identical schemas: */
-      /* await CardCoverActionBase.mixin.prototype.fetchData.call(this, opts); */
-
-      this.cardAttachmentData = new CardAttachmentDataProperty(opts);
-
-      /* Fetch attachment data. */
-      await this.cardAttachmentData.resolve(
-        { cardId: card.id, attachmentId: card.cover.idAttachment }
-      );
-
-      /* Fetch attachment preview data. */
-      await this.cardAttachmentData.resolvePreview();
+      /* `getAttachmentId` is overridden, so can safely call mixin's
+       * `fetchData` implementation, which uses a different schema: */
+      await CardCoverActionBase.mixin.prototype.fetchData.call(this, opts);
 
     } else if (card.cover.idUploadedBackground || card.cover.plugin) {
       /* Unsplash image is used as card cover or plugin set it,
