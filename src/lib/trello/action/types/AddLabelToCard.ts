@@ -9,16 +9,16 @@
 import * as z from 'zod';
 
 import {
-  Action,
   getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
 import { getMemberIcon } from "./utils";
-import { LabelColorName, LabelColorNameToHexColor } from "../schema";
+import { LabelActionBase } from './shared';
+import { LabelColorName } from "../schema";
 
-export default class ActionAddLabelToCard extends Action {
+export default class ActionAddLabelToCard extends LabelActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("addLabelToCard"),
@@ -62,27 +62,11 @@ export default class ActionAddLabelToCard extends Action {
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
-      .addFields(
-        {
-          name: "Label Text",
-          value: this.data!.data.text,
-          inline: false
-        },
-        {
-          name: "Label Color",
-          value: this.data!.data.value ? this.data!.data.value : "None",
-          inline: false
-        },
-      )
       ;
 
-    const labelColor = this.data!.data.label.color;
-    if (labelColor) {
-      const parsedLabelColor = LabelColorNameToHexColor.safeParse(labelColor);
-      if (parsedLabelColor.success) {
-        embed.setColor(parsedLabelColor.data);
-      }
-    }
+    this.buildLabelTextField(embed);
+    this.buildLabelColorField(embed);
+    this.buildLabelColor(embed);
 
     return embed;
   }

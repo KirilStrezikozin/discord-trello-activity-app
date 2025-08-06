@@ -4,6 +4,7 @@
   },
   "title": "test",
   "url": "https://trello.com/c/abc",
+  "color": 14670077,
   "fields": [
     {
       "name": "Label Text",

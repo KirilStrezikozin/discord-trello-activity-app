@@ -47,6 +47,8 @@ import {
   CardCoverColorName,
   CardCheckListItemsSchema,
   CommentReactionsSummarySchema,
+  LabelColorName,
+  LabelColorNameToHexColor,
 } from "../schema";
 
 import {
@@ -637,5 +639,77 @@ export class ListCardsActionBase extends Action implements ActionWithData {
 
     /* Fetch list cards data. */
     await this.listCardsData.resolve({ listId: this.data!.data.list.id });
+  }
+}
+
+/**
+ * @class LabelActionBase
+ *
+ * @description Intermediate base class for action types that
+ * work with card labels.
+ */
+export class LabelActionBase extends Action {
+  protected static readonly _schema = z.object({
+    data: z.object({
+      label: z.object({
+        name: z.string(),
+        color: LabelColorName.nullish(),
+      }).readonly(),
+
+      board: z.object({
+        name: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof LabelActionBase._schema>;
+
+  public buildLabelTextField(
+    embed: EmbedBuilder,
+    name: string = "Label Text",
+    inline: boolean = false,
+  ) {
+    embed.addFields({
+      name: name,
+      value: this.data!.data.label.name,
+      inline: inline
+    });
+  }
+
+  public buildLabelColorField(
+    embed: EmbedBuilder,
+    name: string = "Label Color",
+    inline: boolean = false,
+  ) {
+    const color = this.data!.data.label.color;
+    embed.addFields({
+      name: name,
+      value: color ? color : "None",
+      inline: inline
+    });
+  }
+
+  public buildLabelColor(
+    embed: EmbedBuilder,
+  ) {
+    const color = this.data!.data.label.color;
+    if (color) {
+      const parsedColor = LabelColorNameToHexColor.safeParse(color);
+      if (parsedColor.success) {
+        embed.setColor(parsedColor.data);
+      }
+    }
+  }
+
+  public buildBoardField(
+    embed: EmbedBuilder,
+    name: string = "Board",
+    inline: boolean = false,
+  ) {
+    embed.addFields({
+      name: name,
+      value: this.data!.data.board.name,
+      inline: inline
+    });
   }
 }

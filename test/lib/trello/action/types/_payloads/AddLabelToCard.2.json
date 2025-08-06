@@ -16,7 +16,8 @@
     },
     "label": {
       "id": "1234567890",
-      "name": ""
+      "name": "",
+      "color": "purple_light"
     }
   },
   "type": "addLabelToCard",
