@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "A label name has been changed"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "color": 5742079,
+  "fields": [
+    {
+      "name": "Old Label Text",
+      "value": "oldtest",
+      "inline": true
+    },
+    {
+      "name": "New Label Text",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Label Color",
+      "value": "blue",
+      "inline": false
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
