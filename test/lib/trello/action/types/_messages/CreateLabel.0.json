@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "A new label has been created"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "color": 5742079,
+  "fields": [
+    {
+      "name": "Label Text",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Label Color",
+      "value": "blue",
+      "inline": false
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
