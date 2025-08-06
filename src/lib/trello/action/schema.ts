@@ -6,7 +6,7 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-import { z } from "zod";
+import * as z from 'zod';
 
 /** Schema for parsing color values in hexadecimal format. */
 export const ColorSchema = z.custom<`#${string}`>((val) => {

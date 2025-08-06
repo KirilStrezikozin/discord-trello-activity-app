@@ -2,6 +2,7 @@
 import { FlatCompat } from '@eslint/eslintrc'
 import tseslintParser from '@typescript-eslint/parser'
 import tseslintPlugin from '@typescript-eslint/eslint-plugin'
+import importZodPlugin from 'eslint-plugin-import-zod'
 
 const compat = new FlatCompat({
   // import.meta.dirname is available after Node.js v20.11.0
@@ -21,9 +22,11 @@ const eslintConfig = [
     },
     plugins: {
       '@typescript-eslint': tseslintPlugin,
+      'import-zod': importZodPlugin,
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      'import-zod/prefer-zod-namespace': 'error',
     },
   },
 

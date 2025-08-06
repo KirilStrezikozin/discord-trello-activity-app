@@ -29,7 +29,7 @@
  * function in this file) for their types to remain compatible.
  */
 
-import { z } from "zod";
+import * as z from 'zod';
 
 import { Mixin } from '@/src/lib/mixin';
 
