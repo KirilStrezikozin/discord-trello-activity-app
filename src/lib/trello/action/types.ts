@@ -58,6 +58,7 @@ import ReopenedBoard from "./types/ReopenedBoard";
 import RestoredCard from "./types/RestoredCard";
 import RestoredList from "./types/RestoredList";
 import SetAttachmentAsCardCover from "./types/SetAttachmentAsCardCover";
+import UnsetAttachmentAsCardCover from "./types/UnsetAttachmentAsCardCover";
 import UpdateComment from "./types/UpdateComment";
 import VoteOnCard from "./types/VoteOnCard";
 
@@ -121,6 +122,7 @@ export const ActionTypes: (typeof Action)[] = [
   RestoredCard,
   RestoredList,
   SetAttachmentAsCardCover,
+  UnsetAttachmentAsCardCover,
   UpdateComment,
   VoteOnCard,
 ];
