@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "A label has been removed from a card"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "color": 16282722,
+  "fields": [
+    {
+      "name": "Label Text",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Label Color",
+      "value": "red",
+      "inline": false
+    }
+  ]
+}
