@@ -2,12 +2,12 @@
   "id": "1234567890",
   "data": {
     "label": {
-      "color": null,
+      "color": "red",
       "id": "1234567890",
       "name": "test"
     },
     "old": {
-      "color": "red_light"
+      "color": null
     },
     "board": {
       "id": "1234567890",
