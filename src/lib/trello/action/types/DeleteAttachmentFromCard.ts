@@ -65,10 +65,10 @@ export default class ActionDeleteAttachmentFromCard extends CardListActionBase {
       })
       ;
 
-    if (this.listData) {
+    if (this.listData?.data) {
       embed.addFields({
         name: "List",
-        value: this.listData.name,
+        value: this.listData.data.name,
         inline: false,
       });
     }

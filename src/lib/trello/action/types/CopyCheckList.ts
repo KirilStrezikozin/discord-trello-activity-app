@@ -69,9 +69,9 @@ export default class ActionCopyCheckList extends CheckListActionBase {
       })
       ;
 
-    if (this.checkListItemsData) {
+    if (this.checkListItemsData?.data) {
       this.buildTotalCompletedCheckItemsField(
-        embed, this.checkListItemsData, false
+        embed, this.checkListItemsData.data, false
       );
     }
 

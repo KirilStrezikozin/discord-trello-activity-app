@@ -1,0 +1,15 @@
+[
+  {
+    "/actions/1234567890/member": {
+      "id": "1234567890",
+      "avatarHash": "abc1234567890abc",
+      "avatarUrl": "https://example.com",
+      "bio": "test",
+      "fullName": "test",
+      "initials": "t",
+      "url": "https://example.com",
+      "username": "test",
+      "email": "myemail@myemail.com"
+    }
+  }
+]

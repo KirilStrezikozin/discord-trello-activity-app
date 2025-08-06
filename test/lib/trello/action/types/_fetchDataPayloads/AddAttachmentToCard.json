@@ -1,0 +1,99 @@
+[
+  {
+    "/cards/1234567890/attachments/1234567890": [
+      {
+        "id": "1234567890",
+        "bytes": 199484,
+        "date": "2025-07-07T13:45:54.244Z",
+        "edgeColor": "#222232",
+        "idMember": "1234567890",
+        "isMalicious": false,
+        "isUpload": true,
+        "mimeType": "image/png",
+        "name": "test",
+        "previews": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/1",
+            "bytes": 722,
+            "height": 50,
+            "width": 70
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/2",
+            "bytes": 6340,
+            "height": 150,
+            "width": 250
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 2390,
+            "height": 87,
+            "width": 150
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 8624,
+            "height": 174,
+            "width": 300
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 28508,
+            "height": 347,
+            "width": 599
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 52182,
+            "height": 542,
+            "width": 936
+          }
+        ],
+        "url": "https://example.com",
+        "pos": 140737488355328,
+        "fileName": "test.png"
+      }
+    ],
+    "https://example.com/api/proxy/trello/1/cards/1234567890/attachments/1234567890/previews/1234567890/download/test.png": {
+      "success": true,
+      "url": "https://example.com/preview.png"
+    }
+  },
+  {
+    "/cards/1234567890/attachments/1234567890": [
+      {
+        "id": "1234567890",
+        "bytes": null,
+        "date": "2025-07-24T12:36:39.559Z",
+        "edgeColor": null,
+        "idMember": "1234567890",
+        "isMalicious": false,
+        "isUpload": false,
+        "mimeType": "",
+        "name": "test",
+        "previews": [],
+        "url": "https://example.com",
+        "pos": 140737488371712,
+        "fileName": "test.png"
+      }
+    ]
+  }
+]

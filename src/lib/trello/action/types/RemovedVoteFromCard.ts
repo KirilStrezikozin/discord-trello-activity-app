@@ -56,8 +56,8 @@ export default class ActionRemovedVoteFromCard extends VoteActionBase {
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
       ;
 
-    if (this.cardData) {
-      this.buildTotalVotesField(embed, this.cardData, false);
+    if (this.cardData?.data) {
+      this.buildTotalVotesField(embed, this.cardData.data, false);
     }
 
     return embed;

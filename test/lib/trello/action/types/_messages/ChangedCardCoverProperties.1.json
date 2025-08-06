@@ -39,6 +39,6 @@
     }
   ],
   "image": {
-    "url": "https://example.com/preview.png"
+    "url": "https://example.com/api/proxy/trello/1/cards/1234567890/attachments/1234567890/previews/1234567890/download/test.png"
   }
 }

@@ -72,15 +72,13 @@ export default class ActionAddAttachmentToCard extends AttachmentActionBase {
       })
       ;
 
-    if (this.cardAttachmentData) {
-      this.buildAttachmentPreview(
-        embed,
-        this.cardAttachmentData,
-        this.data!.data.attachment.url,
-        this.cardAttachmentPreviewProxy,
-        false
-      );
-    }
+    this.buildAttachmentFields(
+      embed,
+      this.data!.data.attachment.url,
+      this.cardAttachmentData?.data,
+      this.cardAttachmentData?.previewData,
+      false
+    );
 
     embed.addFields({
       name: "List",

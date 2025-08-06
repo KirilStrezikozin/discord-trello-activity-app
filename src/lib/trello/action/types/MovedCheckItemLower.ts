@@ -84,9 +84,9 @@ export default class ActionMovedCheckItemLower extends CheckListActionBase {
       )
       ;
 
-    if (this.checkListItemsData) {
+    if (this.checkListItemsData?.data) {
       this.buildTotalCompletedCheckItemsField(
-        embed, this.checkListItemsData, true
+        embed, this.checkListItemsData.data, true
       );
     }
 

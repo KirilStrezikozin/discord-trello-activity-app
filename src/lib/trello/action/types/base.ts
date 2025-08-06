@@ -59,6 +59,10 @@ export type ActionBuildResult =
  * assigning properties on the action instance itself.
  */
 export interface ActionWithData {
+  /**
+   * Fetches additional data to build a more descriptive message.
+   * @param opts Webhook app options.
+   */
   fetchData(opts: WebhookOptions): Promise<void>;
 };
 

@@ -14,10 +14,10 @@ import {
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { CommentActionBase } from "./shared";
+import { CardListActionBase } from "./shared";
 import { getMemberIcon } from "./utils";
 
-export default class ActionDeleteComment extends CommentActionBase {
+export default class ActionDeleteComment extends CardListActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("deleteComment"),
@@ -59,16 +59,10 @@ export default class ActionDeleteComment extends CommentActionBase {
       .setDescription("This cannot be undone.")
       ;
 
-    if (this.commentReactionsSummaryData) {
-      this.buildCommentReactionsSummaryField(
-        embed, this.commentReactionsSummaryData, false
-      );
-    }
-
-    if (this.listData) {
+    if (this.listData?.data) {
       embed.addFields({
         name: "List",
-        value: this.listData.name,
+        value: this.listData.data.name,
         inline: false,
       });
     }

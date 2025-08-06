@@ -75,9 +75,9 @@ export default class ActionRenamedCheckList extends CheckListActionBase {
       )
       ;
 
-    if (this.checkListItemsData) {
+    if (this.checkListItemsData?.data) {
       this.buildTotalCompletedCheckItemsField(
-        embed, this.checkListItemsData, false
+        embed, this.checkListItemsData.data, false
       );
     }
 

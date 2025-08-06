@@ -31,6 +31,8 @@
 
 import { z } from "zod";
 
+import { Mixin } from '@/src/lib/mixin';
+
 import {
   Action,
   ActionWithData,
@@ -45,17 +47,21 @@ import {
   CardCoverColorName,
   CardCheckListItemsSchema,
   CommentReactionsSummarySchema,
-  ListSchema
 } from "../schema";
+
+import {
+  ActionCardDataProperty,
+  ActionMemberDataProperty,
+  CardAttachmentDataProperty,
+  CardListDataProperty,
+  CheckListItemsDataProperty,
+  CommentReactionsSummaryDataProperty,
+  ListCardsDataProperty
+} from './data';
 
 import { EmbedBuilder } from "discord.js";
 import { WebhookOptions } from "@/src/lib/options";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
-
-import {
-  getLargestAttachmentPreview,
-  resolveAttachmentPreviewProxy
-} from "./utils";
+import { getLargestAttachmentPreview } from "./utils";
 
 /**
  * Returns Zod shape of the given Zod read-only object schema.
@@ -69,15 +75,49 @@ function shape<
 }
 
 /**
- * Base class for action types for Trello attachment updates that share
- * additional data fetching and message building steps.
+ * @class ActionCardActionBase
+ *
+ * @description Intermediate base class for action types that need to fetch
+ * Trello action's card data.
+ *
+ * Populates `cardData` property.
+ */
+export class ActionCardActionBase extends Action implements ActionWithData {
+  protected static readonly _schema = z.object({
+    id: z.string().min(1),
+  }).readonly();
+
+  protected override data?: z.infer<typeof ActionCardActionBase._schema>;
+  protected cardData?: ActionCardDataProperty = undefined;
+
+  /**
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello action's card data.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    this.cardData = new ActionCardDataProperty(opts);
+
+    /* Fetch card data. */
+    await this.cardData.resolve({ actionId: this.data!.id });
+  }
+}
+
+/**
+ * @class AttachmentActionBase
+ *
+ * @description Intermediate base class for action types that need to fetch
+ * Trello card's attachment data and, optionally, its preview.
+ *
+ * Populates `cardAttachmentData` property.
  */
 export class AttachmentActionBase extends Action implements ActionWithData {
   protected static readonly _schema = z.object({
     data: z.object({
       attachment: z.object({
         id: z.string().min(1),
-        previewUrl: z.url().optional(),
       }).readonly(),
 
       card: z.object({
@@ -87,68 +127,37 @@ export class AttachmentActionBase extends Action implements ActionWithData {
   }).readonly();
 
   protected override data?: z.infer<typeof AttachmentActionBase._schema>;
-
-  protected cardAttachmentData?: z.infer<typeof CardAttachmentSchema> = undefined;
-  protected cardAttachmentPreviewProxy?: z.infer<typeof CardAttachmentPreviewProxySchema> = undefined;
+  protected cardAttachmentData?: CardAttachmentDataProperty = undefined;
 
   /**
-   * Fetches additional information to build a more descriptive message.
+   * Fetches additional information to build a more descriptive message:
    *
-   * If `previewUrl` is set on card attachment, fetches attachment data and
-   * resolves its preview URL through our proxy endpoint.
+   * 1. Attachment data and resolves its preview URL through our proxy endpoint.
    *
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
     const { card, attachment } = this.data!.data;
 
-    /* Attachment without preview, no-op. */
-    if (!attachment.previewUrl) return;
+    this.cardAttachmentData = new CardAttachmentDataProperty(opts);
 
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
-
-    /* Attachment is used as card cover, fetch attachment data. */
-    const { data } = await axiosInst(
-      `/cards/${card.id}/attachments/${attachment.id}`,
+    /* Fetch attachment data. */
+    await this.cardAttachmentData.resolve(
+      { cardId: card.id, attachmentId: attachment.id }
     );
 
-    /* Parse and validate fetched data. */
-    const res = CardAttachmentSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.cardAttachmentData = res.data;
-
-    /* Resolve a proxy URL for the attachment preview, if attachment has
-     * image previews. Proxy URL to our webhook app avoids Trello credentials
-     * that would be otherwise required to request the attachment preview by
-     * its URL directly, and message content should be publicly hosted. */
-    const preview = getLargestAttachmentPreview(
-      this.cardAttachmentData.previews
-    );
-    if (preview) {
-      this.cardAttachmentPreviewProxy = await resolveAttachmentPreviewProxy(
-        opts,
-        {
-          cardId: card.id,
-          attachmentId: attachment.id,
-          attachmentFileName: this.cardAttachmentData.fileName,
-          previewId: preview.id,
-        }
-      );
-    }
-
+    /* Fetch attachment preview data. */
+    await this.cardAttachmentData.resolvePreview();
   }
 
-  protected buildAttachmentPreview(
+  protected buildAttachmentFields(
     embed: EmbedBuilder,
-    attachment: z.infer<typeof CardAttachmentSchema>,
     attachmentUrl: string,
+    attachment: z.infer<typeof CardAttachmentSchema> | undefined,
     previewProxy: z.infer<typeof CardAttachmentPreviewProxySchema> | undefined,
     inline: boolean,
   ) {
-    if (attachment.edgeColor) {
+    if (attachment?.edgeColor) {
       embed.setColor(attachment.edgeColor);
     }
 
@@ -174,53 +183,46 @@ export class AttachmentActionBase extends Action implements ActionWithData {
 
 export type CardCoverWithSource = z.infer<typeof CardCoverWithSourceSchema>;
 
-export type CardCoverSolidColor = CardCoverWithSource & {
-  color: z.infer<typeof CardCoverColorName>
-};
-
-export type CardCoverAttachmentPreview = CardCoverWithSource & {
-  idAttachment: string
-};
-
-export type CardCoverImage = CardCoverWithSource & {
-  idUploadedBackground: string
-};
-
-export type CardCoverSetWithPlugin = CardCoverWithSource & {
-  plugin: { [x: string]: unknown }
-};
+export type CardCoverSolidColor = CardCoverWithSource & { color: z.infer<typeof CardCoverColorName> };
+export type CardCoverAttachmentPreview = CardCoverWithSource & { idAttachment: string };
+export type CardCoverImage = CardCoverWithSource & { idUploadedBackground: string };
+export type CardCoverSetWithPlugin = CardCoverWithSource & { plugin: { [x: string]: unknown } };
 
 /**
- * Base class for action types for Trello card cover changes that share
- * additional data fetching and message building steps.
+ * @class CardCoverActionBase
+ *
+ * @description Intermediate base class for action types that
+ * work with card covers and need to fetch action's card data,
+ * card attachment data and its preview.
+ *
+ * Populates `cardData` and `cardAttachmentData` property.
+ *
+ * @extends ActionCardActionBase
+ * @mixes AttachmentActionBase
  */
-export class CardCoverActionBase extends AttachmentActionBase implements ActionWithData {
+export class CardCoverActionBase extends Mixin(
+  AttachmentActionBase, /* Mix-in */
+  ActionCardActionBase /* Base */
+) {
   protected static override readonly _schema = z.object({
     ...shape(super["_schema"]),
-    id: z.string().min(1),
+    ...shape(this.mixin["_schema"]),
 
     data: z.object({
       /* See comment at the top of the file for tips on nested action base
        * extensions. Here, we propagate the `attachment` key. */
-      ...shape(shape(super["_schema"]).data),
+      ...shape(shape(this.mixin["_schema"]).data),
 
       card: z.object({
-        ...shape(shape(shape(super["_schema"]).data).card),
+        ...shape(shape(shape(this.mixin["_schema"]).data).card),
 
         cover: CardCoverWithSourceSchema,
         id: z.string().min(1),
-        name: z.string().min(1),
-        idShort: z.number(),
-        shortLink: z.string(),
       }).readonly(),
     }).readonly(),
   }).readonly();
 
   protected override data?: z.infer<typeof CardCoverActionBase._schema>;
-
-  protected cardAttachmentData?: z.infer<typeof CardAttachmentSchema> = undefined;
-  protected cardAttachmentPreviewProxy?: z.infer<typeof CardAttachmentPreviewProxySchema> = undefined;
-  protected cardData?: z.infer<typeof CardSchema> = undefined;
 
   /**
    * Fetches additional information to build a more descriptive message.
@@ -232,59 +234,29 @@ export class CardCoverActionBase extends AttachmentActionBase implements ActionW
    * @param opts Webhook app options.
    */
   public override async fetchData(opts: WebhookOptions): Promise<void> {
-    const actionId = this.data!.id;
     const { card } = this.data!.data;
 
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
-
     if (card.cover.idAttachment) {
-      /* Attachment is used as card cover, fetch attachment data. */
-      const { data } = await axiosInst(
-        `/cards/${card.id}/attachments/${card.cover.idAttachment}`,
+      /* Attachment is used as card cover,
+       * fetch attachment data and resolve its preview. */
+
+      /* Would work for identical schemas: */
+      /* await CardCoverActionBase.mixin.prototype.fetchData.call(this, opts); */
+
+      this.cardAttachmentData = new CardAttachmentDataProperty(opts);
+
+      /* Fetch attachment data. */
+      await this.cardAttachmentData.resolve(
+        { cardId: card.id, attachmentId: card.cover.idAttachment }
       );
 
-      /* Parse and validate fetched data. */
-      const res = CardAttachmentSchema.safeParse(data);
-      if (!res.success) {
-        throw new Error(res.error.toString());
-      }
-
-      this.cardAttachmentData = res.data;
-
-      /* Resolve a proxy URL for the attachment preview, if attachment has
-       * image previews. Proxy URL to our webhook app avoids Trello credentials
-       * that would be otherwise required to request the attachment preview by
-       * its URL directly, and message content should be publicly hosted. */
-      const preview = getLargestAttachmentPreview(
-        this.cardAttachmentData.previews
-      );
-      if (preview) {
-        this.cardAttachmentPreviewProxy = await resolveAttachmentPreviewProxy(
-          opts,
-          {
-            cardId: card.id,
-            attachmentId: card.cover.idAttachment,
-            attachmentFileName: this.cardAttachmentData.fileName,
-            previewId: preview.id,
-          }
-        );
-      }
+      /* Fetch attachment preview data. */
+      await this.cardAttachmentData.resolvePreview();
 
     } else if (card.cover.idUploadedBackground || card.cover.plugin) {
-      /* Unsplash image is used as card cover or plugin set it, fetch card. */
-      const { data } = await axiosInst(`/actions/${actionId}/card`);
-
-      /* Parse and validate fetched data. */
-      const res = CardSchema.safeParse(data);
-      if (!res.success) {
-        throw new Error(res.error.toString());
-      }
-
-      this.cardData = res.data;
-
-    } else {
-      /* No attachment or uploaded background ID is set, no-op. */
-      return;
+      /* Unsplash image is used as card cover or plugin set it,
+       * fetch action's card data. */
+      await super.fetchData(opts);
     }
   }
 
@@ -340,13 +312,13 @@ export class CardCoverActionBase extends AttachmentActionBase implements ActionW
     _card: CardCoverAttachmentPreview,
   ) {
     if (this.cardAttachmentData) {
-      this.buildAttachmentPreview(
+      this.buildAttachmentFields(
         embed,
-        this.cardAttachmentData,
-        this.cardAttachmentData.url,
+        this.cardAttachmentData.data!.url,
+        this.cardAttachmentData.data!,
         /* Attachment cover should always be previewable, which means that,
          * in this case, we had an error resolving the proxy URL. */
-        this.cardAttachmentPreviewProxy ?? { success: false, url: undefined },
+        this.cardAttachmentData.previewData ?? { success: false, url: undefined },
         true
       );
     }
@@ -357,7 +329,7 @@ export class CardCoverActionBase extends AttachmentActionBase implements ActionW
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     _cover: CardCoverImage,
   ) {
-    const cardData = this.cardData;
+    const cardData = this.cardData?.data;
     if (!cardData || !cardData.cover.idUploadedBackground) return;
 
     embed
@@ -388,7 +360,7 @@ export class CardCoverActionBase extends AttachmentActionBase implements ActionW
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     _cover: CardCoverSetWithPlugin,
   ) {
-    const cardData = this.cardData;
+    const cardData = this.cardData?.data;
     if (!cardData || !cardData.cover.idPlugin) return;
 
     embed.setColor(cardData.cover.edgeColor);
@@ -412,41 +384,39 @@ export class CardCoverActionBase extends AttachmentActionBase implements ActionW
 }
 
 /**
- * Base class for action types for Trello card checklist changes that share
- * additional data fetching and message building steps.
+ * @class CheckListActionBase
+ *
+ * @description Intermediate base class for action types that
+ * need to fetch Trello checklist items data.
+ *
+ * Populates `checkListItemsData` property.
  */
 export class CheckListActionBase extends Action implements ActionWithData {
   protected static readonly _schema = z.object({
     data: z.object({
       checklist: z.object({
         id: z.string().min(1),
-        name: z.string().min(1),
       }).readonly(),
     }).readonly(),
   }).readonly();
 
   protected override data?: z.infer<typeof CheckListActionBase._schema>;
-  protected checkListItemsData?: z.infer<typeof CardCheckListItemsSchema> = undefined;
+  protected checkListItemsData?: CheckListItemsDataProperty = undefined;
 
   /**
-   * Fetches additional checklist information (checklist items) to build
-   * a more descriptive message.
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello checklist items data.
    *
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
+    this.checkListItemsData = new CheckListItemsDataProperty(opts);
 
-    const { data } = await axiosInst(
-      `/checklists/${this.data!.data.checklist.id}/checkItems`
+    /* Fetch checklist items data. */
+    await this.checkListItemsData.resolve(
+      { checkListId: this.data!.data.checklist.id }
     );
-
-    const res = CardCheckListItemsSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.checkListItemsData = res.data;
   }
 
   protected buildTotalCompletedCheckItemsField(
@@ -469,7 +439,12 @@ export class CheckListActionBase extends Action implements ActionWithData {
 }
 
 /**
- * Base class for action types that need to fetch Trello card's list data.
+ * @class CardListActionBase
+ *
+ * @description Intermediate base class for action types that
+ * need to fetch Trello card's list data.
+ *
+ * Populates `listData` property.
  */
 export class CardListActionBase extends Action implements ActionWithData {
   protected static readonly _schema = z.object({
@@ -481,74 +456,68 @@ export class CardListActionBase extends Action implements ActionWithData {
   }).readonly();
 
   protected override data?: z.infer<typeof CardListActionBase._schema>;
-  protected listData?: z.infer<typeof ListSchema> = undefined;
+  protected listData?: CardListDataProperty = undefined;
 
   /**
-   * Fetches additional card information (card's list) to build
-   * a more descriptive message.
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello card's list data.
    *
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
+    this.listData = new CardListDataProperty(opts);
 
-    const { data } = await axiosInst(
-      `/cards/${this.data!.data.card.id}/list`
-    );
-
-    const res = ListSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.listData = res.data;
+    /* Fetch card's list data. */
+    await this.listData.resolve({ cardId: this.data!.data.card.id });
   }
 }
 
 /**
- * Base class for action types for Trello comment updated that share
- * additional data fetching and message building steps.
+ * @class CommentActionBase
+ *
+ * @description Intermediate base class for action types that
+ * work with card comments and need to fetch comment's reactions summary
+ * and card's list (typically not bundled in comment action types' payloads).
+ *
+ * Populates `listData` and `commentReactionsSummaryData` property.
+ *
+ * @extends CardListActionBase
  */
 export class CommentActionBase extends CardListActionBase {
-  protected static readonly _schema = z.object({
-    data: z.object({
-      action: z.object({
-        id: z.string().min(1),
-      }).readonly(),
+  protected static override readonly _schema = z.object({
+    ...shape(super["_schema"]),
 
-      card: z.object({
+    data: z.object({
+      ...shape(shape(super["_schema"]).data),
+
+      action: z.object({
         id: z.string().min(1),
       }).readonly(),
     }).readonly(),
   }).readonly();
 
   protected override data?: z.infer<typeof CommentActionBase._schema>;
-  protected commentReactionsSummaryData?: z.infer<typeof CommentReactionsSummarySchema> = undefined;
+  protected commentReactionsSummaryData?: CommentReactionsSummaryDataProperty = undefined;
 
   /**
-   * Fetches additional comment information to build
-   * a more descriptive message:
+   * Fetches additional data to build a more descriptive message:
    *
-   *   - Card comment reaction summary.
-   *   - Card's list.
+   * 1. Card comment's reactions summary.
+   * 2. Card's list.
    *
    * @param opts Webhook app options.
    */
   public override async fetchData(opts: WebhookOptions): Promise<void> {
     await super.fetchData(opts); /* Fetch `listData`. */
 
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
+    this.commentReactionsSummaryData =
+      new CommentReactionsSummaryDataProperty(opts);
 
-    const { data } = await axiosInst(
-      `/actions/${this.data!.data.action.id}/reactionsSummary`
+    /* Fetch card comment's reactions summary data. */
+    await this.commentReactionsSummaryData.resolve(
+      { actionId: this.data!.data.action.id }
     );
-
-    const res = CommentReactionsSummarySchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.commentReactionsSummaryData = res.data;
   }
 
   protected buildCommentReactionsSummaryField(
@@ -577,36 +546,16 @@ export class CommentActionBase extends CardListActionBase {
 }
 
 /**
- * Base class for action types for Trello votes that share
- * additional data fetching and message building steps.
+ * @class VoteActionBase
+ *
+ * @description Intermediate base class for action types that
+ * work with votes on Trello cards.
+ *
+ * Populates `cardData` property.
+ *
+ * @extends CardActionBase
  */
-export class VoteActionBase extends Action implements ActionWithData {
-  protected static readonly _schema = z.object({
-    id: z.string().min(1),
-  }).readonly();
-
-  protected override data?: z.infer<typeof VoteActionBase._schema>;
-  protected cardData?: z.infer<typeof CardSchema> = undefined;
-
-  /**
-   * Fetches additional card information (total number of votes) to build
-   * a more descriptive message.
-   *
-   * @param opts Webhook app options.
-   */
-  public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
-
-    const { data } = await axiosInst(`/actions/${this.data!.id}/card`);
-
-    const res = CardSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.cardData = res.data;
-  }
-
+export class VoteActionBase extends ActionCardActionBase {
   protected buildTotalVotesField(
     embed: EmbedBuilder, cardData: z.infer<typeof CardSchema>, inline: boolean
   ) {
@@ -615,5 +564,71 @@ export class VoteActionBase extends Action implements ActionWithData {
       value: cardData.idMembersVoted.length.toString(),
       inline: inline
     });
+  }
+}
+
+/**
+ * @class ActionMemberActionBase
+ *
+ * @description Intermediate base class for action types that need to fetch
+ * Trello action's member data.
+ *
+ * Populates `memberData` property.
+ */
+export class ActionMemberActionBase extends Action implements ActionWithData {
+  protected static readonly _schema = z.object({
+    id: z.string().min(1),
+  }).readonly();
+
+  protected override data?: z.infer<typeof ActionMemberActionBase._schema>;
+  protected memberData?: ActionMemberDataProperty = undefined;
+
+  /**
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello action's member data.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    this.memberData = new ActionMemberDataProperty(opts);
+
+    /* Fetch member data. */
+    await this.memberData.resolve({ actionId: this.data!.id });
+  }
+}
+
+/**
+ * @class ListCardsActionBase
+ *
+ * @description Intermediate base class for action types that need to fetch
+ * Trello list cards data.
+ *
+ * Populates `listCardsData` property.
+ */
+export class ListCardsActionBase extends Action implements ActionWithData {
+  protected static readonly _schema = z.object({
+    data: z.object({
+      list: z.object({
+        id: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof ListCardsActionBase._schema>;
+  protected listCardsData?: ListCardsDataProperty = undefined;
+
+  /**
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello list cards data.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    this.listCardsData = new ListCardsDataProperty(opts);
+
+    /* Fetch list cards data. */
+    await this.listCardsData.resolve({ listId: this.data!.data.list.id });
   }
 }

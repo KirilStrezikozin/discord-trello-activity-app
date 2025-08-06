@@ -17,8 +17,7 @@ import {
 import { EmbedBuilder } from "discord.js";
 import { getMemberIcon } from "./utils";
 import { WebhookOptions } from "@/src/lib/options";
-import { BoardListsWithCardsSchema } from "../schema";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
+import { BoardListsWithCardsDataProperty } from './data';
 
 export default class ActionReopenedBoard extends Action {
   public static override readonly schema = z.object({
@@ -41,34 +40,26 @@ export default class ActionReopenedBoard extends Action {
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionReopenedBoard.schema>;
-  private boardListsWithCardsData?: z.infer<typeof BoardListsWithCardsSchema> = undefined;
+  private boardListsWithCardsData?: BoardListsWithCardsDataProperty = undefined;
 
   /**
-   * Fetches additional list information (total number of cards) to build
-   * a more descriptive message.
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello board lists with cards data.
    *
    * @param opts Webhook app options.
    */
   public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
+    this.boardListsWithCardsData = new BoardListsWithCardsDataProperty(opts);
 
-    /* Fetch open lists with open cards only. */
-    const { data } = await axiosInst(
-      `/boards/${this.data!.data.board.id}/lists/`,
-      {
-        params: {
-          "filter": "open",
-          "cards": "open",
-        },
-      },
-    );
-
-    const res = BoardListsWithCardsSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.boardListsWithCardsData = res.data;
+    /* Fetch open board lists with open cards. */
+    await this.boardListsWithCardsData.resolve({
+      boardId: this.data!.data.board.id,
+      filter: {
+        filter: "open",
+        cards: "open",
+      }
+    });
   }
 
   protected override buildMessageInner(
@@ -84,12 +75,12 @@ export default class ActionReopenedBoard extends Action {
       .setURL(`https://trello.com/c/${this.data!.data.board.shortLink}`)
       ;
 
-    if (this.boardListsWithCardsData) {
+    if (this.boardListsWithCardsData?.data) {
       /* `fetchData` should fetch open lists with open cards only using a
        * filter to avoid redundant `closed` state checks on lists and cards. */
 
       let totalOpenCards = 0;
-      const totalOpenLists = this.boardListsWithCardsData.reduce(
+      const totalOpenLists = this.boardListsWithCardsData.data.reduce(
         (accum, list) => {
           totalOpenCards += list.cards.length;
           return accum + 1;

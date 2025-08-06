@@ -75,16 +75,16 @@ export default class ActionUpdateComment extends CommentActionBase {
       )
       ;
 
-    if (this.commentReactionsSummaryData) {
+    if (this.commentReactionsSummaryData?.data) {
       this.buildCommentReactionsSummaryField(
-        embed, this.commentReactionsSummaryData, false
+        embed, this.commentReactionsSummaryData.data, false
       );
     }
 
-    if (this.listData) {
+    if (this.listData?.data) {
       embed.addFields({
         name: "List",
-        value: this.listData.name,
+        value: this.listData.data.name,
         inline: false,
       });
     }

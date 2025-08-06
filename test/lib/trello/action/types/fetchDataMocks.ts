@@ -8,176 +8,123 @@
 
 import * as fs from "fs";
 
-import { z } from "zod";
-import { expect, vi } from "vitest";
-
-import {
-  CardSchema,
-  ActionMemberSchema,
-  CardAttachmentPreviewProxySchema,
-  CardAttachmentSchema,
-  ListCardsSchema,
-  CardCheckListItemsSchema,
-  BoardListsWithCardsSchema,
-  CommentReactionsSummarySchema,
-  ListSchema,
-} from "@/src/lib/trello/action/schema";
+import { expect, MockedFunction, vi } from "vitest";
 
 import { WebhookOptions } from "@/src/lib/options";
 import { Action, ActionWithData } from "@/src/lib/trello/action/types/base";
 import { readJSONSync } from "./common";
+import { DataProperty } from "@/src/lib/trello/action/types/data";
+import { AxiosInstance } from "axios";
 
 const fetchDataPayloadsDirectory = "./test/lib/trello/action/types/_fetchDataPayloads/";
 
 /**
- * Map of data property names and their mocked values that
- * an action implementing `ActionWithData` interface may assign in
- * the result of calling `fetchData`.
+ * Map of data property names that an action implementing `ActionWithData`
+ * interface may assign in the result of calling `fetchData`.
  */
-const propertyMap = {
-  cardData: CardSchema,
-  actionMemberData: ActionMemberSchema,
-  cardAttachmentData: CardAttachmentSchema,
-  cardAttachmentPreviewProxy: CardAttachmentPreviewProxySchema,
-  listCardsData: ListCardsSchema,
-  checkListItemsData: CardCheckListItemsSchema,
-  boardListsWithCardsData: BoardListsWithCardsSchema,
-  commentReactionsSummaryData: CommentReactionsSummarySchema,
-  listData: ListSchema,
-} as const;
+const dataPropertyNames = [
+  "cardData",
+  "memberData",
+  "cardAttachmentData",
+  "cardAttachmentPreviewProxy",
+  "listCardsData",
+  "checkListItemsData",
+  "boardListsWithCardsData",
+  "commentReactionsSummaryData",
+  "listData",
+] as const;
 
 /**
- * Map type of data property names and types of
- * property values inferred from Zod schemas they satisfy.
- */
-type PropertyMap = {
-  [K in keyof typeof propertyMap]: z.infer<(typeof propertyMap)[K]> | undefined;
-};
-
-/**
- * Array of possible property names on actions implementing `ActionWithData`.
- */
-const propertyNames = Object.keys(propertyMap) as (keyof PropertyMap)[];
-
-/**
- * Type of action implementing `ActionWithData` and having a property `P`.
- * Use in assertions for type narrowing.
- */
-type ActionWithProperty<
-  T extends ActionWithData & Action,
-  P extends keyof PropertyMap,
-> = T & {
-  [K in P]: PropertyMap[K];
-};
-
-/**
- * Type guard that determines whether an action implementing `ActionWithData`
- * interface has an initialized data property of the given name.
+ * If the given action instance has properties of type `DataProperty`,
+ * mocks the responses of Axios requests they make internally to fetch data,
+ * and finally calls `action.fetchData()` before restoring all mocked
+ * implementations to their original ones.
  *
- * @param action Action instance.
- * @param propertyName One in `propertyNames`.
- */
-function hasActionProperty<
-  P extends keyof PropertyMap
->(
-  action: ActionWithData & Action,
-  propertyName: P,
-): action is ActionWithProperty<typeof action, P> {
-  return Object.prototype.hasOwnProperty.call(action, propertyName);
-}
-
-/**
- * Set the value of a data property on the given action instance
- * and return true. If the action does not have such property initialized,
- * do nothing and return false.
- *
- * @param action Action instance implementing `ActionWithData` interface.
- * @param propertyName One in `propertyNames`.
- * @param data Data assignable to the property named `propertyName`.
- */
-function setActionPropertyIfExists<
-  P extends keyof PropertyMap
->(
-  action: ActionWithData & Action,
-  propertyName: P,
-  data: PropertyMap[P],
-): boolean {
-  if (hasActionProperty(action, propertyName)) {
-    (action as Record<P, PropertyMap[P]>)[propertyName] = data;
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Defines a mocked fetchData method on the given action instance that
- * implements ActionWithData interface and calls it.
- *
- * Mocked implementation directly assigns mocked values to action's properties
- * holding additional data (these properties must be initialized for detection,
- * `undefined` will suffice). These mocked values are determined by the contents
- * of JSON payloads in the "_fetchDataPayloads" directory.
- *
- * If `payloadIndex` is given, this function tries to find a mocked JSON
- * payload containing the index value as suffix in the filename. If no such file
- * is found, it ultimately tries to find the one with no index in the filename.
- * `payloadIndex` may be associated with the payload index of mocked
- * Trello activity data currently tested.
+ * Action's Data properties must be initialized for detection, `undefined`
+ * will suffice). The mocked response values are determined by the contents
+ * of JSON payloads in the "_fetchDataPayloads" directory. If `payloadIndex` is
+ * given, a mocked response value of that index will be used. `payloadIndex`
+ * may be associated with the payload index of mocked Trello activity data
+ * currently tested.
  *
  * @param action Action instance implementing ActionWithData interface.
  * @param actionTypeName Action type name.
- * @param payloadIndex Mocked JSON payload file index.
- *
- * @returns Result returned by calling fetchData.
+ * @param payloadIndex Mocked response value index.
  */
 export async function callFor(
   action: ActionWithData & Action,
   actionTypeName: string,
+  opts: WebhookOptions,
   payloadIndex?: number,
 ): ReturnType<ActionWithData["fetchData"]> {
-  using spiedFetchData = vi.spyOn(action, "fetchData")
-    .mockImplementation(
-      async () => {
-        const set = propertyNames.map((propertyName) => {
-          /* Try finding the mocked payload for `actionTypeName` for
-           * the value of this `propertyName`, for the payload
-           * of `payloadIndex` currently being tested. */
+  /* First, check if the given action instance even has data properties. */
+  const hasDataProperties = dataPropertyNames.some(
+    (name) => Object.hasOwn(action, name)
+  );
 
-          const fileNameBase = `${fetchDataPayloadsDirectory}${actionTypeName}.${propertyName}.json`;
-          const fileNameIndex = (payloadIndex !== undefined)
-            ? `${fetchDataPayloadsDirectory}${actionTypeName}.${payloadIndex}.${propertyName}.json`
-            : fileNameBase;
+  const fileName = `${fetchDataPayloadsDirectory}${actionTypeName}.json`;
+  const fileExists = fs.existsSync(fileName);
 
-          let data: PropertyMap[typeof propertyName];
-          const parse = (fileName: string) => propertyMap[propertyName].parse(
-            readJSONSync(fileName)
-          );
-
-          if (fs.existsSync(fileNameIndex)) {
-            data = parse(fileNameIndex);
-          } else if (fs.existsSync(fileNameBase)) {
-            data = parse(fileNameBase);
-          } else {
-            /* No mocked payload for `fetchData` for
-             * this `propertyName` found, no-op. */
-            return false;
-          }
-
-          return setActionPropertyIfExists(action, propertyName, data);
-        }).some(value => value);
-
-        if (!set) {
-          throw new Error(
-            `Mocking fetchData has no effect on "${actionTypeName}" instance, \
+  /* Error-checking. */
+  if (!hasDataProperties && fileExists) {
+    throw new Error(
+      `No data properties on ${actionTypeName}, \
+but ${fileName} with mocked values exists`
+    );
+  } else if (hasDataProperties && !fileExists) {
+    throw new Error(
+      `Data properties exist on ${actionTypeName}, \
+but ${fileName} with mocked values does not`
+    );
+  } else if (!hasDataProperties && !fileExists) {
+    throw new Error(
+      `Mocking fetchData has no effect on "${actionTypeName}" instance, \
 index "${payloadIndex}". This is not allowed. Perhaps the private property was \
 not initialized.`
-          );
-        }
-      }
     );
+  }
 
-  await action.fetchData(new WebhookOptions());
-  expect(spiedFetchData).toHaveBeenCalledOnce();
-  expect(spiedFetchData).toHaveResolved();
+  /* File with mocked values exists and data properties on action exist. */
+  const data = readJSONSync(fileName);
+
+  /* Swap the original implementation of the method data properties use
+   * to create their Axios instances with our spy. */
+  const methodName = "newAxiosInstance";
+  const original = DataProperty[methodName];
+  DataProperty[methodName] = vi.fn(original);
+  const spy = DataProperty[methodName] as MockedFunction<typeof original>;
+
+  /* Prepare a mocked Axios instance for the spy to give to data properties. */
+  const mockedAxiosInstance = vi.fn((url: string) => {
+    /* Dispatch mocked data based on the request URL. */
+    const dataBlock = (
+      payloadIndex !== undefined
+      && Array.isArray(data)
+      && data.length > payloadIndex
+    ) ? data[payloadIndex][url] : data[url];
+
+    if (dataBlock === undefined) {
+      return Promise.reject(`${fileName} does not define property '${url}'`);
+    }
+    return Promise.resolve({ data: dataBlock });
+  });
+
+  /* Data properties use the default and head methods on the Axios instance.
+   * Mock their implementations as one for simplicity. */
+  Object.defineProperty(mockedAxiosInstance, "head", {
+    value: mockedAxiosInstance,
+    configurable: true,
+    enumerable: false,
+    writable: true,
+  });
+
+  await spy.withImplementation(
+    /* Data properties will use the mocked Axios instance our spy returns. */
+    () => mockedAxiosInstance as unknown as AxiosInstance,
+    async () => {
+      using fetchDataSpy = vi.spyOn(action, "fetchData");
+      await action.fetchData(opts);
+      expect(fetchDataSpy).toHaveResolved();
+    }
+  );
 }

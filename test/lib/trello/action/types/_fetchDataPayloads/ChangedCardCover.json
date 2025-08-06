@@ -1,0 +1,1014 @@
+[
+  {
+    "/cards/1234567890/attachments/12345678901234567890": [
+      {
+        "id": "1234567890",
+        "bytes": 199484,
+        "date": "2025-07-07T13:45:54.244Z",
+        "edgeColor": "#222232",
+        "idMember": "1234567890",
+        "isMalicious": false,
+        "isUpload": true,
+        "mimeType": "image/png",
+        "name": "test",
+        "previews": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/1",
+            "bytes": 722,
+            "height": 50,
+            "width": 70
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/2",
+            "bytes": 6340,
+            "height": 150,
+            "width": 250
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 2390,
+            "height": 87,
+            "width": 150
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 8624,
+            "height": 174,
+            "width": 300
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 28508,
+            "height": 347,
+            "width": 599
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 52182,
+            "height": 542,
+            "width": 936
+          }
+        ],
+        "url": "https://example.com",
+        "pos": 140737488355328,
+        "fileName": "test.png"
+      }
+    ],
+    "https://example.com/api/proxy/trello/1/cards/1234567890/attachments/1234567890/previews/1234567890/download/test.png": {
+      "success": true,
+      "url": "https://example.com/preview.png"
+    }
+  },
+  {
+    "/actions/1234567890/card": {
+      "id": "1234567890",
+      "badges": {
+        "attachments": 1,
+        "fogbugz": "",
+        "checkItems": 3,
+        "checkItemsChecked": 0,
+        "checkItemsEarliestDue": null,
+        "comments": 1,
+        "description": false,
+        "due": "2025-07-09T11:05:32.859Z",
+        "dueComplete": false,
+        "lastUpdatedByAi": false,
+        "start": null,
+        "externalSource": null,
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        },
+        "location": false,
+        "votes": 1,
+        "maliciousAttachments": 0,
+        "viewingMemberVoted": true,
+        "subscribed": false
+      },
+      "checkItemStates": [],
+      "closed": false,
+      "dueComplete": false,
+      "dateLastActivity": "2025-07-22T13:13:07.537Z",
+      "desc": "test",
+      "descData": {
+        "emoji": {}
+      },
+      "due": "2025-07-09T11:05:32.859Z",
+      "dueReminder": -1,
+      "email": "myemail@myemail.com",
+      "idBoard": "1234567890",
+      "idChecklists": [
+        "1234567890"
+      ],
+      "idList": "1234567890",
+      "idMembers": [
+        "1234567890",
+        "1234567890"
+      ],
+      "idMembersVoted": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "idShort": 123,
+      "idAttachmentCover": null,
+      "labels": [
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple",
+          "uses": 15
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple_light",
+          "uses": 18
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": null,
+          "uses": 2
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "red",
+          "uses": 1
+        }
+      ],
+      "idLabels": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "manualCoverAttachment": true,
+      "name": "test",
+      "nodeId": "1234567890",
+      "pinned": false,
+      "pos": 140737488355328,
+      "shortLink": "abc",
+      "shortUrl": "https://example.com",
+      "start": null,
+      "subscribed": false,
+      "url": "https://example.com",
+      "cover": {
+        "idAttachment": null,
+        "color": null,
+        "idUploadedBackground": "1234567890",
+        "size": "normal",
+        "brightness": "dark",
+        "scaled": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/1",
+            "bytes": 2432,
+            "height": 93,
+            "width": 140
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/2",
+            "bytes": 5980,
+            "height": 171,
+            "width": 256
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 15998,
+            "height": 320,
+            "width": 480
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 52354,
+            "height": 640,
+            "width": 960
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 59638,
+            "height": 683,
+            "width": 1024
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 92842,
+            "height": 854,
+            "width": 1280
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/7",
+            "bytes": 196236,
+            "height": 1280,
+            "width": 1920
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/8",
+            "bytes": 221040,
+            "height": 1366,
+            "width": 2048
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/9",
+            "bytes": 290534,
+            "height": 1600,
+            "width": 2400
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/10",
+            "bytes": 324146,
+            "height": 1707,
+            "width": 2560
+          }
+        ],
+        "edgeColor": "#dcdbdd",
+        "sharedSourceUrl": "https://example.com",
+        "idPlugin": null
+      },
+      "isTemplate": false,
+      "cardRole": null,
+      "mirrorSourceId": null
+    }
+  },
+  {
+    "/cards/1234567890/attachments/1234567890": [
+      {
+        "id": "1234567890",
+        "bytes": 199484,
+        "date": "2025-07-07T13:45:54.244Z",
+        "edgeColor": "#222232",
+        "idMember": "1234567890",
+        "isMalicious": false,
+        "isUpload": true,
+        "mimeType": "image/png",
+        "name": "test",
+        "previews": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/1",
+            "bytes": 722,
+            "height": 50,
+            "width": 70
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/2",
+            "bytes": 6340,
+            "height": 150,
+            "width": 250
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 2390,
+            "height": 87,
+            "width": 150
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 8624,
+            "height": 174,
+            "width": 300
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 28508,
+            "height": 347,
+            "width": 599
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 52182,
+            "height": 542,
+            "width": 936
+          }
+        ],
+        "url": "https://example.com",
+        "pos": 140737488355328,
+        "fileName": "test.png"
+      }
+    ]
+  },
+  {
+    "/actions/1234567890/card": {
+      "id": "1234567890",
+      "badges": {
+        "attachments": 1,
+        "fogbugz": "",
+        "checkItems": 3,
+        "checkItemsChecked": 0,
+        "checkItemsEarliestDue": null,
+        "comments": 1,
+        "description": false,
+        "due": "2025-07-09T11:05:32.859Z",
+        "dueComplete": false,
+        "lastUpdatedByAi": false,
+        "start": null,
+        "externalSource": null,
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        },
+        "location": false,
+        "votes": 1,
+        "maliciousAttachments": 0,
+        "viewingMemberVoted": true,
+        "subscribed": false
+      },
+      "checkItemStates": [],
+      "closed": false,
+      "dueComplete": false,
+      "dateLastActivity": "2025-07-22T13:13:07.537Z",
+      "desc": "test",
+      "descData": {
+        "emoji": {}
+      },
+      "due": "2025-07-09T11:05:32.859Z",
+      "dueReminder": -1,
+      "email": "myemail@myemail.com",
+      "idBoard": "1234567890",
+      "idChecklists": [
+        "1234567890"
+      ],
+      "idList": "1234567890",
+      "idMembers": [
+        "1234567890",
+        "1234567890"
+      ],
+      "idMembersVoted": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "idShort": 123,
+      "idAttachmentCover": null,
+      "labels": [
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple",
+          "uses": 15
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple_light",
+          "uses": 18
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": null,
+          "uses": 2
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "red",
+          "uses": 1
+        }
+      ],
+      "idLabels": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "manualCoverAttachment": true,
+      "name": "test",
+      "nodeId": "1234567890",
+      "pinned": false,
+      "pos": 140737488355328,
+      "shortLink": "abc",
+      "shortUrl": "https://example.com",
+      "start": null,
+      "subscribed": false,
+      "url": "https://example.com",
+      "cover": {
+        "idAttachment": null,
+        "color": null,
+        "idUploadedBackground": "1234567890",
+        "size": "normal",
+        "brightness": "dark",
+        "scaled": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/1",
+            "bytes": 2432,
+            "height": 93,
+            "width": 140
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/2",
+            "bytes": 5980,
+            "height": 171,
+            "width": 256
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 15998,
+            "height": 320,
+            "width": 480
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 52354,
+            "height": 640,
+            "width": 960
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 59638,
+            "height": 683,
+            "width": 1024
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 92842,
+            "height": 854,
+            "width": 1280
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/7",
+            "bytes": 196236,
+            "height": 1280,
+            "width": 1920
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/8",
+            "bytes": 221040,
+            "height": 1366,
+            "width": 2048
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/9",
+            "bytes": 290534,
+            "height": 1600,
+            "width": 2400
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/10",
+            "bytes": 324146,
+            "height": 1707,
+            "width": 2560
+          }
+        ],
+        "edgeColor": "#dcdbdd",
+        "sharedSourceUrl": "https://example.com",
+        "idPlugin": null
+      },
+      "isTemplate": false,
+      "cardRole": null,
+      "mirrorSourceId": null
+    }
+  },
+  {
+    "/actions/1234567890/card": {
+      "id": "1234567890",
+      "badges": {
+        "attachments": 1,
+        "fogbugz": "",
+        "checkItems": 3,
+        "checkItemsChecked": 0,
+        "checkItemsEarliestDue": null,
+        "comments": 1,
+        "description": false,
+        "due": "2025-07-09T11:05:32.859Z",
+        "dueComplete": false,
+        "lastUpdatedByAi": false,
+        "start": null,
+        "externalSource": null,
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        },
+        "location": false,
+        "votes": 1,
+        "maliciousAttachments": 0,
+        "viewingMemberVoted": true,
+        "subscribed": false
+      },
+      "checkItemStates": [],
+      "closed": false,
+      "dueComplete": false,
+      "dateLastActivity": "2025-07-22T13:13:07.537Z",
+      "desc": "test",
+      "descData": {
+        "emoji": {}
+      },
+      "due": "2025-07-09T11:05:32.859Z",
+      "dueReminder": -1,
+      "email": "myemail@myemail.com",
+      "idBoard": "1234567890",
+      "idChecklists": [
+        "1234567890"
+      ],
+      "idList": "1234567890",
+      "idMembers": [
+        "1234567890",
+        "1234567890"
+      ],
+      "idMembersVoted": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "idShort": 123,
+      "idAttachmentCover": null,
+      "labels": [
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple",
+          "uses": 15
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple_light",
+          "uses": 18
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": null,
+          "uses": 2
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "red",
+          "uses": 1
+        }
+      ],
+      "idLabels": [
+        "1234567890",
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "manualCoverAttachment": true,
+      "name": "test",
+      "nodeId": "1234567890",
+      "pinned": false,
+      "pos": 140737488355328,
+      "shortLink": "abc",
+      "shortUrl": "https://example.com",
+      "start": null,
+      "subscribed": false,
+      "url": "https://example.com",
+      "cover": {
+        "idAttachment": null,
+        "color": null,
+        "idUploadedBackground": "1234567890",
+        "size": "normal",
+        "brightness": "dark",
+        "scaled": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/1",
+            "bytes": 2432,
+            "height": 93,
+            "width": 140
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/2",
+            "bytes": 5980,
+            "height": 171,
+            "width": 256
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/3",
+            "bytes": 15998,
+            "height": 320,
+            "width": 480
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 52354,
+            "height": 640,
+            "width": 960
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 59638,
+            "height": 683,
+            "width": 1024
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 92842,
+            "height": 854,
+            "width": 1280
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/7",
+            "bytes": 196236,
+            "height": 1280,
+            "width": 1920
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/8",
+            "bytes": 221040,
+            "height": 1366,
+            "width": 2048
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/9",
+            "bytes": 290534,
+            "height": 1600,
+            "width": 2400
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/10",
+            "bytes": 324146,
+            "height": 1707,
+            "width": 2560
+          }
+        ],
+        "edgeColor": "#dcdbdd",
+        "sharedSourceUrl": "https://example.com",
+        "idPlugin": null
+      },
+      "isTemplate": false,
+      "cardRole": null,
+      "mirrorSourceId": null
+    }
+  },
+  {
+    "/actions/1234567890/card": {
+      "id": "1234567890",
+      "address": null,
+      "badges": {
+        "attachments": 2,
+        "fogbugz": "",
+        "checkItems": 3,
+        "checkItemsChecked": 0,
+        "checkItemsEarliestDue": null,
+        "comments": 1,
+        "description": false,
+        "due": "2025-07-09T11:05:32.859Z",
+        "dueComplete": false,
+        "lastUpdatedByAi": false,
+        "start": null,
+        "externalSource": null,
+        "attachmentsByType": {
+          "trello": {
+            "board": 0,
+            "card": 0
+          }
+        },
+        "location": false,
+        "votes": 1,
+        "maliciousAttachments": 0,
+        "viewingMemberVoted": true,
+        "subscribed": false
+      },
+      "checkItemStates": [],
+      "closed": false,
+      "coordinates": null,
+      "creationMethod": null,
+      "creationMethodError": null,
+      "creationMethodLoadingStartedAt": null,
+      "dueComplete": false,
+      "dateClosed": null,
+      "dateLastActivity": "2025-07-24T16:57:21.996Z",
+      "dateCompleted": null,
+      "dateViewedByCreator": null,
+      "desc": "test",
+      "descData": {
+        "emoji": {}
+      },
+      "due": "2025-07-09T11:05:32.859Z",
+      "dueReminder": -1,
+      "email": "myemail@myemail.com",
+      "externalSource": null,
+      "idBoard": "1234567890",
+      "idChecklists": [
+        "1234567890"
+      ],
+      "idLabels": [
+        "1234567890",
+        "1234567890",
+        "1234567890"
+      ],
+      "idList": "1234567890",
+      "idMemberCreator": "1234567890",
+      "idMembers": [
+        "1234567890",
+        "1234567890"
+      ],
+      "idMembersVoted": [
+        "1234567890"
+      ],
+      "idOrganization": "1234567890",
+      "idShort": 123,
+      "idAttachmentCover": null,
+      "labels": [
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple",
+          "uses": 15
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "purple_light",
+          "uses": 18
+        },
+        {
+          "id": "1234567890",
+          "idBoard": "1234567890",
+          "idOrganization": "1234567890",
+          "name": "test",
+          "nodeId": "1234567890",
+          "color": "red",
+          "uses": 1
+        }
+      ],
+      "limits": {
+        "attachments": {
+          "perCard": {
+            "status": "ok",
+            "disableAt": 1000,
+            "warnAt": 800
+          }
+        },
+        "checklists": {
+          "perCard": {
+            "status": "ok",
+            "disableAt": 500,
+            "warnAt": 400
+          }
+        },
+        "stickers": {
+          "perCard": {
+            "status": "ok",
+            "disableAt": 70,
+            "warnAt": 56
+          }
+        }
+      },
+      "locationName": null,
+      "manualCoverAttachment": true,
+      "name": "test",
+      "nodeId": "1234567890",
+      "pinned": false,
+      "pos": 140737488355328,
+      "shortLink": "abc",
+      "shortUrl": "https://example.com",
+      "singleInstrumentationId": null,
+      "sourceEmail": "myemail@myemail.com",
+      "staticMapUrl": "https://example.com",
+      "start": null,
+      "subscribed": false,
+      "url": "https://example.com",
+      "cover": {
+        "idAttachment": null,
+        "color": null,
+        "idUploadedBackground": null,
+        "size": "full",
+        "brightness": "dark",
+        "scaled": [
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/1",
+            "bytes": 1199,
+            "height": 50,
+            "width": 70
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/2",
+            "bytes": 2630,
+            "height": 89,
+            "width": 150
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": false,
+            "url": "https://example.com/3",
+            "bytes": 4417,
+            "height": 150,
+            "width": 250
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/4",
+            "bytes": 5337,
+            "height": 179,
+            "width": 300
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/5",
+            "bytes": 4110,
+            "height": 200,
+            "width": 336
+          },
+          {
+            "id": "1234567890",
+            "_id": "1234567890",
+            "scaled": true,
+            "url": "https://example.com/6",
+            "bytes": 5762,
+            "height": 200,
+            "width": 336
+          }
+        ],
+        "edgeColor": "#1c5c14",
+        "idPlugin": "1234567890"
+      },
+      "isTemplate": false,
+      "cardRole": null,
+      "mirrorSourceId": null,
+      "mirrorSourceNodeId": null
+    }
+  }
+]

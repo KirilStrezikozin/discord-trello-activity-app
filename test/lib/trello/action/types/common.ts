@@ -37,7 +37,7 @@ export function readJSONSync(
       message = error.message;
     }
 
-    throw new Error(`Error parsing ${path}.json, error:\n${message}`);
+    throw new Error(`Error parsing ${path}, error:\n${message}`);
   }
 }
 

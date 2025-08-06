@@ -9,19 +9,15 @@
 import { z } from "zod";
 
 import {
-  Action,
-  ActionWithData,
   getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
+import { ListCardsActionBase } from './shared';
 import { getMemberIcon } from "./utils";
-import { WebhookOptions } from "@/src/lib/options";
-import { ListCardsSchema } from "../schema";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
 
-export default class ActionArchivedList extends Action implements ActionWithData {
+export default class ActionArchivedList extends ListCardsActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("updateList"),
@@ -47,26 +43,6 @@ export default class ActionArchivedList extends Action implements ActionWithData
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionArchivedList.schema>;
-  private listCardsData?: z.infer<typeof ListCardsSchema> = undefined;
-
-  /**
-   * Fetches additional list information (total number of cards) to build
-   * a more descriptive message.
-   *
-   * @param opts Webhook app options.
-   */
-  public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
-
-    const { data } = await axiosInst(`/lists/${this.data!.data.list.id}/cards`);
-
-    const res = ListCardsSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.listCardsData = res.data;
-  }
 
   protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
@@ -82,10 +58,10 @@ export default class ActionArchivedList extends Action implements ActionWithData
       .setDescription("The list will no longer appear on the board. It can be restored from the board menu.")
       ;
 
-    if (this.listCardsData) {
+    if (this.listCardsData?.data) {
       embed.addFields({
         name: "Total Cards Archived in List",
-        value: this.listCardsData.length.toString(),
+        value: this.listCardsData.data.length.toString(),
         inline: false
       });
     }

@@ -9,19 +9,15 @@
 import { z } from "zod";
 
 import {
-  Action,
-  ActionWithData,
   getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
-import { ActionMemberSchema } from "../schema";
-import { WebhookOptions } from "@/src/lib/options";
-import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
+import { ActionMemberActionBase } from './shared';
 import { getMemberIcon } from "./utils";
 
-export default class ActionAddMemberToCard extends Action implements ActionWithData {
+export default class ActionAddMemberToCard extends ActionMemberActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("addMemberToCard"),
@@ -51,26 +47,6 @@ export default class ActionAddMemberToCard extends Action implements ActionWithD
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionAddMemberToCard.schema>;
-  private actionMemberData?: z.infer<typeof ActionMemberSchema> = undefined;
-
-  /**
-   * Fetches additional member information (member avatar URL) to build
-   * a more descriptive message.
-   *
-   * @param opts Webhook app options.
-   */
-  public async fetchData(opts: WebhookOptions): Promise<void> {
-    const axiosInst = newTrelloAPIAxiosInstance(opts);
-
-    const { data } = await axiosInst(`/actions/${this.data!.id}/member`);
-
-    const res = ActionMemberSchema.safeParse(data);
-    if (!res.success) {
-      throw new Error(res.error.toString());
-    }
-
-    this.actionMemberData = res.data;
-  }
 
   protected override buildMessageInner(
     embed: EmbedBuilder, opts: MessageOptions
@@ -91,14 +67,14 @@ export default class ActionAddMemberToCard extends Action implements ActionWithD
       ;
 
 
-    if (this.actionMemberData) {
+    if (this.memberData?.data) {
       embed
         .addFields({
           name: "Username",
-          value: this.actionMemberData.username,
+          value: this.memberData.data.username,
           inline: true
         })
-        .setImage(getMemberIcon(this.actionMemberData.avatarUrl))
+        .setImage(getMemberIcon(this.memberData.data.avatarUrl))
         ;
     }
 

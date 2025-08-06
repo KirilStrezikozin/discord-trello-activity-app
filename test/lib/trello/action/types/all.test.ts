@@ -6,10 +6,11 @@
  * You may not use this file except in compliance with the MIT license terms.
  */
 
-import { expect, describe, test } from "vitest";
+import { expect, describe, test, vi } from "vitest";
 
 import { ActionTypes } from "@/src/lib/trello/action/types";
 import { findActionFor } from "@/src/lib/trello/action/parse";
+import { OptionNames, WebhookOptions } from "@/src/lib/options";
 
 import {
   Action,
@@ -104,6 +105,11 @@ for (const ActionTypeName of allTypeNames.values()) {
     });
 
     describe.runIf(myPayloads.length)("Build message", () => {
+      /* Mock webhook app options. */
+      const opts: Partial<Record<OptionNames, unknown>> = {
+        "originUrl": "https://example.com",
+      };
+
       myPayloads.forEach((payload, index) => {
         const message = (index >= myMessages.length) ? null : myMessages[index];
 
@@ -117,6 +123,7 @@ for (const ActionTypeName of allTypeNames.values()) {
               await fetchDataMocks.callFor(
                 action as (ActionWithData & Action),
                 ActionTypeName,
+                opts as WebhookOptions,
                 /* Mock wants to know which payload we use (in case a
                  * different effect of fetchData was desired for it). */
                 index,

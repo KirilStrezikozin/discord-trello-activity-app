@@ -15,6 +15,11 @@ import { strToBoolean } from "./utils/conv";
 export const defaultIconSizePixels = 60;
 
 /**
+ * All option name keys used by `WebhookOptions`.
+ */
+export type OptionNames = keyof typeof WebhookOptions.prototype["options"];
+
+/**
  * @class WebhookOptions
  * @description Webhook app options used across the project. Default-constructed
  * values are read from environment variables. One can optionally provide values
@@ -42,26 +47,24 @@ export class WebhookOptions {
    * Record of options, boolean values of each determines whether it can only
    * be set with environment variables or directly.
    */
-  private optionsEnvOnly: Record<
-    keyof typeof this.options, boolean
-  > = {
-      apiKey: false,
-      token: false,
-      secret: false,
-      webhookURL: false,
-      thumbnailURL: false,
-      sendErrors: false,
-      suppressErrors: false,
-      iconSizePixels: false,
-      originUrl: true,
-      useProxy: true,
-      muted: true,
-    };
+  private optionsEnvOnly: Record<OptionNames, boolean> = {
+    apiKey: false,
+    token: false,
+    secret: false,
+    webhookURL: false,
+    thumbnailURL: false,
+    sendErrors: false,
+    suppressErrors: false,
+    iconSizePixels: false,
+    originUrl: true,
+    useProxy: true,
+    muted: true,
+  };
 
   /**
    * Environment variable names corresponding to option names.
    */
-  private optionEnvNames: Record<keyof typeof this.options, string> = {
+  private optionEnvNames: Record<OptionNames, string> = {
     apiKey: "DTAA_TRELLO_API_KEY",
     token: "DTAA_TRELLO_TOKEN",
     secret: "DTAA_TRELLO_SECRET",
@@ -152,7 +155,7 @@ export class WebhookOptions {
    * @param key Option name.
    * @param value New option value.
    */
-  private setOption<K extends keyof typeof this.options>(
+  private setOption<K extends OptionNames>(
     key: K, value: (typeof this.options)[K]
   ): void {
     this.options[key] = value;
@@ -168,10 +171,10 @@ export class WebhookOptions {
     /* Helper to assign all option values from the given object that has the
      * same keys but values are nullish or strings. */
     const setValues = (
-      newRawValues: Record<keyof typeof this.options, string | null | undefined>
+      newRawValues: Record<OptionNames, string | null | undefined>
     ) => {
       for (const key in this.options) {
-        const typedKey = key as keyof typeof this.options;
+        const typedKey = key as OptionNames;
 
         const oldValue = this.options[typedKey];
         const newRawValue = newRawValues[typedKey];
@@ -207,7 +210,7 @@ export class WebhookOptions {
     /* Collect env variable values and assign options to them. */
     const envValues = {} as Parameters<typeof setValues>[0];
     for (const key in this.options) {
-      const typedKey = key as keyof typeof this.options;
+      const typedKey = key as OptionNames;
       envValues[typedKey] = process.env[this.optionEnvNames[typedKey]];
     }
     setValues(envValues);
@@ -216,7 +219,7 @@ export class WebhookOptions {
       /* The given values are URL search params, assign options. */
       const spValues = {} as Parameters<typeof setValues>[0];
       for (const key in this.options) {
-        const typedKey = key as keyof typeof this.options;
+        const typedKey = key as OptionNames;
         /* Skip options set only with env vars. */
         if (this.optionsEnvOnly[typedKey]) continue;
         spValues[typedKey] = values.get(typedKey);
