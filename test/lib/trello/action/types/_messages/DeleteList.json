@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "A list has been deleted"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "description": "This cannot be undone.",
+  "fields": [
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}

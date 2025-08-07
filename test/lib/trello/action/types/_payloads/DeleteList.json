@@ -1,0 +1,16 @@
+{
+  "id": "1234567890",
+  "data": {
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "deleteList",
+  "translationKey": "action_deleted_list"
+}

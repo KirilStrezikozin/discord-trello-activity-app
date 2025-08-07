@@ -34,6 +34,7 @@ import DeleteAttachmentFromCard from "./types/DeleteAttachmentFromCard";
 import DeleteCard from "./types/DeleteCard";
 import DeleteComment from "./types/DeleteComment";
 import DeleteLabel from "./types/DeleteLabel";
+import DeleteList from "./types/DeleteList";
 import DeletedCheckItem from "./types/DeletedCheckItem";
 import EmailCard from "./types/EmailCard";
 import MarkedCardComplete from "./types/MarkedCardComplete";
@@ -103,6 +104,7 @@ export const ActionTypes: (typeof Action)[] = [
   DeleteCard,
   DeleteComment,
   DeleteLabel,
+  DeleteList,
   DeletedCheckItem,
   EmailCard,
   MarkedCardComplete,
