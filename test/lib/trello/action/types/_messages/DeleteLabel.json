@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "A label has been deleted"
+  },
+  "title": "Label Deleted",
+  "url": "https://trello.com/c/abc",
+  "description": "This cannot be undone.",
+  "fields": [
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ]
+}
