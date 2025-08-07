@@ -58,6 +58,7 @@ export const BoardModelSchema = z.looseObject({
 export const MemberSchema = z.looseObject({
   id: z.string().min(1),
   avatarUrl: z.url(),
+  avatarHash: z.string().min(1),
   fullName: z.string(),
   initials: z.string(),
   username: z.string().min(1),
@@ -74,6 +75,8 @@ export const ActionSchema = z.object({
   idMemberCreator: z.string().min(1),
 
   data: z.looseObject({}).readonly(),
+
+  member: MemberSchema.nullish(),
 
   display: z.looseObject({
     translationKey: z.string().nullish(),

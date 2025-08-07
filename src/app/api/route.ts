@@ -95,12 +95,7 @@ export async function POST(request: Request) {
 
     /* Try to find an Action type matching the Trello activity data.
      * `UnsupportedActivityError` will be thrown on failure. */
-    const action = findActionFor({
-      id: body.action.id,
-      data: body.action.data,
-      type: body.action.type,
-      translationKey: body.action.display?.translationKey
-    });
+    const action = findActionFor(body.action);
 
     if ("fetchData" in action) {
       await (action as ActionWithData).fetchData(options).catch((error) => {
