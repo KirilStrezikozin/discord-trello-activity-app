@@ -32,6 +32,7 @@ const dataPropertyNames = [
   "boardListsWithCardsData",
   "commentReactionsSummaryData",
   "listData",
+  "boardData",
 ] as const;
 
 /**

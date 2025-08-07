@@ -27,7 +27,7 @@ import {
 } from "@/src/lib/trello/action/parse";
 
 import {
-  BoardModelSchema,
+  BoardSchema,
   WebhookRequestSchema
 } from "@/src/lib/trello/action/schema";
 
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
   }
 
   let body: z.infer<typeof WebhookRequestSchema> | undefined;
-  let board: z.infer<typeof BoardModelSchema> | undefined;
+  let board: z.infer<typeof BoardSchema> | undefined;
   let messageOptions: MessageOptions | undefined;
 
   try {
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     /* If the model the webhook is subscribed to is a Trello board, Discord
      * message builder below gets more information about the activity. */
-    board = BoardModelSchema.safeParse(body.model).data;
+    board = BoardSchema.safeParse(body.model).data;
 
     /* Gather data for message builders to output a more descriptive content. */
     messageOptions = {

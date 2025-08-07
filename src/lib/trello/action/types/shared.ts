@@ -54,6 +54,7 @@ import {
 import {
   ActionCardDataProperty,
   ActionMemberDataProperty,
+  BoardDataProperty,
   CardAttachmentDataProperty,
   CardListDataProperty,
   CheckListItemsDataProperty,
@@ -711,5 +712,47 @@ export class LabelActionBase extends Action {
       value: this.data!.data.board.name,
       inline: inline
     });
+  }
+}
+
+/**
+ * @class BoardActionBase
+ *
+ * @description Intermediate base class for action types that
+ * need to fetch board data.
+ */
+export class BoardActionBase extends Action implements ActionWithData {
+  protected static readonly _schema = z.object({
+    data: z.object({
+      board: z.object({
+        id: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof BoardActionBase._schema>;
+  protected boardData?: BoardDataProperty = undefined;
+
+  /**
+   * Internal helper to fetch board ID. Override on subclasses instead of
+   * repeating board data fetching in `fetchData` if schema changes.
+   */
+  protected getBoardId(): string {
+    return this.data!.data.board.id;
+  }
+
+  /**
+   * Fetches additional information to build a more descriptive message:
+   *
+   * 1. Board data.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+
+    this.boardData = new BoardDataProperty(opts);
+
+    /* Fetch board data. */
+    await this.boardData.resolve({ boardId: this.getBoardId() });
   }
 }

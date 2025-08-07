@@ -34,11 +34,11 @@ export const ModelSchema = z.looseObject({
   id: z.string().min(1),
 }).readonly();
 
-/** Trello board schema if the model the webhook is subscribed to is a board. */
-export const BoardModelSchema = z.looseObject({
+/** Schema of Trello board data. */
+export const BoardSchema = z.looseObject({
   id: z.string().min(1),
   name: z.string().min(1),
-  desc: z.string().nullable(),
+  desc: z.string(),
   idOrganization: z.string().min(1),
   url: z.url(),
   shortUrl: z.url(),

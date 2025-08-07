@@ -17,6 +17,7 @@ import { newTrelloAPIAxiosInstance } from "@/src/lib/utils/axios";
 import {
   ActionMemberSchema,
   BoardListsWithCardsSchema,
+  BoardSchema,
   CardAttachmentPreviewProxySchema,
   CardAttachmentSchema,
   CardCheckListItemsSchema,
@@ -423,6 +424,41 @@ export class BoardListsWithCardsDataProperty extends DataProperty {
 
     /* Parse and validate fetched data. */
     const res = BoardListsWithCardsSchema.safeParse(data);
+    if (!res.success) {
+      throw new Error(res.error.toString());
+    }
+
+    this.data = res.data;
+  }
+}
+
+/**
+ * @class BoardDataProperty
+ * @description Represents Trello board data.
+ * Call `resolve` to fetch it.
+ *
+ * The corresponding relative Trello API URL(s):
+ * 1. /boards/[boardId]
+ */
+export class BoardDataProperty extends DataProperty {
+  public data?: z.infer<typeof BoardSchema> = undefined;
+
+  /**
+   * Fetch board data from Trello servers.
+   * A successful call sets the public `data` property on this instance.
+   *
+   * The corresponding relative Trello API URL(s):
+   * 1. /boards/[boardId]
+   *
+   * @param params The respective `boardId`.
+   */
+  public async resolve(params: {
+    boardId: string
+  }) {
+    const { data } = await this.axiosInst(`/boards/${params.boardId}`);
+
+    /* Parse and validate fetched data. */
+    const res = BoardSchema.safeParse(data);
     if (!res.success) {
       throw new Error(res.error.toString());
     }
