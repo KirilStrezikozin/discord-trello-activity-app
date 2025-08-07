@@ -24,8 +24,7 @@ filtered=$(
     type: .action.type,
     translationKey: .action.display.translationKey
 } 
-+ (if .action | has("member") then {member: .action.member} else {} end)
-+ (if .action | has("plugin") then {plugin: .action.plugin} else {} end))'
++ (if .action | has("member") then {member: .action.member} else {} end))'
 )
 
 echo "${filtered}"
