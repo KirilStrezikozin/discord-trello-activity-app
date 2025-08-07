@@ -49,6 +49,7 @@ import MovedListLeft from "./types/MovedListLeft";
 import MovedListRight from "./types/MovedListRight";
 import RemoveCheckListFromCard from "./types/RemoveCheckListFromCard";
 import RemoveLabelFromCard from "./types/RemoveLabelFromCard";
+import RemoveMemberFromBoard from "./types/RemoveMemberFromBoard";
 import RemoveMemberFromCard from "./types/RemoveMemberFromCard";
 import RemovedCardDueDate from "./types/RemovedCardDueDate";
 import RemovedCardStartDate from "./types/RemovedCardStartDate";
@@ -120,6 +121,7 @@ export const ActionTypes: (typeof Action)[] = [
   MovedListRight,
   RemoveCheckListFromCard,
   RemoveLabelFromCard,
+  RemoveMemberFromBoard,
   RemoveMemberFromCard,
   RemovedCardDueDate,
   RemovedCardStartDate,
