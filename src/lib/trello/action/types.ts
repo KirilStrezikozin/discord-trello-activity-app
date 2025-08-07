@@ -45,6 +45,7 @@ import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
 import MoveCardFromBoard from "./types/MoveCardFromBoard";
 import MoveCardFromListToList from "./types/MoveCardFromListToList";
 import MoveCardToBoard from "./types/MoveCardToBoard";
+import MoveListToBoard from "./types/MoveListToBoard";
 import MovedCardHigher from "./types/MovedCardHigher";
 import MovedCardLower from "./types/MovedCardLower";
 import MovedCheckItemHigher from "./types/MovedCheckItemHigher";
@@ -121,6 +122,7 @@ export const ActionTypes: (typeof Action)[] = [
   MoveCardFromBoard,
   MoveCardFromListToList,
   MoveCardToBoard,
+  MoveListToBoard,
   MovedCardHigher,
   MovedCardLower,
   MovedCheckItemHigher,

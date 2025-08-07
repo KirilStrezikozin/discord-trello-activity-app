@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "A list has been brought from an external board"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "From Board",
+      "value": "[test](https://example.com)",
+      "inline": false
+    },
+    {
+      "name": "To Board",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Total Cards in List",
+      "value": "2",
+      "inline": true
+    }
+  ]
+}

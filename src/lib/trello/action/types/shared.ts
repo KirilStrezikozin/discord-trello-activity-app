@@ -756,3 +756,50 @@ export class BoardActionBase extends Action implements ActionWithData {
     await this.boardData.resolve({ boardId: this.getBoardId() });
   }
 }
+
+/**
+ * @class BoardAndListCardsActionBase
+ *
+ * @description Intermediate base class for action types that need to fetch
+ * both Trello board and list cards data.
+ *
+ * Populates `listCardsData` and `boardData` property.
+ *
+ * @mixes ListCardsActionBase
+ * @extends BoardActionBase
+ */
+export class BoardAndListCardsActionBase extends Mixin(
+  ListCardsActionBase, /* Mix-in */
+  BoardActionBase /* Base */
+) {
+  protected static override readonly _schema = z.object({
+    ...shape(super["_schema"]),
+    ...shape(this.mixin["_schema"]),
+
+    data: z.object({
+      ...shape(shape(super["_schema"]).data), /* Propagate the `board` key. */
+      ...shape(shape(this.mixin["_schema"]).data),
+
+      list: z.object({
+        id: z.string().min(1),
+      }).readonly(),
+    }).readonly(),
+  }).readonly();
+
+  protected override data?: z.infer<typeof BoardAndListCardsActionBase._schema>;
+
+  /**
+   * Fetches additional data to build a more descriptive message:
+   *
+   * 1. Trello board data.
+   * 2. Trello list cards data.
+   *
+   * @param opts Webhook app options.
+   */
+  public async fetchData(opts: WebhookOptions): Promise<void> {
+    /* Fetch board data. */
+    await super.fetchData(opts);
+    /* Fetch list cards data. */
+    await BoardAndListCardsActionBase.mixin.prototype.fetchData.call(this, opts);
+  }
+}
