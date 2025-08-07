@@ -1,0 +1,106 @@
+[
+  {
+    "/boards/1234567890": {
+      "id": "1234567890",
+      "name": "test",
+      "desc": "test",
+      "descData": null,
+      "closed": false,
+      "idOrganization": "1234567890",
+      "idEnterprise": null,
+      "pinned": false,
+      "url": "https://example.com",
+      "shortUrl": "https://example.com",
+      "prefs": {
+        "permissionLevel": "org",
+        "hideVotes": false,
+        "voting": "members",
+        "comments": "members",
+        "invitations": "members",
+        "selfJoin": true,
+        "cardCovers": true,
+        "showCompleteStatus": true,
+        "cardCounts": false,
+        "isTemplate": false,
+        "cardAging": "regular",
+        "calendarFeedEnabled": false,
+        "hiddenPluginBoardButtons": [],
+        "switcherViews": [
+          {
+            "viewType": "Board",
+            "enabled": true
+          },
+          {
+            "viewType": "Table",
+            "enabled": true
+          },
+          {
+            "viewType": "Calendar",
+            "enabled": false
+          },
+          {
+            "viewType": "Dashboard",
+            "enabled": false
+          },
+          {
+            "viewType": "Timeline",
+            "enabled": false
+          },
+          {
+            "viewType": "Map",
+            "enabled": false
+          }
+        ],
+        "autoArchive": null,
+        "background": "gradient-crystal",
+        "backgroundColor": "#674284",
+        "backgroundDarkColor": null,
+        "backgroundImage": "https://example.com",
+        "backgroundDarkImage": null,
+        "backgroundImageScaled": null,
+        "backgroundTile": false,
+        "backgroundBrightness": "dark",
+        "sharedSourceUrl": "https://example.com",
+        "backgroundBottomColor": "#CD519D",
+        "backgroundTopColor": "#09326C",
+        "canBePublic": true,
+        "canBeEnterprise": true,
+        "canBeOrg": true,
+        "canBePrivate": true,
+        "canInvite": true
+      },
+      "labelNames": {
+        "green": "Project Management and Planning",
+        "yellow": "",
+        "orange": "",
+        "red": "Retrospective 4",
+        "purple": "Retrospective 3",
+        "blue": "Retrospective 1",
+        "sky": "",
+        "lime": "",
+        "pink": "",
+        "black": "",
+        "green_dark": "",
+        "yellow_dark": "",
+        "orange_dark": "",
+        "red_dark": "",
+        "purple_dark": "",
+        "blue_dark": "",
+        "sky_dark": "",
+        "lime_dark": "Retrospective 2",
+        "pink_dark": "",
+        "black_dark": "",
+        "green_light": "",
+        "yellow_light": "",
+        "orange_light": "",
+        "red_light": "",
+        "purple_light": "Sprint 1",
+        "blue_light": "",
+        "sky_light": "",
+        "lime_light": "",
+        "pink_light": "",
+        "black_light": ""
+      }
+    }
+  }
+]

@@ -42,6 +42,7 @@ import MakeNormalMemberOfBoard from "./types/MakeNormalMemberOfBoard";
 import MarkedCardComplete from "./types/MarkedCardComplete";
 import MarkedCardIncomplete from "./types/MarkedCardIncomplete";
 import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
+import MoveCardFromBoard from "./types/MoveCardFromBoard";
 import MoveCardFromListToList from "./types/MoveCardFromListToList";
 import MoveCardToBoard from "./types/MoveCardToBoard";
 import MovedCardHigher from "./types/MovedCardHigher";
@@ -117,6 +118,7 @@ export const ActionTypes: (typeof Action)[] = [
   MarkedCardComplete,
   MarkedCardIncomplete,
   MarkedCheckItemIncomplete,
+  MoveCardFromBoard,
   MoveCardFromListToList,
   MoveCardToBoard,
   MovedCardHigher,
