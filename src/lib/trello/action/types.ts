@@ -38,6 +38,7 @@ import DeleteList from "./types/DeleteList";
 import DeletedCheckItem from "./types/DeletedCheckItem";
 import EmailCard from "./types/EmailCard";
 import MakeAdminOfBoard from "./types/MakeAdminOfBoard";
+import MakeNormalMemberOfBoard from "./types/MakeNormalMemberOfBoard";
 import MarkedCardComplete from "./types/MarkedCardComplete";
 import MarkedCardIncomplete from "./types/MarkedCardIncomplete";
 import MarkedCheckItemIncomplete from "./types/MarkedCheckItemIncomplete";
@@ -111,6 +112,7 @@ export const ActionTypes: (typeof Action)[] = [
   DeletedCheckItem,
   EmailCard,
   MakeAdminOfBoard,
+  MakeNormalMemberOfBoard,
   MarkedCardComplete,
   MarkedCardIncomplete,
   MarkedCheckItemIncomplete,

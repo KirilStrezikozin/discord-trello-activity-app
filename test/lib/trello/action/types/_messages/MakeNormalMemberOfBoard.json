@@ -1,0 +1,27 @@
+{
+  "author": {
+    "name": "A member role has been changed to normal"
+  },
+  "title": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Full Name",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Username",
+      "value": "test",
+      "inline": true
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com/60.png"
+  }
+}
