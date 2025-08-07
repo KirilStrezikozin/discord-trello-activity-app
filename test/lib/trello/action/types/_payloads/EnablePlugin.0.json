@@ -4,7 +4,7 @@
     "plugin": {
       "id": "1234567890",
       "idOrganizationOwner": "1234567890",
-      "author": "Screenful",
+      "author": "test",
       "capabilities": [
         "board-buttons",
         "callback",

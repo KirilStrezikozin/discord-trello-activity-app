@@ -15,11 +15,11 @@
     "activityBlocked": false,
     "avatarHash": "abc1234567890abc",
     "avatarUrl": "https://example.com",
-    "fullName": "Mozes Sara",
+    "fullName": "test",
     "idMemberReferrer": null,
-    "initials": "MS",
+    "initials": "TT",
     "nonPublic": {},
     "nonPublicAvailable": true,
-    "username": "mozessara"
+    "username": "test"
   }
 }

@@ -4,7 +4,7 @@
     "plugin": {
       "id": "1234567890",
       "idOrganizationOwner": "1234567890",
-      "author": "ADF TECH LTD",
+      "author": "test",
       "capabilities": [
         "card-buttons",
         "show-settings"
