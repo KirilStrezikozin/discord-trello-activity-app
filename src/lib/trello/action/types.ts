@@ -63,6 +63,7 @@ import RestoredCard from "./types/RestoredCard";
 import RestoredList from "./types/RestoredList";
 import SetAttachmentAsCardCover from "./types/SetAttachmentAsCardCover";
 import UnsetAttachmentAsCardCover from "./types/UnsetAttachmentAsCardCover";
+import UpdateCardLabels from "./types/UpdateCardLabels";
 import UpdateComment from "./types/UpdateComment";
 import UpdateLabelColor from "./types/UpdateLabelColor";
 import UpdateLabelName from "./types/UpdateLabelName";
@@ -133,6 +134,7 @@ export const ActionTypes: (typeof Action)[] = [
   RestoredList,
   SetAttachmentAsCardCover,
   UnsetAttachmentAsCardCover,
+  UpdateCardLabels,
   UpdateComment,
   UpdateLabelColor,
   UpdateLabelName,
