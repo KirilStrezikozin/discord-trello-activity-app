@@ -16,6 +16,7 @@ import {
 
 import { EmbedBuilder } from "discord.js";
 import { getMemberIcon } from "./utils";
+import { MemberSchema } from '../schema';
 
 export default class ActionAddMemberToBoard extends Action {
   public static override readonly schema = z.object({
@@ -33,14 +34,7 @@ export default class ActionAddMemberToBoard extends Action {
       }).readonly(),
     }).readonly(),
 
-    member: z.object({
-      id: z.string().min(1),
-      avatarHash: z.string().min(1),
-      avatarUrl: z.url(),
-      fullName: z.string(),
-      initials: z.string(),
-      username: z.string().min(1),
-    }).readonly(),
+    member: MemberSchema,
   }).readonly();
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
@@ -55,7 +49,7 @@ export default class ActionAddMemberToBoard extends Action {
 
     embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
-      .setTitle(this.data!.data.board.name)
+      .setTitle(this.data!.member.fullName)
       .setURL(`https://trello.com/c/${this.data!.data.board.shortLink}`)
       .addFields(
         {
