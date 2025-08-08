@@ -37,6 +37,7 @@ import DeleteLabel from "./types/DeleteLabel";
 import DeleteList from "./types/DeleteList";
 import DeletedCheckItem from "./types/DeletedCheckItem";
 import EmailCard from "./types/EmailCard";
+import EnablePlugin from "./types/EnablePlugin";
 import MakeAdminOfBoard from "./types/MakeAdminOfBoard";
 import MakeNormalMemberOfBoard from "./types/MakeNormalMemberOfBoard";
 import MarkedCardComplete from "./types/MarkedCardComplete";
@@ -115,6 +116,7 @@ export const ActionTypes: (typeof Action)[] = [
   DeleteList,
   DeletedCheckItem,
   EmailCard,
+  EnablePlugin,
   MakeAdminOfBoard,
   MakeNormalMemberOfBoard,
   MarkedCardComplete,
