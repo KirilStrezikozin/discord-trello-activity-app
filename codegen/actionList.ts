@@ -42,5 +42,5 @@ export const ActionTypes: (typeof Action)[] = [
 fs.writeFileSync(filePath, fileData, "utf-8");
 
 console.log(bold(green(`actionList.ts: ${filePath} was written`)));
-console.log("actionList.ts: The following Trelo action types were collected:");
+console.log(`actionList.ts: The following ${typeNames.length} Trelo action types were collected:`);
 console.log(typeNames);
