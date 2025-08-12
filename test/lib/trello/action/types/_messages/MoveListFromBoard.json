@@ -7,7 +7,7 @@
   "fields": [
     {
       "name": "From Board",
-      "value": "[test](https://example.com)",
+      "value": "test",
       "inline": true
     },
     {
@@ -17,7 +17,7 @@
     },
     {
       "name": "To Board",
-      "value": "test",
+      "value": "[test](https://example.com)",
       "inline": false
     }
   ]

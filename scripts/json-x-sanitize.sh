@@ -62,6 +62,7 @@ filtered=$(
             idMemberCreator: "1234567890",
             avatarHash: "abc1234567890abc",
             idAttachmentCover: "1234567890",
+            idOriginalCommenter: "1234567890",
             idOrganizationOwner: "1234567890",
             idUploadedBackground: "1234567890"
           } as $replacements (

@@ -65,28 +65,27 @@ export default class ActionMoveCardFromBoard extends BoardActionBase {
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.board.shortLink}`)
+      .addFields(
+        {
+          name: "From Board",
+          value: this.data!.data.board.name,
+          inline: true
+        },
+        {
+          name: "From List",
+          value: this.data!.data.list.name,
+          inline: true
+        }
+      )
       ;
 
     if (this.boardData?.data) {
       embed.addFields({
-        name: "From Board",
+        name: "To Board",
         value: `[${this.boardData.data.name}](${this.boardData.data.url})`,
-        inline: true
+        inline: false
       });
     }
-
-    embed.addFields(
-      {
-        name: "From List",
-        value: this.data!.data.list.name,
-        inline: true
-      },
-      {
-        name: "To Board",
-        value: this.data!.data.board.name,
-        inline: false
-      }
-    );
 
     return embed;
   }

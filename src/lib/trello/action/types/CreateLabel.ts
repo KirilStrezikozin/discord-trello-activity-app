@@ -50,7 +50,7 @@ export default class ActionCreateLabel extends LabelActionBase {
 
     embed
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
-      .setTitle(this.data!.data.label.name)
+      .setTitle(this.data!.data.label.name || "Unnamed Label")
       .setURL(`https://trello.com/c/${this.data!.data.board.shortLink}`)
       ;
 

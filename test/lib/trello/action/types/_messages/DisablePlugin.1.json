@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "A plugin has been disabled"
+  },
+  "title": "test",
+  "description": "test",
+  "url": "https://trello.com/c/abc",
+  "fields": [
+    {
+      "name": "Plugin Author",
+      "value": "test",
+      "inline": false
+    },
+    {
+      "name": "Board",
+      "value": "test",
+      "inline": false
+    }
+  ],
+  "image": {
+    "url": "https://example.com"
+  }
+}

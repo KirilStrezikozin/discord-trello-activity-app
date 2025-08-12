@@ -7,6 +7,7 @@
  */
 
 import * as z from 'zod';
+import * as log from "@/src/lib/log";
 
 import {
   Action,
@@ -54,16 +55,10 @@ export default class ActionChangedCardDueDateReminder extends Action {
   private dueReminderToStr(dueReminder: number | null) {
     if (dueReminder === null) return "Unknown";
     else if (dueReminder === -1) return "None";
-    else return [
-      "At time of due date",
-      "5 minutes before",
-      "10 minutes before",
-      "15 minutes before",
-      "1 hour before",
-      "2 hours before",
-      "1 day before",
-      "2 days before",
-    ][dueReminder];
+    else if (dueReminder === 0) return "At time of due date";
+    else if (dueReminder < 60) return `${dueReminder} minute(s) before`;
+    else if (dueReminder < 60 * 24) return `${Math.round(dueReminder / 60)} hour(s) before`;
+    else return `${Math.round(dueReminder / (60 * 24))} day(s) before`;
   }
 
   protected override buildMessageInner(
@@ -77,7 +72,10 @@ export default class ActionChangedCardDueDateReminder extends Action {
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.card.name)
       .setURL(`https://trello.com/c/${this.data!.data.card.shortLink}`)
-      .addFields(
+      ;
+
+    try {
+      embed.addFields(
         {
           name: "Previous reminder",
           value: this.dueReminderToStr(this.data!.data.old.dueReminder),
@@ -87,9 +85,11 @@ export default class ActionChangedCardDueDateReminder extends Action {
           name: "New reminder",
           value: this.dueReminderToStr(this.data!.data.card.dueReminder),
           inline: true
-        },
-      )
-      ;
+        }
+      );
+    } catch (error) {
+      log.error(error);
+    }
 
     return embed;
   }

@@ -47,7 +47,7 @@ export default class ActionMovedCardLower extends Action {
       }).readonly(),
     }).readonly(),
   }).readonly()
-    .refine((data) => data.data.card.pos < data.data.old.pos);
+    .refine((data) => data.data.card.pos > data.data.old.pos);
 
   public static override readonly type = getActionTypeFromSchema(this.schema);
   protected override data?: z.infer<typeof ActionMovedCardLower.schema>;

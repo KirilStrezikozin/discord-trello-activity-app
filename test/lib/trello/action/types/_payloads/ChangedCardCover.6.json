@@ -1,0 +1,154 @@
+{
+  "id": "1234567890",
+  "data": {
+    "old": {
+      "cover": {
+        "color": null,
+        "idAttachment": null,
+        "idUploadedBackground": null,
+        "size": "full",
+        "brightness": "dark",
+        "manualCoverAttachment": true,
+        "plugin": {
+          "idPlugin": "1234567890",
+          "edgeColor": "#f4dc2c",
+          "dateSet": "2025-07-28T11:46:42.856Z",
+          "scaled": [
+            {
+              "width": 70,
+              "height": 50,
+              "url": "https://example.com",
+              "bytes": 228,
+              "scaled": false,
+              "_id": "1234567890"
+            },
+            {
+              "width": 250,
+              "height": 150,
+              "url": "https://example.com",
+              "bytes": 575,
+              "scaled": false,
+              "_id": "1234567890"
+            },
+            {
+              "width": 150,
+              "height": 89,
+              "url": "https://example.com",
+              "bytes": 365,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 300,
+              "height": 179,
+              "url": "https://example.com",
+              "bytes": 723,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 336,
+              "height": 200,
+              "url": "https://example.com",
+              "bytes": 792,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 336,
+              "height": 200,
+              "url": "https://example.com",
+              "bytes": 1658,
+              "scaled": true,
+              "_id": "1234567890"
+            }
+          ]
+        },
+        "idPlugin": "1234567890",
+        "edgeColor": "#f4dc2c"
+      }
+    },
+    "card": {
+      "cover": {
+        "color": null,
+        "idAttachment": "1234567890",
+        "idUploadedBackground": null,
+        "size": "full",
+        "brightness": "dark",
+        "manualCoverAttachment": true,
+        "plugin": {
+          "idPlugin": "1234567890",
+          "edgeColor": "#f4dc2c",
+          "dateSet": "2025-07-28T11:46:42.856Z",
+          "scaled": [
+            {
+              "width": 70,
+              "height": 50,
+              "url": "https://example.com",
+              "bytes": 228,
+              "scaled": false,
+              "_id": "1234567890"
+            },
+            {
+              "width": 250,
+              "height": 150,
+              "url": "https://example.com",
+              "bytes": 575,
+              "scaled": false,
+              "_id": "1234567890"
+            },
+            {
+              "width": 150,
+              "height": 89,
+              "url": "https://example.com",
+              "bytes": 365,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 300,
+              "height": 179,
+              "url": "https://example.com",
+              "bytes": 723,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 336,
+              "height": 200,
+              "url": "https://example.com",
+              "bytes": 792,
+              "scaled": true,
+              "_id": "1234567890"
+            },
+            {
+              "width": 336,
+              "height": 200,
+              "url": "https://example.com",
+              "bytes": 1658,
+              "scaled": true,
+              "_id": "1234567890"
+            }
+          ]
+        },
+        "idPlugin": "1234567890",
+        "edgeColor": "#f4dc2c"
+      },
+      "id": "1234567890",
+      "name": "test",
+      "idShort": 123,
+      "shortLink": "abc"
+    },
+    "board": {
+      "id": "1234567890",
+      "name": "test",
+      "shortLink": "abc"
+    },
+    "list": {
+      "id": "1234567890",
+      "name": "test"
+    }
+  },
+  "type": "updateCard",
+  "translationKey": "unknown"
+}

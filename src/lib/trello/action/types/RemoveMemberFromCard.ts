@@ -9,15 +9,15 @@
 import * as z from 'zod';
 
 import {
-  Action,
   getActionTypeFromSchema,
   MessageOptions
 } from "./base";
 
 import { EmbedBuilder } from "discord.js";
+import { ActionMemberActionBase } from './shared';
 import { getMemberIcon } from "./utils";
 
-export default class ActionRemoveMemberFromCard extends Action {
+export default class ActionRemoveMemberFromCard extends ActionMemberActionBase {
   public static override readonly schema = z.object({
     id: z.string().min(1),
     type: z.literal("removeMemberFromCard"),
@@ -65,8 +65,18 @@ export default class ActionRemoveMemberFromCard extends Action {
         value: this.data!.data.member.name,
         inline: true
       })
-      .setImage(getMemberIcon(opts) ?? null)
       ;
+
+    if (this.memberData?.data) {
+      embed
+        .addFields({
+          name: "Username",
+          value: this.memberData.data.username,
+          inline: true
+        })
+        .setImage(getMemberIcon(this.memberData.data.avatarUrl))
+        ;
+    }
 
     return embed;
   }

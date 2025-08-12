@@ -59,15 +59,12 @@ export default class ActionMoveListFromBoard extends BoardAndListCardsActionBase
       .setAuthor({ name: name, iconURL: getMemberIcon(opts) })
       .setTitle(this.data!.data.list.name)
       .setURL(`https://trello.com/c/${this.data!.data.board.shortLink}`)
-      ;
-
-    if (this.boardData?.data) {
-      embed.addFields({
+      .addFields({
         name: "From Board",
-        value: `[${this.boardData.data.name}](${this.boardData.data.url})`,
+        value: this.data!.data.board.name,
         inline: true
-      });
-    }
+      })
+      ;
 
     if (this.listCardsData?.data) {
       embed.addFields({
@@ -77,11 +74,13 @@ export default class ActionMoveListFromBoard extends BoardAndListCardsActionBase
       });
     }
 
-    embed.addFields({
-      name: "To Board",
-      value: this.data!.data.board.name,
-      inline: false
-    });
+    if (this.boardData?.data) {
+      embed.addFields({
+        name: "To Board",
+        value: `[${this.boardData.data.name}](${this.boardData.data.url})`,
+        inline: false
+      });
+    }
 
     return embed;
   }

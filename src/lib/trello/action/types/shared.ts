@@ -318,8 +318,8 @@ export class CardCoverActionBase extends Mixin(
 
   protected buildCoverAttachmentPreview(
     embed: EmbedBuilder,
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     _card: CardCoverAttachmentPreview,
+    inline: boolean = true,
   ) {
     if (this.cardAttachmentData) {
       this.buildAttachmentFields(
@@ -329,15 +329,15 @@ export class CardCoverActionBase extends Mixin(
         /* Attachment cover should always be previewable, which means that,
          * in this case, we had an error resolving the proxy URL. */
         this.cardAttachmentData.previewData ?? { success: false, url: undefined },
-        true
+        inline
       );
     }
   }
 
   protected buildCoverImage(
     embed: EmbedBuilder,
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     _cover: CardCoverImage,
+    inline: boolean = true,
   ) {
     const cardData = this.cardData?.data;
     if (!cardData || !cardData.cover.idUploadedBackground) return;
@@ -347,7 +347,7 @@ export class CardCoverActionBase extends Mixin(
       .addFields({
         name: "Image Link",
         value: `[Open Link](${cardData.cover.sharedSourceUrl})`,
-        inline: true,
+        inline: inline,
       })
       ;
 
@@ -672,7 +672,7 @@ export class LabelActionBase extends Action {
   ) {
     embed.addFields({
       name: name,
-      value: this.data!.data.label.name,
+      value: this.data!.data.label.name || "None",
       inline: inline
     });
   }

@@ -133,9 +133,9 @@ export default class ActionChangedCardCoverProperties extends CardCoverActionBas
     }
 
     if (this.coverIsAttachmentPreview(cover)) {
-      this.buildCoverAttachmentPreview(embed, cover);
+      this.buildCoverAttachmentPreview(embed, cover, false);
     } else if (this.coverIsImage(cover)) {
-      this.buildCoverImage(embed, cover);
+      this.buildCoverImage(embed, cover, false);
     } else if (this.coverIsSetWithPlugin(cover)) {
       this.buildCoverSetWithPlugin(embed, cover);
     }

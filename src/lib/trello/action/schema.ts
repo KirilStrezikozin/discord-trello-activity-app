@@ -229,6 +229,22 @@ export const CardCoverWithSourceSchema = CardCoverNoSourceSchema.def.innerType.e
   /** Not null if the card cover is a Trello-uploaded Unsplash background. */
   idUploadedBackground: z.string().min(1).nullable(),
 }).readonly()
+  .transform((data) => {
+    if ((
+      data.color
+      || data.idAttachment
+      || data.idUploadedBackground
+    ) && data.plugin) {
+      /* Sometimes, Trello does not unset the plugin cover, but sets one of the
+       * other sources. In such a case, unset the plugin source manually. */
+      return {
+        ...data,
+        plugin: null,
+      };
+    }
+
+    return data;
+  })
   .refine((data) => (
     [
       data.color,
@@ -298,6 +314,9 @@ export const CardSchema = z.object({
     CardCoverBaseSchema,
     CardCoverBaseSchema.extend({
       color: z.string().min(1),
+      /* Sometimes, Trello does not unset the plugin cover, but sets one of the
+       * other sources. In such a case, unset the plugin source manually. */
+      idPlugin: z.transform(() => null),
     }),
     CardCoverBaseSchema.extend({
       idAttachment: z.string().min(1),
@@ -305,6 +324,7 @@ export const CardSchema = z.object({
       edgeColor: ColorSchema,
       /** Card cover previews. */
       scaled: AttachmentPreviewsSchema,
+      idPlugin: z.transform(() => null),
     }),
     CardCoverBaseSchema.extend({
       idUploadedBackground: z.string().min(1),
@@ -314,6 +334,7 @@ export const CardSchema = z.object({
       scaled: AttachmentPreviewsSchema,
       /** URL of shared card cover source, such as an Unsplash image. */
       sharedSourceUrl: z.url(),
+      idPlugin: z.transform(() => null),
     }),
     CardCoverBaseSchema.extend({
       /** Extracted card cover image edge color. */

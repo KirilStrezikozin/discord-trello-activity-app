@@ -27,7 +27,6 @@ export default class ActionDisablePlugin extends Action {
         id: z.string().min(1),
         author: z.string(),
         name: z.string(),
-        heroImageUrl: z.url(),
 
         icon: z.object({
           url: z.url(),

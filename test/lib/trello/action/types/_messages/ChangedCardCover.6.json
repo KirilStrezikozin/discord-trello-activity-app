@@ -1,6 +1,6 @@
 {
   "author": {
-    "name": "Cover properties have been changed on a card"
+    "name": "A cover has been changed on a card"
   },
   "color": 2236978,
   "title": "test",
@@ -8,29 +8,19 @@
   "url": "https://trello.com/c/abc",
   "fields": [
     {
-      "name": "Old Size",
-      "value": "full",
-      "inline": true
-    },
-    {
-      "name": "Old Theme",
-      "value": "dark",
-      "inline": true
-    },
-    {
-      "name": "New Size",
-      "value": "normal",
-      "inline": true
-    },
-    {
-      "name": "New Theme",
-      "value": "dark",
-      "inline": true
+      "name": "Old Card Cover",
+      "value": "Set with Plugin",
+      "inline": false
     },
     {
       "name": "Attachment Link",
       "value": "[Open Link](https://example.com)",
-      "inline": false
+      "inline": true
+    },
+    {
+      "name": "Cover Size",
+      "value": "full",
+      "inline": true
     },
     {
       "name": "List",
