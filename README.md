@@ -26,6 +26,7 @@ Built with TypeScript, using [Next.js](https://nextjs.org), [Discord.js](https:/
     - [Get Credentials](#get-credentials)
         - [Trello](#trello)
         - [Discord](#discord)
+    - [Test Run](#test-run)
     - [Deploy](#deploy)
         - [Development](#development)
         - [Production](#production)
@@ -45,6 +46,7 @@ Built with TypeScript, using [Next.js](https://nextjs.org), [Discord.js](https:/
 - Real-time notifications, limited only by your network.
 - Fast. Less than 10ms to parse a payload from Trello and find what activity type it matches.
 - Host once, serve multiple Trello users or models (boards).
+- Message accent color matches your Trello board's color.
 - The largest and most up-to-date collection of documented Trello [activity types](https://gitlab.com/KirilStrezikozin/discord-trello-activity-app/-/tree/main/src/lib/trello/action/types) and their [example payloads](https://gitlab.com/KirilStrezikozin/discord-trello-activity-app/-/tree/main/test/lib/trello/action/types/_payloads).
 - Extendable, modular codebase. Easy to add support for new activity types, make adjustments, control behavior.
 
@@ -432,7 +434,7 @@ Built with TypeScript, using [Next.js](https://nextjs.org), [Discord.js](https:/
 
 ## Limitations
 
-- Manual hosting, not a one-click-enable Power-Up for Trello (this bot would be paid otherwise).
+- Manual hosting, not a one-click-enable Power-Up for Trello (this bot would be paid otherwise). **But** you can utilize the method presented in [Test Run](#test-run) if you use case is lightweight.
 - Like similar paid solutions, this bot is made to report activity that occurs on Trello boards only. This includes adding members, enabling plugins, doing anything with Trello boards, lists, and cards (covers, attachments, checklists, labels, fields). This is probably what you expect anyway.
 
 ## Quick Start
@@ -477,6 +479,37 @@ Go to a server you can manage, select a channel of your choice. Go to its settin
 From there, select "Integrations" -> "Create Webhook". Click on the newly created webhook, and press "Copy Webhook URL".
 
 <img alt="Click Copy Webhook URL" src="./public/discord/new-webhook.png" width="500"/>
+
+#### Trello Board ID
+
+You will need the ID of a Trello board you want the bot to listen to activity on. You can get one by first exporting your board data as JSON by clicking on the "Export as JSON" button in the board menu in Trello:
+
+<img alt="Board Menu" src="./public/trello/export-board.png" width="300"/>
+
+Then open the exported JSON file, and copy the first `id` value, this is the board ID:
+
+<img alt="Board ID" src="./public/trello/board-id.png" width="300"/>
+
+### Test Run
+
+You can try this bot for a quick spin before considering any full-scale deployment using a public bot URL pre-hosted for this purpose. Please avoid abuse, or this option will disappear. Prepare all the credentials you acquired in the previous steps.
+
+In the terminal using, for example, `curl`, run:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+"https://api.trello.com/1/tokens/<YOUR_TRELLO_TOKEN>/webhooks/" \
+-d '{
+  "key": "<YOUR_TRELLO_API_KEY>",
+  "callbackURL": "https://discord-trello-activity.vercel.app/api?webhookURL=<DISCORD_WEBHOOK_URL>&apiKey=<YOUR_TRELLO_API_KEY>&secret=<YOUR_TRELLO_SECRET>&token=<YOUR_TRELLO_TOKEN>",
+  "idModel":"<YOUR_TRELLO_BOARD_ID>",
+  "description": "Trello Activity Notifications in Discord (Test Run)"
+}'
+```
+
+Because you are using `DISCORD_WEBHOOK_URL` as a URL search parameter here, and not environment variable, like you could in [Development](#development) or [Production](#production), first URL-encode it with, for example, [this tool](https://www.urlencoder.org/).
+
+Next, jump to the Trello board the ID of which you used in `YOUR_TRELLO_BOARD_ID`, and perform any action. You should see a Discord message arrive quickly.
 
 ### Deploy
 
@@ -558,7 +591,7 @@ Copy the Ngrok forward URL.
 
 1. You can use the [Vercel Platform](https://vercel.com/) or similar to deploy this bot. See [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for details.
 
-2. You can configure bot behavior using environment variables. The way to set those will depend on the platform you use for deploying. Below is the standard format of the `.env.` file for the bot with the necessary credentials:
+2. You can configure bot behavior using environment variables. The way to set those will depend on the platform you use for deploying. Below is the standard format of the `.env` file for the bot with the necessary credentials:
 
 ```bash
 # .env file
@@ -610,14 +643,6 @@ curl -X POST -H "Content-Type: application/json" \
   "description": "Trello Activity Notifications in Discord"
 }'
 ```
-
-`<YOUR_TRELLO_BOARD_ID` is the ID of a Trello board you want the bot to listen to activity on. You can get one by first exporting your board data as JSON by clicking on the "Export as JSON" button in the board menu in Trello:
-
-<img alt="Board Menu" src="./public/trello/export-board.png" width="300"/>
-
-Then open the exported JSON file, and copy the first `id` value, this is the board ID:
-
-<img alt="Board ID" src="./public/trello/board-id.png" width="300"/>
 
 After executing the `curl` command above, you should see the first `HEAD` requests to your running development server accepted with `200 OK`. This is a sign that the Trello webhook has been successfully set up. The bot is now ready to process activity happening in Trello and send Discord messages.
 
