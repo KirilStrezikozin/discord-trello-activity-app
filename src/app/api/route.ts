@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const options = new WebhookOptions(sp, request);
 
   const bodyText = await request.text();
-  log.log("Request payload:", bodyText || null);
+  /* log.log("Request payload:", bodyText || null); */
 
   /* Try instantiating a Discord webhook client. */
   let discordClient: WebhookClient;
