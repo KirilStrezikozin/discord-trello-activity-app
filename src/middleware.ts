@@ -37,7 +37,12 @@ export function middleware(request: NextRequest) {
   if (pathname === "/" && method !== "GET") {
     log.warn(`Wrong webhook URL has been set. Redirecting ${request.method} to /api`);
 
-    const response = NextResponse.rewrite(new URL("/api", request.url));
+    const response = NextResponse.rewrite(new URL(
+      /* Ensure search and hash is propagated down the line. */
+      "/api" + request.nextUrl.search + request.nextUrl.hash, /* path */
+      request.nextUrl.origin /* base */
+    ));
+
     /* Let the /api route know the response is rewritten. */
     response.headers.set("x-from-middleware", "true");
     return response;
