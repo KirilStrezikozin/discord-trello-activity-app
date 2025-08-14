@@ -10,11 +10,11 @@
 
 ## About
 
-> todo: video showcase
-
 Get Trello activity updates directly in Discord. This is a bot that sends clear, real-time notifications when, for example, someone adds or edits a card — no more digging through Trello emails to stay updated on your project or your teammates' progress.
 
 Built with TypeScript, using [Next.js](https://nextjs.org), [Discord.js](https://discord.js.org/), [Zod](https://zod.dev/), and the [Trello API](https://developer.atlassian.com/cloud/trello/).
+
+![Showcase Video](./.gitlab/showcase.mp4)
 
 ## Table of Contents
 
@@ -41,7 +41,7 @@ Built with TypeScript, using [Next.js](https://nextjs.org), [Discord.js](https:/
 - **75 unique Trello activity types to report to Discord.**
 - **Beautiful, detailed Discord messages with preview images, colors.**
 
-    > todo: gif
+    ![Short Showcase Gif](./.gitlab/short-showcase.gif)
 
 - Real-time notifications, limited only by your network.
 - Fast. Less than 10ms to parse a payload from Trello and find what activity type it matches.
